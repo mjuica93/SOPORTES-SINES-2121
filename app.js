@@ -369,11 +369,17 @@ function createSupportCard(support) {
     const pdfs = supportMapping[support.support_type] || [];
     const hasPDFs = pdfs.length > 0;
     
+    // Obtener información de instalación
+    const installationInfo = window.installationManager ? 
+        window.installationManager.getInstallationInfo(support) : 
+        { status: 'pending', planned_date: null, actual_date: null, notes: '', installed_by: '' };
+    
     return `
         <div class="support-card">
             <div class="support-header">
                 <i class="fas fa-cogs"></i> Soporte ${support.support_number} - ${support.support_type}
                 ${hasPDFs ? '<i class="fas fa-file-pdf ms-2"></i>' : ''}
+                ${createInstallationStatusBadge(installationInfo)}
             </div>
             <div class="support-body">
                 <div class="support-info">
@@ -425,6 +431,8 @@ function createSupportCard(support) {
                         <div class="info-value">${support.notes}</div>
                     </div>
                 ` : ''}
+                
+                ${createInstallationSection(support, installationInfo)}
                 
                 ${hasPDFs ? `
                     <div class="pdf-section">
@@ -494,4 +502,365 @@ let searchTimeout;
 document.getElementById('searchInput').addEventListener('input', function() {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(searchSupports, 500);
-}); 
+});
+
+// ===== FUNCIONES DE GESTIÓN DE INSTALACIONES =====
+
+// Variable global para el soporte en edición
+let currentEditingSupport = null;
+
+// Crear badge de estado de instalación
+function createInstallationStatusBadge(installationInfo) {
+    if (!window.installationManager) return '';
+    
+    const statusColor = window.installationManager.getStatusColor(installationInfo.status);
+    const statusText = window.installationManager.getStatusText(installationInfo.status);
+    const statusIcon = window.installationManager.getStatusIcon(installationInfo.status);
+    
+    let overdueIndicator = '';
+    if (isOverdue(installationInfo.planned_date, installationInfo.status)) {
+        overdueIndicator = '<span class="overdue-indicator">ATRASADO</span>';
+    }
+    
+    return `
+        <span class="installation-status status-${installationInfo.status}" style="background-color: ${statusColor};">
+            <i class="${statusIcon}"></i> ${statusText}
+        </span>
+        ${overdueIndicator}
+    `;
+}
+
+// Crear sección de instalación en la tarjeta
+function createInstallationSection(support, installationInfo) {
+    if (!window.installationManager) return '';
+    
+    const statusText = window.installationManager.getStatusText(installationInfo.status);
+    
+    let dateInfo = '';
+    if (installationInfo.planned_date) {
+        dateInfo += `<div class="installation-date">📅 Planificado: ${formatDate(installationInfo.planned_date)}</div>`;
+    }
+    if (installationInfo.actual_date) {
+        dateInfo += `<div class="installation-date">✅ Instalado: ${formatDate(installationInfo.actual_date)}</div>`;
+    }
+    if (installationInfo.installed_by) {
+        dateInfo += `<div class="installation-date">👷 Por: ${installationInfo.installed_by}</div>`;
+    }
+    if (installationInfo.notes) {
+        dateInfo += `<div class="installation-date">💬 ${installationInfo.notes}</div>`;
+    }
+    
+    return `
+        <div class="installation-section">
+            <h6><i class="fas fa-calendar-check"></i> Estado de Instalación</h6>
+            ${dateInfo}
+            <div class="installation-actions">
+                <div class="installation-controls">
+                    <button class="btn btn-sm btn-primary" onclick="editInstallation('${support.support_number}', '${support.support_type}', '${support.position_number || '1'}')">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <div class="quick-status-buttons">
+                        ${installationInfo.status !== 'planned' ? `
+                            <button class="btn-status-planned" onclick="quickStatusChange('${support.support_number}', '${support.support_type}', '${support.position_number || '1'}', 'planned')">
+                                Planificar
+                            </button>
+                        ` : ''}
+                        ${installationInfo.status !== 'in_progress' ? `
+                            <button class="btn-status-progress" onclick="quickStatusChange('${support.support_number}', '${support.support_type}', '${support.position_number || '1'}', 'in_progress')">
+                                En Proceso
+                            </button>
+                        ` : ''}
+                        ${installationInfo.status !== 'installed' ? `
+                            <button class="btn-status-installed" onclick="quickStatusChange('${support.support_number}', '${support.support_type}', '${support.position_number || '1'}', 'installed')">
+                                Instalado
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Filtrar por estado de instalación
+function filterByStatus() {
+    const statusFilter = document.getElementById('filterStatus').value;
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+    const typeFilter = document.getElementById('filterType').value;
+    
+    filteredSupports = allSupports.filter(support => {
+        const matchesSearch = !searchTerm || 
+            support.support_number.toLowerCase().includes(searchTerm) ||
+            support.support_type.toLowerCase().includes(searchTerm) ||
+            support.fluid_piping.toLowerCase().includes(searchTerm) ||
+            support.notes.toLowerCase().includes(searchTerm);
+        
+        const matchesType = !typeFilter || support.support_type === typeFilter;
+        
+        let matchesStatus = true;
+        if (statusFilter && window.installationManager) {
+            const installationInfo = window.installationManager.getInstallationInfo(support);
+            matchesStatus = installationInfo.status === statusFilter;
+        }
+        
+        return matchesSearch && matchesType && matchesStatus;
+    });
+    
+    displaySupports(filteredSupports);
+    updateStats();
+}
+
+// Abrir panel de gestión de instalaciones
+function openInstallationPanel() {
+    if (!window.installationManager) {
+        alert('Sistema de gestión de instalaciones no disponible');
+        return;
+    }
+    
+    updateInstallationModalStats();
+    const modal = new bootstrap.Modal(document.getElementById('installationModal'));
+    modal.show();
+}
+
+// Actualizar estadísticas en el modal
+function updateInstallationModalStats() {
+    if (!window.installationManager) return;
+    
+    const stats = window.installationManager.getStatistics();
+    
+    document.getElementById('modalPendingCount').textContent = stats.pending;
+    document.getElementById('modalPlannedCount').textContent = stats.planned;
+    document.getElementById('modalInProgressCount').textContent = stats.in_progress;
+    document.getElementById('modalInstalledCount').textContent = stats.installed;
+    document.getElementById('modalOverdueCount').textContent = stats.overdue;
+}
+
+// Editar instalación individual
+function editInstallation(supportNumber, supportType, positionNumber) {
+    if (!window.installationManager) return;
+    
+    // Encontrar el soporte en los datos
+    const support = allSupports.find(s => 
+        s.support_number === supportNumber && 
+        s.support_type === supportType && 
+        (s.position_number || '1') === positionNumber
+    );
+    
+    if (!support) {
+        alert('Soporte no encontrado');
+        return;
+    }
+    
+    currentEditingSupport = support;
+    const installationInfo = window.installationManager.getInstallationInfo(support);
+    
+    // Llenar el formulario
+    document.getElementById('supportInfo').value = `${support.support_number} - ${support.support_type} (Pos. ${support.position_number || '1'})`;
+    document.getElementById('installationStatus').value = installationInfo.status;
+    document.getElementById('plannedDate').value = installationInfo.planned_date ? 
+        formatDateForInput(installationInfo.planned_date) : '';
+    document.getElementById('actualDate').value = installationInfo.actual_date ? 
+        formatDateForInput(installationInfo.actual_date) : '';
+    document.getElementById('installedBy').value = installationInfo.installed_by || '';
+    document.getElementById('installationNotes').value = installationInfo.notes || '';
+    
+    // Mostrar/ocultar campos según el estado
+    toggleDateFields();
+    
+    // Mostrar modal
+    const modal = new bootstrap.Modal(document.getElementById('editInstallationModal'));
+    modal.show();
+}
+
+// Cambio rápido de estado
+function quickStatusChange(supportNumber, supportType, positionNumber, newStatus) {
+    if (!window.installationManager) return;
+    
+    const support = allSupports.find(s => 
+        s.support_number === supportNumber && 
+        s.support_type === supportType && 
+        (s.position_number || '1') === positionNumber
+    );
+    
+    if (!support) return;
+    
+    let updateData = { status: newStatus };
+    
+    if (newStatus === 'installed') {
+        updateData.actual_date = new Date().toISOString();
+        const installedBy = prompt('¿Quién instaló este soporte? (opcional)');
+        if (installedBy) {
+            updateData.installed_by = installedBy;
+        }
+    } else if (newStatus === 'planned') {
+        const plannedDate = prompt('Fecha planificada (YYYY-MM-DD):');
+        if (plannedDate) {
+            updateData.planned_date = new Date(plannedDate).toISOString();
+        }
+    }
+    
+    window.installationManager.updateInstallation(support, updateData);
+    
+    // Refrescar la visualización
+    if (filteredSupports.length > 0) {
+        displaySupports(filteredSupports);
+    } else {
+        displayAllSupports();
+    }
+    updateStats();
+}
+
+// Guardar instalación desde el modal
+function saveInstallation() {
+    if (!currentEditingSupport || !window.installationManager) return;
+    
+    const status = document.getElementById('installationStatus').value;
+    const plannedDate = document.getElementById('plannedDate').value;
+    const actualDate = document.getElementById('actualDate').value;
+    const installedBy = document.getElementById('installedBy').value;
+    const notes = document.getElementById('installationNotes').value;
+    
+    const updateData = {
+        status: status,
+        planned_date: plannedDate ? new Date(plannedDate).toISOString() : null,
+        actual_date: actualDate ? new Date(actualDate).toISOString() : null,
+        installed_by: installedBy,
+        notes: notes
+    };
+    
+    window.installationManager.updateInstallation(currentEditingSupport, updateData);
+    
+    // Cerrar modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('editInstallationModal'));
+    modal.hide();
+    
+    // Refrescar visualización
+    if (filteredSupports.length > 0) {
+        displaySupports(filteredSupports);
+    } else {
+        displayAllSupports();
+    }
+    updateStats();
+    
+    alert('✅ Información de instalación guardada');
+}
+
+// Mostrar/ocultar campos de fecha según el estado
+function toggleDateFields() {
+    const status = document.getElementById('installationStatus').value;
+    const plannedGroup = document.getElementById('plannedDateGroup');
+    const actualGroup = document.getElementById('actualDateGroup');
+    const installedByGroup = document.getElementById('installedByGroup');
+    
+    // Mostrar fecha planificada para estados que no sea 'pending'
+    plannedGroup.style.display = (status === 'pending') ? 'none' : 'block';
+    
+    // Mostrar fecha actual y quién instaló solo para 'installed'
+    actualGroup.style.display = (status === 'installed') ? 'block' : 'none';
+    installedByGroup.style.display = (status === 'installed') ? 'block' : 'none';
+}
+
+// Exportar datos de instalaciones
+function exportInstallations() {
+    if (!window.installationManager) return;
+    
+    const data = window.installationManager.exportData();
+    const csv = convertToCSV(data);
+    downloadCSV(csv, 'instalaciones_soportes.csv');
+}
+
+// Convertir a CSV
+function convertToCSV(data) {
+    const headers = ['Número Soporte', 'Tipo Soporte', 'Posición', 'Estado', 'Fecha Planificada', 'Fecha Instalación', 'Instalado Por', 'Notas'];
+    const rows = data.map(item => [
+        item.support_number,
+        item.support_type,
+        item.position_number,
+        item.status,
+        item.planned_date ? formatDate(item.planned_date) : '',
+        item.actual_date ? formatDate(item.actual_date) : '',
+        item.installed_by || '',
+        item.notes || ''
+    ]);
+    
+    return [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+}
+
+// Descargar CSV
+function downloadCSV(csv, filename) {
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Mostrar reporte de instalaciones
+function showInstallationReport() {
+    alert('🚧 Función de reportes en desarrollo.\nPróximamente: gráficos de progreso, timeline, estadísticas avanzadas.');
+}
+
+// Planificar instalaciones múltiples
+function planBulkInstallations() {
+    alert('🚧 Función de planificación múltiple en desarrollo.\nPróximamente: selección masiva, fechas automáticas, asignación de equipos.');
+}
+
+// Formatear fecha para input type="date"
+function formatDateForInput(date) {
+    if (!date) return '';
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    return d.toISOString().split('T')[0];
+}
+
+// Actualizar estadísticas con información de instalaciones
+function updateStats() {
+    const originalUpdateStats = arguments.callee;
+    
+    const totalSupports = allSupports.length;
+    const totalTypes = new Set(allSupports.map(s => s.support_type)).size;
+    const withPDFs = allSupports.filter(s => supportMapping[s.support_type] && supportMapping[s.support_type].length > 0).length;
+    const searchResults = filteredSupports.length;
+    
+    document.getElementById('totalSupports').textContent = totalSupports.toLocaleString();
+    document.getElementById('totalTypes').textContent = totalTypes.toLocaleString();
+    document.getElementById('withPDFs').textContent = withPDFs.toLocaleString();
+    document.getElementById('searchResults').textContent = searchResults.toLocaleString();
+    
+    // Estadísticas de instalación
+    if (window.installationManager) {
+        const installationStats = window.installationManager.getStatistics();
+        document.getElementById('installedCount').textContent = installationStats.installed.toLocaleString();
+        document.getElementById('pendingCount').textContent = installationStats.pending.toLocaleString();
+    }
+}
+
+// Escuchar eventos de actualización de instalaciones
+if (typeof window !== 'undefined') {
+    window.addEventListener('installationUpdated', function(event) {
+        console.log('📅 Instalación actualizada:', event.detail);
+        updateStats();
+    });
+    
+    window.addEventListener('installationsImported', function() {
+        console.log('📥 Instalaciones importadas');
+        if (filteredSupports.length > 0) {
+            displaySupports(filteredSupports);
+        } else {
+            displayAllSupports();
+        }
+        updateStats();
+    });
+    
+    window.addEventListener('installationsCleared', function() {
+        console.log('🗑️ Instalaciones eliminadas');
+        if (filteredSupports.length > 0) {
+            displaySupports(filteredSupports);
+        } else {
+            displayAllSupports();
+        }
+        updateStats();
+    });
+} 

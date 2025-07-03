@@ -183,6 +183,134 @@
             color: #6c757d;
             font-size: 0.9em;
         }
+        
+        /* Estilos para gestión de instalaciones */
+        .installation-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status-planned {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .status-in_progress {
+            background: #fde2e4;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-installed {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .installation-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .installation-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .installation-controls button {
+            padding: 5px 12px;
+            font-size: 0.85em;
+            border-radius: 15px;
+        }
+        
+        .installation-date {
+            font-size: 0.9em;
+            color: #495057;
+            margin-top: 5px;
+        }
+        
+        .installation-stats .stat-row {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .installation-stats .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .installation-stats .stat-icon {
+            width: 30px;
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+        
+        .overdue-indicator {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .installation-actions {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .quick-status-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .quick-status-buttons button {
+            padding: 3px 8px;
+            font-size: 0.75em;
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .btn-status-pending {
+            background: #ffc107;
+            color: #212529;
+        }
+        
+        .btn-status-planned {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .btn-status-progress {
+            background: #fd7e14;
+            color: white;
+        }
+        
+        .btn-status-installed {
+            background: #28a745;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -213,31 +341,61 @@
                     </div>
                 </div>
                 
+                <!-- Filtros adicionales -->
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <select id="filterStatus" class="form-select search-input" onchange="filterByStatus()">
+                            <option value="">Todos los estados</option>
+                            <option value="pending">Pendiente</option>
+                            <option value="planned">Planificado</option>
+                            <option value="in_progress">En Proceso</option>
+                            <option value="installed">Instalado</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success" onclick="openInstallationPanel()">
+                            <i class="fas fa-calendar-check"></i> Gestionar Instalaciones
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Stats -->
                 <div class="stats mt-4">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="stat-item">
                                 <div class="stat-number" id="totalSupports">0</div>
                                 <div class="stat-label">Total Soportes</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="stat-item">
                                 <div class="stat-number" id="totalTypes">0</div>
                                 <div class="stat-label">Tipos Diferentes</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="stat-item">
                                 <div class="stat-number" id="withPDFs">0</div>
                                 <div class="stat-label">Con PDFs</div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="stat-item">
                                 <div class="stat-number" id="searchResults">0</div>
                                 <div class="stat-label">Resultados</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="stat-item">
+                                <div class="stat-number" id="installedCount" style="color: #28a745;">0</div>
+                                <div class="stat-label">Instalados</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="stat-item">
+                                <div class="stat-number" id="pendingCount" style="color: #ffc107;">0</div>
+                                <div class="stat-label">Pendientes</div>
                             </div>
                         </div>
                     </div>
@@ -264,7 +422,121 @@
         </div>
     </div>
 
+    <!-- Modal de Gestión de Instalaciones -->
+    <div class="modal fade" id="installationModal" tabindex="-1" aria-labelledby="installationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="installationModalLabel">
+                        <i class="fas fa-calendar-check"></i> Gestión de Instalaciones
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-chart-pie"></i> Estadísticas de Instalación</h6>
+                            <div class="installation-stats">
+                                <div class="stat-row">
+                                    <span class="stat-icon" style="color: #ffc107;"><i class="fas fa-clock"></i></span>
+                                    <span>Pendientes: <strong id="modalPendingCount">0</strong></span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-icon" style="color: #17a2b8;"><i class="fas fa-calendar-alt"></i></span>
+                                    <span>Planificados: <strong id="modalPlannedCount">0</strong></span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-icon" style="color: #fd7e14;"><i class="fas fa-cogs"></i></span>
+                                    <span>En Proceso: <strong id="modalInProgressCount">0</strong></span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-icon" style="color: #28a745;"><i class="fas fa-check-circle"></i></span>
+                                    <span>Instalados: <strong id="modalInstalledCount">0</strong></span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-icon" style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i></span>
+                                    <span>Atrasados: <strong id="modalOverdueCount">0</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-tools"></i> Acciones Rápidas</h6>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" onclick="exportInstallations()">
+                                    <i class="fas fa-download"></i> Exportar Datos
+                                </button>
+                                <button class="btn btn-warning" onclick="showInstallationReport()">
+                                    <i class="fas fa-chart-line"></i> Ver Reporte
+                                </button>
+                                <button class="btn btn-info" onclick="planBulkInstallations()">
+                                    <i class="fas fa-calendar-plus"></i> Planificar Múltiples
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar instalación individual -->
+    <div class="modal fade" id="editInstallationModal" tabindex="-1" aria-labelledby="editInstallationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editInstallationModalLabel">
+                        <i class="fas fa-edit"></i> Editar Instalación
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="installationForm">
+                        <div class="mb-3">
+                            <label for="supportInfo" class="form-label">Soporte</label>
+                            <input type="text" class="form-control" id="supportInfo" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="installationStatus" class="form-label">Estado</label>
+                            <select class="form-select" id="installationStatus" onchange="toggleDateFields()">
+                                <option value="pending">Pendiente</option>
+                                <option value="planned">Planificado</option>
+                                <option value="in_progress">En Proceso</option>
+                                <option value="installed">Instalado</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="plannedDateGroup">
+                            <label for="plannedDate" class="form-label">Fecha Planificada</label>
+                            <input type="date" class="form-control" id="plannedDate">
+                        </div>
+                        <div class="mb-3" id="actualDateGroup" style="display: none;">
+                            <label for="actualDate" class="form-label">Fecha de Instalación</label>
+                            <input type="date" class="form-control" id="actualDate">
+                        </div>
+                        <div class="mb-3" id="installedByGroup" style="display: none;">
+                            <label for="installedBy" class="form-label">Instalado por</label>
+                            <input type="text" class="form-control" id="installedBy" placeholder="Nombre del técnico/equipo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="installationNotes" class="form-label">Notas</label>
+                            <textarea class="form-control" id="installationNotes" rows="3" placeholder="Observaciones, comentarios, etc."></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="saveInstallation()">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="installation_manager.js"></script>
     <script src="app.js"></script>
 </body>
 </html> 

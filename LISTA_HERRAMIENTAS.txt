@@ -1,0 +1,202 @@
+████████████████████████████████████████████████████████████████
+█                                                              █
+█          LISTA DE HERRAMIENTAS - SISTEMA SINES              █
+█                                                              █
+█                 🚀 DESARROLLO CONTINUO                       █
+█                                                              █
+████████████████████████████████████████████████████████████████
+
+📋 HERRAMIENTAS PRINCIPALES
+════════════════════════════════════════════════════════════════
+
+🎯 MENU_DESARROLLO.bat
+   • Menú principal con todas las opciones
+   • Punto de entrada recomendado
+   • Interfaz intuitiva y completa
+
+🆕 NUEVA_FUNCIONALIDAD.bat
+   • Crear nueva rama para desarrollo
+   • Configurar entorno automáticamente
+   • Abrir archivos para edición
+
+🧪 PROBAR_LOCAL.bat
+   • Testing sistemático e interactivo
+   • Servidor local automático
+   • Checklist de validación completa
+
+🚀 SUBIR_FUNCIONALIDAD.bat
+   • Desplegar a producción de forma segura
+   • Opciones de merge automático o manual
+   • Validaciones antes del deploy
+
+🚨 ROLLBACK_EMERGENCY.bat
+   • Revertir cambios en emergencia
+   • Múltiples opciones de rollback
+   • Restauración rápida de producción
+
+📖 DOCUMENTACIÓN CREADA
+════════════════════════════════════════════════════════════════
+
+📋 GUIA_DESARROLLO_CONTINUO.md
+   • Guía completa paso a paso
+   • Mejores prácticas y estrategias
+   • Ejemplos de funcionalidades
+
+📊 RESUMEN_DESARROLLO_CONTINUO.md
+   • Resumen ejecutivo del sistema
+   • Flujos de trabajo completos
+   • Comandos rápidos y referencias
+
+📝 LISTA_HERRAMIENTAS.txt
+   • Este archivo de referencia
+   • Lista de todas las herramientas
+   • Propósito de cada script
+
+🔧 ARCHIVOS DE CONFIGURACIÓN
+════════════════════════════════════════════════════════════════
+
+🐳 Dockerfile
+   • Configuración para Railway
+   • Imagen optimizada Python 3.11
+   • Configuración de puerto automática
+
+📦 requirements.txt
+   • Dependencias del proyecto
+   • Actualmente sin dependencias externas
+   • Listo para expansión futura
+
+🚄 server_railway.py
+   • Servidor optimizado para Railway
+   • Manejo de puerto dinámico
+   • Configuración de producción
+
+🌐 railway.json
+   • Configuración específica Railway
+   • Comandos de build y start
+   • Configuración de despliegue
+
+🔒 .gitignore
+   • Archivos excluidos del repositorio
+   • Configuración segura
+   • Protección de archivos sensibles
+
+⚖️ LICENSE
+   • Licencia MIT del proyecto
+   • Código abierto y flexible
+   • Uso comercial permitido
+
+📚 README_GITHUB.md
+   • Documentación para GitHub
+   • Instrucciones de instalación
+   • Guía para contribuidores
+
+🎯 COMANDOS RÁPIDOS
+════════════════════════════════════════════════════════════════
+
+🚀 DESARROLLO TÍPICO:
+   1. MENU_DESARROLLO.bat
+   2. Opción 1: Nueva funcionalidad
+   3. Desarrollar y editar archivos
+   4. Opción 2: Probar localmente
+   5. Opción 3: Subir a producción
+
+🔧 COMANDOS ÚTILES:
+   • git status              - Ver estado actual
+   • git log --oneline -5    - Ver últimos commits
+   • git checkout main       - Cambiar a main
+   • git pull origin main    - Actualizar desde GitHub
+
+🚨 EMERGENCIAS:
+   • ROLLBACK_EMERGENCY.bat  - Revertir cambios
+   • Railway Dashboard       - Ver logs de error
+   • GitHub Issues           - Reportar problemas
+
+📁 ARCHIVOS PRINCIPALES A EDITAR
+════════════════════════════════════════════════════════════════
+
+🎨 INTERFAZ:
+   • index.html              - Página principal
+   • index_mobile.html       - Versión móvil
+   • app.js                  - Lógica JavaScript y CSS
+
+🔍 DATOS:
+   • support_data_enhanced.json     - Datos de soportes
+   • support_pdf_mapping.json      - Mapeo de PDFs
+   • field_titles_mapping.json     - Mapeo de títulos
+
+🚀 SERVIDOR:
+   • server_railway.py       - Servidor para Railway
+   • server.py               - Servidor local básico
+
+📄 DOCUMENTOS:
+   • ESTANDARES DE SOPORTES/ - Directorio de PDFs
+   • *.pdf                   - Archivos de estándares
+
+🔗 ENLACES IMPORTANTES
+════════════════════════════════════════════════════════════════
+
+🐙 GitHub:
+   https://github.com/mjuica93/SOPORTES-SINES-2121
+
+🚄 Railway:
+   https://railway.app/dashboard
+
+🏠 Local:
+   http://localhost:8000
+
+🎯 VENTAJAS DEL SISTEMA
+════════════════════════════════════════════════════════════════
+
+✅ SEGURIDAD:
+   • Desarrollo por ramas
+   • Pruebas obligatorias
+   • Rollback de emergencia
+   • Múltiples validaciones
+
+✅ EFICIENCIA:
+   • Scripts automatizados
+   • Despliegue automático
+   • Menús interactivos
+   • Flujo optimizado
+
+✅ CONFIABILIDAD:
+   • Sistema probado
+   • Monitoreo continuo
+   • Documentación completa
+   • Recuperación rápida
+
+💡 CONSEJOS DE USO
+════════════════════════════════════════════════════════════════
+
+🎯 SIEMPRE:
+   • Usa MENU_DESARROLLO.bat como punto de partida
+   • Prueba localmente antes de subir
+   • Haz commits descriptivos
+   • Mantén main limpio
+
+🚨 NUNCA:
+   • Edites directamente en main
+   • Subas sin probar
+   • Ignores errores
+   • Hagas cambios masivos sin planear
+
+📊 MONITOREO:
+   • Verifica builds en Railway
+   • Revisa logs de errores
+   • Prueba funcionalidades nuevas
+   • Mantén documentación actualizada
+
+🎉 RESULTADO FINAL
+════════════════════════════════════════════════════════════════
+
+🚀 TIENES UN SISTEMA PROFESIONAL QUE:
+   • Automatiza el desarrollo continuo
+   • Despliega seguramente a producción
+   • Mantiene el sistema siempre funcionando
+   • Permite evolución sin interrupciones
+
+🎯 PRÓXIMO PASO: ¡EJECUTA MENU_DESARROLLO.bat!
+
+════════════════════════════════════════════════════════════════
+                    ¡SISTEMA LISTO PARA USAR!
+════════════════════════════════════════════════════════════════ 
