@@ -1,0 +1,68 @@
+================================================================================
+                    SISTEMA DE BÚSQUEDA DE SOPORTES - SINES
+================================================================================
+
+🎯 INSTRUCCIONES RÁPIDAS DE USO:
+
+1. ABRIR EL SISTEMA:
+   OPCIÓN A (RECOMENDADA):
+   - Haz doble clic en "INICIAR_SISTEMA.bat"
+   - Se iniciará un servidor web local automáticamente
+   
+   OPCIÓN B (ALTERNATIVA):
+   - Ejecuta: python server.py
+   - Ve a http://localhost:8000/index.html
+   
+   OPCIÓN C (SI LAS ANTERIORES NO FUNCIONAN):
+   - Haz doble clic en "index.html" (puede tener problemas de CORS)
+
+2. BUSCAR SOPORTES:
+   - Escribe en el campo de búsqueda:
+     * Número de soporte (ej: 8001, 681)
+     * Tipo de soporte (ej: N1G1, TR34, ST01)
+     * Fluido/tubería (ej: P56A108, LPN91S10)
+   - O selecciona un tipo específico del menú desplegable
+
+3. VER INFORMACIÓN:
+   - Cada soporte se muestra en una tarjeta
+   - Incluye todos los datos técnicos
+   - Si hay PDFs disponibles, aparecen enlaces de descarga
+
+4. DESCARGAR PDFs:
+   - Haz clic en cualquier enlace de PDF
+   - Se abrirá en una nueva pestaña
+   - Puedes descargarlo desde el navegador
+
+================================================================================
+📊 ESTADÍSTICAS DEL SISTEMA:
+
+• Total de soportes: 1,615
+• Tipos diferentes: 126
+• PDFs disponibles: 752
+• Tipos con PDFs: 70
+
+================================================================================
+🔧 ARCHIVOS IMPORTANTES:
+
+• index.html - Interfaz principal
+• app.js - Lógica de la aplicación
+• support_data.json - Datos de soportes
+• support_pdf_mapping.json - Mapeo de PDFs
+• ESTANDARES DE SOPORTES/ - Carpeta con PDFs
+• README.md - Documentación completa
+
+================================================================================
+❓ SOLUCIÓN DE PROBLEMAS:
+
+Si el sistema no funciona:
+1. Verifica que todos los archivos estén en la misma carpeta
+2. Asegúrate de que JavaScript esté habilitado en tu navegador
+3. Intenta con otro navegador (Chrome, Firefox, Edge)
+
+================================================================================
+📞 SOPORTE:
+
+Para cualquier consulta sobre el sistema, revisa el archivo README.md
+que contiene documentación completa y detallada.
+
+================================================================================ 

@@ -1,0 +1,38 @@
+GUÍA DE VARIABLES DE PLANTILLAS DE SOPORTE
+==================================================
+
+Las siguientes variables aparecen en los PDFs de las plantillas
+de soporte y corresponden a las dimensiones y parámetros técnicos
+específicos de cada tipo de soporte.
+
+VARIABLES PRINCIPALES:
+------------------------------
+
+A    - Dimensión principal A - Generalmente altura o longitud principal del soporte
+B    - Dimensión principal B - Generalmente ancho o segunda dimensión principal
+C    - Dimensión C - Tercera dimensión principal o profundidad
+D    - Dimensión D - Cuarta dimensión o diámetro específico
+E    - Dimensión E - Quinta dimensión o espesor específico
+R    - Radio o distancia radial - Usado en soportes circulares o curvos
+X    - Coordenada X - Posición horizontal en el sistema de coordenadas
+Y    - Coordenada Y - Posición vertical en el sistema de coordenadas
+EL   - Elevación - Altura o cota del soporte respecto al nivel de referencia
+N.   - Número de referencia - Identificador numérico específico
+SH.  - Número de hoja - Referencia al plano o drawing donde aparece
+TEMP - Temperatura de operación - Condiciones térmicas de trabajo
+
+ESTAS VARIABLES SE EXTRAEN DE:
+- Fila 22: Nombres de variables (A, B, C, D, E, R, X, Y, EL, N., SH.)
+- Fila 23: Códigos de referencia ((4a), (4b), (4c), etc.)
+- Los valores se toman de las columnas correspondientes del Excel
+
+CÓMO SE MUESTRAN EN EL SISTEMA:
+- Cada variable se muestra con su nombre y título descriptivo
+- Los valores incluyen unidades cuando corresponde (mm, °C)
+- Solo se muestran las variables que tienen valores
+- Se agrupan en una sección específica 'Variables de Plantilla'
+
+RELACIÓN CON LOS PDFs:
+- Estas variables aparecen en los diagramas de los PDFs
+- Permiten entender las dimensiones específicas de cada soporte
+- Facilitan la interpretación de los planos técnicos

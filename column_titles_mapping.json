@@ -1,0 +1,140 @@
+{
+  "col_5": {
+    "index": 5,
+    "title_row_22": "",
+    "title_row_23": "(1a)",
+    "combined_title": "(1a)"
+  },
+  "col_7": {
+    "index": 7,
+    "title_row_22": "",
+    "title_row_23": "(1b)",
+    "combined_title": "(1b)"
+  },
+  "col_8": {
+    "index": 8,
+    "title_row_22": "",
+    "title_row_23": "(1c)",
+    "combined_title": "(1c)"
+  },
+  "col_9": {
+    "index": 9,
+    "title_row_22": "",
+    "title_row_23": "(1d)",
+    "combined_title": "(1d)"
+  },
+  "col_10": {
+    "index": 10,
+    "title_row_22": "",
+    "title_row_23": "(1e)",
+    "combined_title": "(1e)"
+  },
+  "col_11": {
+    "index": 11,
+    "title_row_22": "",
+    "title_row_23": "(2a)",
+    "combined_title": "(2a)"
+  },
+  "col_13": {
+    "index": 13,
+    "title_row_22": "",
+    "title_row_23": "(3a)",
+    "combined_title": "(3a)"
+  },
+  "col_15": {
+    "index": 15,
+    "title_row_22": "",
+    "title_row_23": "(3b)",
+    "combined_title": "(3b)"
+  },
+  "col_17": {
+    "index": 17,
+    "title_row_22": "",
+    "title_row_23": "(3c)",
+    "combined_title": "(3c)"
+  },
+  "col_19": {
+    "index": 19,
+    "title_row_22": "A",
+    "title_row_23": "(4a)",
+    "combined_title": "A - (4a)"
+  },
+  "col_20": {
+    "index": 20,
+    "title_row_22": "B",
+    "title_row_23": "(4b)",
+    "combined_title": "B - (4b)"
+  },
+  "col_22": {
+    "index": 22,
+    "title_row_22": "C",
+    "title_row_23": "(4c)",
+    "combined_title": "C - (4c)"
+  },
+  "col_23": {
+    "index": 23,
+    "title_row_22": "D",
+    "title_row_23": "(4d)",
+    "combined_title": "D - (4d)"
+  },
+  "col_24": {
+    "index": 24,
+    "title_row_22": "E",
+    "title_row_23": "",
+    "combined_title": "E"
+  },
+  "col_26": {
+    "index": 26,
+    "title_row_22": "R",
+    "title_row_23": "",
+    "combined_title": "R"
+  },
+  "col_27": {
+    "index": 27,
+    "title_row_22": "X",
+    "title_row_23": "(NB)",
+    "combined_title": "X - (NB)"
+  },
+  "col_28": {
+    "index": 28,
+    "title_row_22": "Y",
+    "title_row_23": "(NB)",
+    "combined_title": "Y - (NB)"
+  },
+  "col_29": {
+    "index": 29,
+    "title_row_22": "EL",
+    "title_row_23": "",
+    "combined_title": "EL"
+  },
+  "col_31": {
+    "index": 31,
+    "title_row_22": "",
+    "title_row_23": "(5a)",
+    "combined_title": "(5a)"
+  },
+  "col_32": {
+    "index": 32,
+    "title_row_22": "",
+    "title_row_23": "(6a)",
+    "combined_title": "(6a)"
+  },
+  "col_33": {
+    "index": 33,
+    "title_row_22": "N.",
+    "title_row_23": "(7a)",
+    "combined_title": "N. - (7a)"
+  },
+  "col_37": {
+    "index": 37,
+    "title_row_22": "SH.",
+    "title_row_23": "",
+    "combined_title": "SH."
+  },
+  "col_44": {
+    "index": 44,
+    "title_row_22": "( ºC)",
+    "title_row_23": "",
+    "combined_title": "( ºC)"
+  }
+}

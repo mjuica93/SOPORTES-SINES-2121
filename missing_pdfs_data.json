@@ -1,0 +1,497 @@
+{
+  "statistics": {
+    "total_types": 126,
+    "types_with_pdfs": 70,
+    "types_without_pdfs": 56,
+    "percentage_without_pdfs": 44.44444444444444,
+    "total_supports_without_pdfs": 227
+  },
+  "missing_types": [
+    {
+      "support_type": "BAN",
+      "count": 12,
+      "support_numbers_examples": [
+        "4249",
+        "4251",
+        "5002",
+        "5009",
+        "5015"
+      ],
+      "total_unique_numbers": 12
+    },
+    {
+      "support_type": "C1G2",
+      "count": 18,
+      "support_numbers_examples": [
+        "1001",
+        "143",
+        "164",
+        "179",
+        "201"
+      ],
+      "total_unique_numbers": 18
+    },
+    {
+      "support_type": "FP-00210",
+      "count": 2,
+      "support_numbers_examples": [
+        "8003",
+        "8012"
+      ],
+      "total_unique_numbers": 2
+    },
+    {
+      "support_type": "GP-00200",
+      "count": 6,
+      "support_numbers_examples": [
+        "8001",
+        "8002",
+        "8004",
+        "8005",
+        "8007"
+      ],
+      "total_unique_numbers": 6
+    },
+    {
+      "support_type": "HEA",
+      "count": 23,
+      "support_numbers_examples": [
+        "5013",
+        "5016",
+        "5031",
+        "5246",
+        "5247"
+      ],
+      "total_unique_numbers": 11
+    },
+    {
+      "support_type": "P27A",
+      "count": 2,
+      "support_numbers_examples": [
+        "5005",
+        "5007"
+      ],
+      "total_unique_numbers": 2
+    },
+    {
+      "support_type": "PIP",
+      "count": 2,
+      "support_numbers_examples": [
+        "5051",
+        "5053"
+      ],
+      "total_unique_numbers": 2
+    },
+    {
+      "support_type": "PLA",
+      "count": 30,
+      "support_numbers_examples": [
+        "4248",
+        "4250",
+        "5004",
+        "5005",
+        "5007"
+      ],
+      "total_unique_numbers": 17
+    },
+    {
+      "support_type": "SNUBBER",
+      "count": 2,
+      "support_numbers_examples": [
+        "XXXX"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-001",
+      "count": 2,
+      "support_numbers_examples": [
+        "5030"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-002",
+      "count": 2,
+      "support_numbers_examples": [
+        "5002"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-00200",
+      "count": 1,
+      "support_numbers_examples": [
+        "8006"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-003",
+      "count": 2,
+      "support_numbers_examples": [
+        "5004"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-004",
+      "count": 2,
+      "support_numbers_examples": [
+        "5009"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-005",
+      "count": 2,
+      "support_numbers_examples": [
+        "5010"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-006",
+      "count": 2,
+      "support_numbers_examples": [
+        "5013",
+        "5014"
+      ],
+      "total_unique_numbers": 2
+    },
+    {
+      "support_type": "SP-007",
+      "count": 2,
+      "support_numbers_examples": [
+        "5070"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-008",
+      "count": 2,
+      "support_numbers_examples": [
+        "5246"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-009",
+      "count": 2,
+      "support_numbers_examples": [
+        "4251"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-010",
+      "count": 2,
+      "support_numbers_examples": [
+        "4250"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-011",
+      "count": 2,
+      "support_numbers_examples": [
+        "5068"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-012",
+      "count": 2,
+      "support_numbers_examples": [
+        "5247"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-013",
+      "count": 2,
+      "support_numbers_examples": [
+        "4249"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-014",
+      "count": 2,
+      "support_numbers_examples": [
+        "4248"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-015",
+      "count": 2,
+      "support_numbers_examples": [
+        "5051"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-016",
+      "count": 2,
+      "support_numbers_examples": [
+        "5052"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-017",
+      "count": 2,
+      "support_numbers_examples": [
+        "5056"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-018",
+      "count": 2,
+      "support_numbers_examples": [
+        "5054"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-019",
+      "count": 2,
+      "support_numbers_examples": [
+        "5053"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-020",
+      "count": 2,
+      "support_numbers_examples": [
+        "5057"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-021",
+      "count": 2,
+      "support_numbers_examples": [
+        "5007"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-022",
+      "count": 2,
+      "support_numbers_examples": [
+        "5005"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-023",
+      "count": 2,
+      "support_numbers_examples": [
+        "5015"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-024",
+      "count": 2,
+      "support_numbers_examples": [
+        "5016"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-025",
+      "count": 2,
+      "support_numbers_examples": [
+        "5183"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-026",
+      "count": 2,
+      "support_numbers_examples": [
+        "5187"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-027",
+      "count": 2,
+      "support_numbers_examples": [
+        "5018"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-028",
+      "count": 2,
+      "support_numbers_examples": [
+        "5212"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-029",
+      "count": 2,
+      "support_numbers_examples": [
+        "5032"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-030",
+      "count": 2,
+      "support_numbers_examples": [
+        "5073"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-031",
+      "count": 3,
+      "support_numbers_examples": [
+        "5020",
+        "5072"
+      ],
+      "total_unique_numbers": 2
+    },
+    {
+      "support_type": "SP-032",
+      "count": 1,
+      "support_numbers_examples": [
+        "5020"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-033",
+      "count": 2,
+      "support_numbers_examples": [
+        "5019"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-034",
+      "count": 2,
+      "support_numbers_examples": [
+        "5130"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-035",
+      "count": 1,
+      "support_numbers_examples": [
+        "XXXX"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-036",
+      "count": 1,
+      "support_numbers_examples": [
+        "XXXX"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-037",
+      "count": 1,
+      "support_numbers_examples": [
+        "XXXX"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-038",
+      "count": 1,
+      "support_numbers_examples": [
+        "XXXX"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-043",
+      "count": 2,
+      "support_numbers_examples": [
+        "5031"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-044",
+      "count": 2,
+      "support_numbers_examples": [
+        "5249"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-045",
+      "count": 2,
+      "support_numbers_examples": [
+        "5250"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SP-046",
+      "count": 8,
+      "support_numbers_examples": [
+        "8002",
+        "8003",
+        "8004",
+        "8007"
+      ],
+      "total_unique_numbers": 4
+    },
+    {
+      "support_type": "SP-047",
+      "count": 2,
+      "support_numbers_examples": [
+        "5013"
+      ],
+      "total_unique_numbers": 1
+    },
+    {
+      "support_type": "SPRING",
+      "count": 32,
+      "support_numbers_examples": [
+        "4248",
+        "4249",
+        "4250",
+        "4251",
+        "5002"
+      ],
+      "total_unique_numbers": 29
+    },
+    {
+      "support_type": "STRUT",
+      "count": 3,
+      "support_numbers_examples": [
+        "5019",
+        "5051",
+        "5053"
+      ],
+      "total_unique_numbers": 3
+    },
+    {
+      "support_type": "UPN",
+      "count": 6,
+      "support_numbers_examples": [
+        "5013",
+        "5052",
+        "5054",
+        "5249",
+        "5250"
+      ],
+      "total_unique_numbers": 5
+    }
+  ]
+}

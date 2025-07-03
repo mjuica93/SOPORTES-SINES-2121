@@ -1,0 +1,17 @@
+INSTRUCCIONES PARA SERVIDOR WEB
+========================================
+
+1. INSTALACIÓN LOCAL:
+   - Ejecutar: INICIAR_SISTEMA.bat
+   - Abrir navegador en: http://localhost:8000
+   - Usar: index_enhanced.html (versión mejorada)
+
+2. SERVIDOR PÚBLICO:
+   - Subir todos los archivos a un servidor web
+   - Configurar servidor para servir archivos estáticos
+   - Asegurar que los archivos JSON sean accesibles
+
+3. REQUISITOS:
+   - Python 3.x (para servidor local)
+   - Navegador web moderno
+   - Acceso a carpeta ESTANDARES DE SOPORTES

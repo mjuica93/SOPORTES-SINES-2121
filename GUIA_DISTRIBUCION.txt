@@ -1,0 +1,43 @@
+GUÍA DE DISTRIBUCIÓN - SISTEMA DE SOPORTES SINES
+=======================================================
+
+🌐 OPCIÓN 1: SERVIDOR WEB COMPLETO
+   Mejor para: Acceso desde múltiples ubicaciones
+   Incluye: Sistema completo + PDFs + Servidor
+   Instalación: Ejecutar INICIAR_SISTEMA.bat
+   URL: http://localhost:8000/index_enhanced.html
+
+💼 OPCIÓN 2: APLICACIÓN PORTABLE
+   Mejor para: Consulta rápida sin instalación
+   Incluye: HTML autocontenido con todos los datos
+   Instalación: Ninguna, solo abrir HTML
+   Limitación: Sin acceso a PDFs
+
+📊 OPCIÓN 3: EXCEL MEJORADO
+   Mejor para: Usuarios familiarizados con Excel
+   Incluye: Archivos Excel originales + instrucciones
+   Instalación: Microsoft Excel requerido
+   Ventaja: Familiar y editable
+
+📄 OPCIÓN 4: DOCUMENTACIÓN COMPLETA
+   Mejor para: Referencia y capacitación
+   Incluye: Manuales, guías, listas de PDFs faltantes
+   Instalación: Ninguna
+   Uso: Consulta y referencia
+
+🎯 RECOMENDACIONES POR ESCENARIO:
+   - Oficina principal: Opción 1 (Servidor Web)
+   - Trabajadores de campo: Opción 2 (Portable)
+   - Análisis de datos: Opción 3 (Excel)
+   - Capacitación: Opción 4 (Documentación)
+
+📦 DISTRIBUCIÓN:
+   - Archivo ZIP incluye todas las opciones
+   - Cada opción en carpeta separada
+   - Instrucciones específicas en cada carpeta
+   - Listo para compartir por email o red
+
+🔧 SOPORTE TÉCNICO:
+   - Ver: SOLUCION_PROBLEMAS.md
+   - Contactar: Administrador del sistema
+   - Archivos de log disponibles para diagnóstico

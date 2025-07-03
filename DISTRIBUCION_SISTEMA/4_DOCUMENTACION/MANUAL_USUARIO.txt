@@ -1,0 +1,31 @@
+MANUAL DE USUARIO - SISTEMA DE SOPORTES SINES
+==================================================
+
+1. INTRODUCCIÓN
+   El sistema permite buscar y consultar información
+   técnica de soportes de tuberías de forma rápida
+   y eficiente.
+
+2. CARACTERÍSTICAS PRINCIPALES
+   - Búsqueda por múltiples criterios
+   - Visualización organizada por grupos
+   - Acceso directo a PDFs técnicos
+   - Estadísticas en tiempo real
+   - Filtros avanzados
+
+3. CÓMO BUSCAR
+   - Número de soporte: '8001', '5002'
+   - Tipo de soporte: 'N1G1', 'C4F1'
+   - Fluido: 'P56A108', 'CWS'
+   - Texto libre en notas
+
+4. INTERPRETACIÓN DE RESULTADOS
+   - Información Básica: Número, tipo, fluido
+   - Información Técnica: CWA, revisión, parámetros
+   - Dimensiones: Múltiples medidas técnicas
+   - Información de Proyecto: Fechas, responsables
+   - PDFs: Enlaces a documentación técnica
+
+5. SOLUCIÓN DE PROBLEMAS
+   - Ver archivo: SOLUCION_PROBLEMAS.md
+   - Contactar administrador del sistema
