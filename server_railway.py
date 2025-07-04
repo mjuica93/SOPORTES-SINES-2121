@@ -21,22 +21,29 @@ def start_server():
             super().end_headers()
         
         def do_GET(self):
-            # Redirigir la raíz al index.html
+            # Redirigir la raíz al index con isométricos prefabricados
             if self.path == '/':
-                self.path = '/index.html'
+                self.path = '/index_isometricos_con_costuras.html'
+            elif self.path == '/sistema-integrado':
+                self.path = '/index_isometricos_con_costuras.html'
             elif self.path == '/mobile':
                 self.path = '/index_mobile.html'
+            elif self.path == '/basico':
+                self.path = '/index.html'
             return super().do_GET()
     
     try:
         with socketserver.TCPServer(("", PORT), MyHTTPRequestHandler) as httpd:
             print(f"🌐 Servidor iniciado en puerto {PORT}")
             print(f"📂 Sirviendo archivos desde: {os.getcwd()}")
-            print("✅ Sistema SINES listo para Railway!")
+            print("✅ Sistema SINES v3.0 listo para Railway!")
+            print("🏭 Funcionalidades: Soportes + Isométricos + Prefabricados + Instalaciones")
             print(f"🎯 Acceso local: http://localhost:{PORT}")
             print("🌍 Acceso mundial: https://tu-proyecto.railway.app")
             print("📱 Versión móvil: https://tu-proyecto.railway.app/mobile")
-            print("="*50)
+            print("🔧 Sistema integrado: https://tu-proyecto.railway.app/sistema-integrado")
+            print("📋 Versión básica: https://tu-proyecto.railway.app/basico")
+            print("="*60)
             
             # En Railway no necesitamos abrir navegador
             if os.environ.get('RAILWAY_ENVIRONMENT') != 'production':
@@ -59,5 +66,6 @@ def start_server():
         exit(1)
 
 if __name__ == "__main__":
-    print("=== SISTEMA SINES - RAILWAY DEPLOYMENT ===")
+    print("=== SISTEMA SINES v3.0 - RAILWAY DEPLOYMENT ===")
+    print("🏭 Incluye: Isométricos Prefabricados + Sistema Integrado")
     start_server() 
