@@ -140,6 +140,98 @@ class InstallationManager {
         return stats;
     }
 
+    // Obtener estadísticas simplificadas (compatible con el sistema integrado)
+    getStats() {
+        const stats = {
+            pending: 0,
+            planned: 0,
+            in_progress: 0,
+            installed: 0
+        };
+
+        this.installations.forEach(info => {
+            if (stats.hasOwnProperty(info.status)) {
+                stats[info.status]++;
+            }
+        });
+
+        return stats;
+    }
+
+    // Filtrar instalaciones (compatible con el sistema integrado)
+    filterInstallations(searchTerm, statusFilter, dateFilter) {
+        const installations = [];
+        
+        this.installations.forEach((info, key) => {
+            const [support_number, support_type, position_number] = key.split('_');
+            
+            // Crear objeto de instalación compatible
+            const installation = {
+                support_number,
+                support_type,
+                position_number,
+                status: info.status,
+                planned_date: info.planned_date,
+                actual_date: info.actual_date,
+                installed_by: info.installed_by || '',
+                notes: info.notes || '',
+                last_updated: info.last_updated
+            };
+            
+            // Aplicar filtros
+            let matches = true;
+            
+            // Filtro de búsqueda por texto
+            if (searchTerm) {
+                const searchLower = searchTerm.toLowerCase();
+                matches = matches && (
+                    support_number.toLowerCase().includes(searchLower) ||
+                    support_type.toLowerCase().includes(searchLower) ||
+                    (info.installed_by && info.installed_by.toLowerCase().includes(searchLower)) ||
+                    (info.notes && info.notes.toLowerCase().includes(searchLower))
+                );
+            }
+            
+            // Filtro por estado
+            if (statusFilter) {
+                matches = matches && info.status === statusFilter;
+            }
+            
+            // Filtro por fecha
+            if (dateFilter) {
+                const filterDate = new Date(dateFilter);
+                let hasMatchingDate = false;
+                
+                if (info.planned_date) {
+                    const plannedDate = new Date(info.planned_date);
+                    if (plannedDate.toDateString() === filterDate.toDateString()) {
+                        hasMatchingDate = true;
+                    }
+                }
+                
+                if (info.actual_date) {
+                    const actualDate = new Date(info.actual_date);
+                    if (actualDate.toDateString() === filterDate.toDateString()) {
+                        hasMatchingDate = true;
+                    }
+                }
+                
+                matches = matches && hasMatchingDate;
+            }
+            
+            if (matches) {
+                installations.push(installation);
+            }
+        });
+        
+        // Ordenar por número de soporte
+        return installations.sort((a, b) => {
+            const numA = parseInt(a.support_number) || 0;
+            const numB = parseInt(b.support_number) || 0;
+            return numA - numB;
+        });
+    }
+
     // Obtener soportes por estado
     getSupportsByStatus(status) {
         const supports = [];
