@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verificación JSON</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Verificación del JSON Reparado</h1>
+    <div id="results"></div>
+    
+    <script>
+        async function verificarJSON() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p class="info">🔍 Verificando JSON...</p>';
+            
+            try {
+                const response = await fetch('isometric_data_with_welds.json');
+                const data = await response.json();
+                
+                const isometrics = data.isometrics || {};
+                const count = Object.keys(isometrics).length;
+                
+                results.innerHTML = `
+                    <h2 class="success">✅ JSON Válido</h2>
+                    <p><strong>Isométricos cargados:</strong> ${count}</p>
+                    <p><strong>Tamaño del archivo:</strong> ${(JSON.stringify(data).length / 1024 / 1024).toFixed(1)} MB</p>
+                    <p><strong>Estructura:</strong> ${Object.keys(data).join(', ')}</p>
+                    <h3>Primeros 5 isométricos:</h3>
+                    <pre>${JSON.stringify(Object.keys(isometrics).slice(0, 5), null, 2)}</pre>
+                `;
+                
+                console.log('✅ JSON cargado exitosamente:', data);
+                
+            } catch (error) {
+                results.innerHTML = `
+                    <h2 class="error">❌ Error al cargar JSON</h2>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                    <p><strong>Tipo:</strong> ${error.constructor.name}</p>
+                    <pre>${error.stack}</pre>
+                `;
+                console.error('❌ Error cargando JSON:', error);
+            }
+        }
+        
+        // Ejecutar verificación al cargar la página
+        verificarJSON();
+    </script>
+</body>
+</html>

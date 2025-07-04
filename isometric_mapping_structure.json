@@ -1,0 +1,72 @@
+{
+  "isometric_data": {
+    "total_records": 1778,
+    "columns": [
+      "FILE NAME",
+      "UNIT",
+      "CWA",
+      "FLUID",
+      "LINE",
+      "SHEET",
+      "REVISION",
+      "CURRENT REVIEW (YES/NO)",
+      "LB+SB"
+    ],
+    "line_examples": [
+      "BU10C13",
+      "CD40F09",
+      "CD40F10",
+      "CO40F01",
+      "CO40F02",
+      "CO40F03",
+      "CO40F05",
+      "CO40F06",
+      "CO40F07",
+      "CO40F08",
+      "CO40F11",
+      "COM40A01",
+      "COM40B01",
+      "COM40B02",
+      "CT40U01",
+      "CT40U02",
+      "CT40U03",
+      "CT40U04",
+      "CT40U05",
+      "CT40U06"
+    ],
+    "sheet_examples": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      11,
+      12,
+      13,
+      14,
+      10,
+      15,
+      17,
+      18,
+      19,
+      20,
+      21
+    ]
+  },
+  "pdf_files": {
+    "normal_isometrics": {
+      "path": "ISOMETRICOS/",
+      "count": 1773,
+      "pattern": "19-000-2-02-00001 sheet {LINE-SHEET}_IS0X.pdf"
+    },
+    "prefab_isometrics": {
+      "path": "ISOMETRICOS PREFABRICADOS/",
+      "count": 374,
+      "pattern": "2121-{LINE}-X.pdf"
+    }
+  }
+}

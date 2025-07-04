@@ -1,0 +1,11 @@
+{
+  "generated_date": "2025-07-04 02:05:23",
+  "total_isometrics": 1778,
+  "isometrics_with_welds": 463,
+  "total_welds": 4009,
+  "completed_welds": 4007,
+  "pending_welds": 2,
+  "prefab_welds": 2364,
+  "field_welds": 1567,
+  "completion_percentage": 100.0
+}
