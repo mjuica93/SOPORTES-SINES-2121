@@ -8,6 +8,7 @@ import time
 def start_server():
     # Railway proporciona el puerto a través de la variable de entorno PORT
     PORT = int(os.environ.get('PORT', 8000))
+    HOST = '0.0.0.0'  # Importante: bind a todas las interfaces para Railway
     
     class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         def end_headers(self):
@@ -41,12 +42,29 @@ def start_server():
             elif self.path == '/robusto':
                 self.path = '/index_enhanced_robust.html'
             return super().do_GET()
+        
+        def log_message(self, format, *args):
+            # Simplificar logs para Railway
+            if os.environ.get('RAILWAY_ENVIRONMENT') == 'production':
+                return  # No logs verbosos en producción
+            super().log_message(format, *args)
+    
+    print("=== SISTEMA SINES v3.0 - VERSIÓN FINAL - RAILWAY DEPLOYMENT ===")
+    print("🏭 Sistema Integrado Final con TODAS las funcionalidades")
+    print("⚡ Soportes Agrupados + Variables de Plantilla + Soldadura + Isométricos")
     
     try:
-        with socketserver.TCPServer(("", PORT), MyHTTPRequestHandler) as httpd:
-            print(f"🌐 Servidor iniciado en puerto {PORT}")
-            print(f"📂 Sirviendo archivos desde: {os.getcwd()}")
-            print("✅ Sistema SINES v3.0 - VERSIÓN FINAL listo para Railway!")
+        # Usar TCPServer con binding explícito a todas las interfaces
+        httpd = socketserver.TCPServer((HOST, PORT), MyHTTPRequestHandler)
+        httpd.allow_reuse_address = True  # Importante para Railway
+        
+        print(f"🌐 Servidor iniciado en {HOST}:{PORT}")
+        print(f"📂 Sirviendo archivos desde: {os.getcwd()}")
+        print("✅ Sistema SINES v3.0 - VERSIÓN FINAL listo para Railway!")
+        
+        if os.environ.get('RAILWAY_ENVIRONMENT') == 'production':
+            print("🚀 PRODUCCIÓN: Railway detectará automáticamente el servicio")
+        else:
             print("🏭 Funcionalidades COMPLETAS:")
             print("   ├─ 🔧 Soportes agrupados por número")
             print("   ├─ 📐 Variables de plantilla (A, B, C, D, E, R, X, Y, EL, N., SH., TEMP)")
@@ -66,30 +84,35 @@ def start_server():
             print("   ├─ Móvil: https://tu-proyecto.railway.app/mobile")
             print("   ├─ Con plantillas: https://tu-proyecto.railway.app/templates")
             print("   └─ Básico: https://tu-proyecto.railway.app/basico")
-            print("="*80)
+        
+        print("="*80)
+        print("🎯 SERVIDOR LISTO - Esperando conexiones...")
+        
+        # En Railway no necesitamos abrir navegador
+        if os.environ.get('RAILWAY_ENVIRONMENT') != 'production':
+            # Solo abrir navegador en desarrollo local
+            def open_browser():
+                time.sleep(1)
+                webbrowser.open(f'http://localhost:{PORT}')
             
-            # En Railway no necesitamos abrir navegador
-            if os.environ.get('RAILWAY_ENVIRONMENT') != 'production':
-                # Solo abrir navegador en desarrollo local
-                def open_browser():
-                    time.sleep(1)
-                    webbrowser.open(f'http://localhost:{PORT}')
-                
-                browser_thread = threading.Thread(target=open_browser)
-                browser_thread.daemon = True
-                browser_thread.start()
-            
-            httpd.serve_forever()
+            browser_thread = threading.Thread(target=open_browser)
+            browser_thread.daemon = True
+            browser_thread.start()
+        
+        # Iniciar el servidor
+        httpd.serve_forever()
             
     except KeyboardInterrupt:
-        print("\n🛑 Servidor detenido")
+        print("\n🛑 Servidor detenido por usuario")
     except Exception as e:
         print(f"❌ Error al iniciar servidor: {e}")
+        print(f"🔍 Puerto intentado: {PORT}")
+        print(f"🔍 Host intentado: {HOST}")
         # En Railway, es importante que el proceso termine con error si no puede iniciar
         exit(1)
+    finally:
+        if 'httpd' in locals():
+            httpd.server_close()
 
 if __name__ == "__main__":
-    print("=== SISTEMA SINES v3.0 - VERSIÓN FINAL - RAILWAY DEPLOYMENT ===")
-    print("🏭 Sistema Integrado Final con TODAS las funcionalidades")
-    print("⚡ Soportes Agrupados + Variables de Plantilla + Soldadura + Isométricos")
     start_server() 
