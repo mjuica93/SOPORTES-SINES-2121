@@ -1,0 +1,97 @@
+ARCHIVOS PDF FALTANTES - ACTUALIZADO
+==========================================
+
+ESTADO ACTUAL:
+- Total PDFs disponibles: 773
+- Tipos de soportes con PDF: 70
+- Tipos de soportes sin PDF: 56 (44.4%)
+- Total soportes afectados: 227
+
+ARCHIVOS PDF A BUSCAR:
+======================
+
+PRINCIPALES (más soportes afectados):
+- SPRING.pdf (32 soportes)
+- PLA.pdf (30 soportes)
+- HEA.pdf (23 soportes)
+- C1G2.pdf (18 soportes)
+- BAN.pdf (12 soportes)
+- SP-046.pdf (8 soportes)
+- GP-00200.pdf (6 soportes)
+- UPN.pdf (6 soportes)
+
+ARCHIVOS SP- (Especiales):
+- SP-001.pdf hasta SP-047.pdf (varios números)
+
+OTROS ARCHIVOS:
+- FP-00210.pdf
+- P27A.pdf
+- PIP.pdf
+- SNUBBER.pdf
+- SP-00200.pdf
+- STRUT.pdf
+
+LISTA COMPLETA DE 56 ARCHIVOS FALTANTES:
+========================================
+BAN.pdf
+C1G2.pdf
+FP-00210.pdf
+GP-00200.pdf
+HEA.pdf
+P27A.pdf
+PIP.pdf
+PLA.pdf
+SNUBBER.pdf
+SP-001.pdf
+SP-002.pdf
+SP-00200.pdf
+SP-003.pdf
+SP-004.pdf
+SP-005.pdf
+SP-006.pdf
+SP-007.pdf
+SP-008.pdf
+SP-009.pdf
+SP-010.pdf
+SP-011.pdf
+SP-012.pdf
+SP-013.pdf
+SP-014.pdf
+SP-015.pdf
+SP-016.pdf
+SP-017.pdf
+SP-018.pdf
+SP-019.pdf
+SP-020.pdf
+SP-021.pdf
+SP-022.pdf
+SP-023.pdf
+SP-024.pdf
+SP-025.pdf
+SP-026.pdf
+SP-027.pdf
+SP-028.pdf
+SP-029.pdf
+SP-030.pdf
+SP-031.pdf
+SP-032.pdf
+SP-033.pdf
+SP-034.pdf
+SP-035.pdf
+SP-036.pdf
+SP-037.pdf
+SP-038.pdf
+SP-043.pdf
+SP-044.pdf
+SP-045.pdf
+SP-046.pdf
+SP-047.pdf
+SPRING.pdf
+STRUT.pdf
+UPN.pdf
+
+INSTRUCCIONES:
+- Buscar estos archivos en documentación técnica
+- Colocar en carpeta "ESTANDARES DE SOPORTES"
+- Ejecutar "python create_support_mapping.py" después de añadir archivos
+- El sistema se actualizará automáticamente

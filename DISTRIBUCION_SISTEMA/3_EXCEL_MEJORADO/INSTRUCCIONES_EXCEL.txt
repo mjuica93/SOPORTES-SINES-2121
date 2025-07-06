@@ -1,0 +1,26 @@
+EXCEL MEJORADO - INSTRUCCIONES
+========================================
+
+1. ARCHIVOS DISPONIBLES:
+   - 4274-XH-LP-21210001-IS03_Native.xlsx
+   - 4274-XH-LP-21210002-IS02_Native.xlsm
+
+2. MEJORAS SUGERIDAS:
+   - Agregar filtros automáticos
+   - Crear tabla dinámica
+   - Hipervínculos a PDFs
+   - Formato condicional
+
+3. CAMPOS PRINCIPALES:
+   - Número de soporte
+   - Tipo de soporte
+   - Fluido
+   - Coordenadas
+   - Dimensiones
+   - Notas técnicas
+
+4. VENTAJAS:
+   - Familiar para usuarios
+   - Fácil de modificar
+   - Permite cálculos
+   - Exportable a otros formatos

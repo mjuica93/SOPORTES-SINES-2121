@@ -1,0 +1,23 @@
+APLICACIÓN PORTABLE - INSTRUCCIONES
+========================================
+
+1. CÓMO USAR:
+   - Abrir: SISTEMA_SOPORTES_PORTABLE.html
+   - Funciona sin conexión a internet
+   - No requiere instalación
+
+2. CARACTERÍSTICAS:
+   - Búsqueda completa de soportes
+   - Toda la información técnica
+   - Filtros y ordenamiento
+   - Estadísticas en tiempo real
+   - Filtros avanzados
+
+3. LIMITACIONES:
+   - PDFs no incluidos (archivo muy grande)
+   - Para PDFs usar la versión completa
+
+4. DISTRIBUCIÓN:
+   - Enviar solo el archivo HTML
+   - Funciona en cualquier navegador
+   - Ideal para consulta rápida

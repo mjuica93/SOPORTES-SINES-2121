@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Archivos de Python
+=======
+# Archivos temporales de Python
+>>>>>>> 6fd7fae6c3c015ca9ebd3365024176cc755b24ff
 __pycache__/
 *.py[cod]
 *$py.class
@@ -16,13 +20,17 @@ parts/
 sdist/
 var/
 wheels/
+<<<<<<< HEAD
 pip-wheel-metadata/
 share/python-wheels/
+=======
+>>>>>>> 6fd7fae6c3c015ca9ebd3365024176cc755b24ff
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
 
+<<<<<<< HEAD
 # PyInstaller
 *.manifest
 *.spec
@@ -142,12 +150,63 @@ Thumbs.db
 desktop.ini
 
 # IDEs
+=======
+# Archivos de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Archivos de backup
+*.backup*
+*.bak
+*.tmp
+*~
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos de ZIP
+*.zip
+*.rar
+*.7z
+
+# Archivos de Excel temporales
+~$*.xlsx
+~$*.xlsm
+~$*.xls
+
+# Archivos de configuración local
+config.yml
+ngrok.yml
+
+# Archivos de IDE
+>>>>>>> 6fd7fae6c3c015ca9ebd3365024176cc755b24ff
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
+<<<<<<< HEAD
 # Archivos temporales
 *.tmp
 *.temp 
+=======
+# Archivos de certificados
+*.pem
+*.key
+*.crt 
+>>>>>>> 6fd7fae6c3c015ca9ebd3365024176cc755b24ff

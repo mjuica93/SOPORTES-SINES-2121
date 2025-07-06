@@ -1,0 +1,464 @@
+================================================================================
+           LISTA DE SOPORTES SIN PDFs CORRESPONDIENTES
+================================================================================
+
+📊 ESTADÍSTICAS:
+   Total tipos de soportes: 126
+   Tipos CON PDFs: 70
+   Tipos SIN PDFs: 56
+   Porcentaje sin PDFs: 44.4%
+   Total soportes afectados: 227
+
+📋 ARCHIVOS PDF A BUSCAR:
+----------------------------------------
+BAN.pdf
+C1G2.pdf
+FP-00210.pdf
+GP-00200.pdf
+HEA.pdf
+P27A.pdf
+PIP.pdf
+PLA.pdf
+SNUBBER.pdf
+SP-001.pdf
+SP-002.pdf
+SP-00200.pdf
+SP-003.pdf
+SP-004.pdf
+SP-005.pdf
+SP-006.pdf
+SP-007.pdf
+SP-008.pdf
+SP-009.pdf
+SP-010.pdf
+SP-011.pdf
+SP-012.pdf
+SP-013.pdf
+SP-014.pdf
+SP-015.pdf
+SP-016.pdf
+SP-017.pdf
+SP-018.pdf
+SP-019.pdf
+SP-020.pdf
+SP-021.pdf
+SP-022.pdf
+SP-023.pdf
+SP-024.pdf
+SP-025.pdf
+SP-026.pdf
+SP-027.pdf
+SP-028.pdf
+SP-029.pdf
+SP-030.pdf
+SP-031.pdf
+SP-032.pdf
+SP-033.pdf
+SP-034.pdf
+SP-035.pdf
+SP-036.pdf
+SP-037.pdf
+SP-038.pdf
+SP-043.pdf
+SP-044.pdf
+SP-045.pdf
+SP-046.pdf
+SP-047.pdf
+SPRING.pdf
+STRUT.pdf
+UPN.pdf
+
+📋 LISTA DETALLADA:
+================================================================================
+
+🔍 TIPO: BAN
+   Archivo PDF necesario: BAN.pdf
+   Cantidad de soportes: 12
+   Números únicos de soporte: 12
+   Ejemplos de números: 4249, 4251, 5002, 5009, 5015
+------------------------------------------------------------
+
+🔍 TIPO: C1G2
+   Archivo PDF necesario: C1G2.pdf
+   Cantidad de soportes: 18
+   Números únicos de soporte: 18
+   Ejemplos de números: 1001, 143, 164, 179, 201
+------------------------------------------------------------
+
+🔍 TIPO: FP-00210
+   Archivo PDF necesario: FP-00210.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 2
+   Ejemplos de números: 8003, 8012
+------------------------------------------------------------
+
+🔍 TIPO: GP-00200
+   Archivo PDF necesario: GP-00200.pdf
+   Cantidad de soportes: 6
+   Números únicos de soporte: 6
+   Ejemplos de números: 8001, 8002, 8004, 8005, 8007
+------------------------------------------------------------
+
+🔍 TIPO: HEA
+   Archivo PDF necesario: HEA.pdf
+   Cantidad de soportes: 23
+   Números únicos de soporte: 11
+   Ejemplos de números: 5013, 5016, 5031, 5246, 5247
+------------------------------------------------------------
+
+🔍 TIPO: P27A
+   Archivo PDF necesario: P27A.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 2
+   Ejemplos de números: 5005, 5007
+------------------------------------------------------------
+
+🔍 TIPO: PIP
+   Archivo PDF necesario: PIP.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 2
+   Ejemplos de números: 5051, 5053
+------------------------------------------------------------
+
+🔍 TIPO: PLA
+   Archivo PDF necesario: PLA.pdf
+   Cantidad de soportes: 30
+   Números únicos de soporte: 17
+   Ejemplos de números: 4248, 4250, 5004, 5005, 5007
+------------------------------------------------------------
+
+🔍 TIPO: SNUBBER
+   Archivo PDF necesario: SNUBBER.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: XXXX
+------------------------------------------------------------
+
+🔍 TIPO: SP-001
+   Archivo PDF necesario: SP-001.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5030
+------------------------------------------------------------
+
+🔍 TIPO: SP-002
+   Archivo PDF necesario: SP-002.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5002
+------------------------------------------------------------
+
+🔍 TIPO: SP-00200
+   Archivo PDF necesario: SP-00200.pdf
+   Cantidad de soportes: 1
+   Números únicos de soporte: 1
+   Ejemplos de números: 8006
+------------------------------------------------------------
+
+🔍 TIPO: SP-003
+   Archivo PDF necesario: SP-003.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5004
+------------------------------------------------------------
+
+🔍 TIPO: SP-004
+   Archivo PDF necesario: SP-004.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5009
+------------------------------------------------------------
+
+🔍 TIPO: SP-005
+   Archivo PDF necesario: SP-005.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5010
+------------------------------------------------------------
+
+🔍 TIPO: SP-006
+   Archivo PDF necesario: SP-006.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 2
+   Ejemplos de números: 5013, 5014
+------------------------------------------------------------
+
+🔍 TIPO: SP-007
+   Archivo PDF necesario: SP-007.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5070
+------------------------------------------------------------
+
+🔍 TIPO: SP-008
+   Archivo PDF necesario: SP-008.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5246
+------------------------------------------------------------
+
+🔍 TIPO: SP-009
+   Archivo PDF necesario: SP-009.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 4251
+------------------------------------------------------------
+
+🔍 TIPO: SP-010
+   Archivo PDF necesario: SP-010.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 4250
+------------------------------------------------------------
+
+🔍 TIPO: SP-011
+   Archivo PDF necesario: SP-011.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5068
+------------------------------------------------------------
+
+🔍 TIPO: SP-012
+   Archivo PDF necesario: SP-012.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5247
+------------------------------------------------------------
+
+🔍 TIPO: SP-013
+   Archivo PDF necesario: SP-013.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 4249
+------------------------------------------------------------
+
+🔍 TIPO: SP-014
+   Archivo PDF necesario: SP-014.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 4248
+------------------------------------------------------------
+
+🔍 TIPO: SP-015
+   Archivo PDF necesario: SP-015.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5051
+------------------------------------------------------------
+
+🔍 TIPO: SP-016
+   Archivo PDF necesario: SP-016.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5052
+------------------------------------------------------------
+
+🔍 TIPO: SP-017
+   Archivo PDF necesario: SP-017.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5056
+------------------------------------------------------------
+
+🔍 TIPO: SP-018
+   Archivo PDF necesario: SP-018.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5054
+------------------------------------------------------------
+
+🔍 TIPO: SP-019
+   Archivo PDF necesario: SP-019.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5053
+------------------------------------------------------------
+
+🔍 TIPO: SP-020
+   Archivo PDF necesario: SP-020.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5057
+------------------------------------------------------------
+
+🔍 TIPO: SP-021
+   Archivo PDF necesario: SP-021.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5007
+------------------------------------------------------------
+
+🔍 TIPO: SP-022
+   Archivo PDF necesario: SP-022.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5005
+------------------------------------------------------------
+
+🔍 TIPO: SP-023
+   Archivo PDF necesario: SP-023.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5015
+------------------------------------------------------------
+
+🔍 TIPO: SP-024
+   Archivo PDF necesario: SP-024.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5016
+------------------------------------------------------------
+
+🔍 TIPO: SP-025
+   Archivo PDF necesario: SP-025.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5183
+------------------------------------------------------------
+
+🔍 TIPO: SP-026
+   Archivo PDF necesario: SP-026.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5187
+------------------------------------------------------------
+
+🔍 TIPO: SP-027
+   Archivo PDF necesario: SP-027.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5018
+------------------------------------------------------------
+
+🔍 TIPO: SP-028
+   Archivo PDF necesario: SP-028.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5212
+------------------------------------------------------------
+
+🔍 TIPO: SP-029
+   Archivo PDF necesario: SP-029.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5032
+------------------------------------------------------------
+
+🔍 TIPO: SP-030
+   Archivo PDF necesario: SP-030.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5073
+------------------------------------------------------------
+
+🔍 TIPO: SP-031
+   Archivo PDF necesario: SP-031.pdf
+   Cantidad de soportes: 3
+   Números únicos de soporte: 2
+   Ejemplos de números: 5020, 5072
+------------------------------------------------------------
+
+🔍 TIPO: SP-032
+   Archivo PDF necesario: SP-032.pdf
+   Cantidad de soportes: 1
+   Números únicos de soporte: 1
+   Ejemplos de números: 5020
+------------------------------------------------------------
+
+🔍 TIPO: SP-033
+   Archivo PDF necesario: SP-033.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5019
+------------------------------------------------------------
+
+🔍 TIPO: SP-034
+   Archivo PDF necesario: SP-034.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5130
+------------------------------------------------------------
+
+🔍 TIPO: SP-035
+   Archivo PDF necesario: SP-035.pdf
+   Cantidad de soportes: 1
+   Números únicos de soporte: 1
+   Ejemplos de números: XXXX
+------------------------------------------------------------
+
+🔍 TIPO: SP-036
+   Archivo PDF necesario: SP-036.pdf
+   Cantidad de soportes: 1
+   Números únicos de soporte: 1
+   Ejemplos de números: XXXX
+------------------------------------------------------------
+
+🔍 TIPO: SP-037
+   Archivo PDF necesario: SP-037.pdf
+   Cantidad de soportes: 1
+   Números únicos de soporte: 1
+   Ejemplos de números: XXXX
+------------------------------------------------------------
+
+🔍 TIPO: SP-038
+   Archivo PDF necesario: SP-038.pdf
+   Cantidad de soportes: 1
+   Números únicos de soporte: 1
+   Ejemplos de números: XXXX
+------------------------------------------------------------
+
+🔍 TIPO: SP-043
+   Archivo PDF necesario: SP-043.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5031
+------------------------------------------------------------
+
+🔍 TIPO: SP-044
+   Archivo PDF necesario: SP-044.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5249
+------------------------------------------------------------
+
+🔍 TIPO: SP-045
+   Archivo PDF necesario: SP-045.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5250
+------------------------------------------------------------
+
+🔍 TIPO: SP-046
+   Archivo PDF necesario: SP-046.pdf
+   Cantidad de soportes: 8
+   Números únicos de soporte: 4
+   Ejemplos de números: 8002, 8003, 8004, 8007
+------------------------------------------------------------
+
+🔍 TIPO: SP-047
+   Archivo PDF necesario: SP-047.pdf
+   Cantidad de soportes: 2
+   Números únicos de soporte: 1
+   Ejemplos de números: 5013
+------------------------------------------------------------
+
+🔍 TIPO: SPRING
+   Archivo PDF necesario: SPRING.pdf
+   Cantidad de soportes: 32
+   Números únicos de soporte: 29
+   Ejemplos de números: 4248, 4249, 4250, 4251, 5002
+------------------------------------------------------------
+
+🔍 TIPO: STRUT
+   Archivo PDF necesario: STRUT.pdf
+   Cantidad de soportes: 3
+   Números únicos de soporte: 3
+   Ejemplos de números: 5019, 5051, 5053
+------------------------------------------------------------
+
+🔍 TIPO: UPN
+   Archivo PDF necesario: UPN.pdf
+   Cantidad de soportes: 6
+   Números únicos de soporte: 5
+   Ejemplos de números: 5013, 5052, 5054, 5249, 5250
+------------------------------------------------------------
