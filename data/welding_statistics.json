@@ -1,0 +1,18 @@
+{
+  "total_isometrics": 465,
+  "total_welds": 4000,
+  "completed_welds": 2320,
+  "pending_welds": 1680,
+  "total_diameter": 14664.24,
+  "welded_diameter": 10420.75,
+  "pending_diameter": 4243.49,
+  "overall_completion": 71.1,
+  "completion_ranges": {
+    "0%": 44,
+    "1-25%": 6,
+    "26-50%": 49,
+    "51-75%": 156,
+    "76-99%": 137,
+    "100%": 73
+  }
+}
