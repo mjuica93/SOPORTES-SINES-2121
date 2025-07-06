@@ -1,16 +1,2 @@
-# SISTEMA SINES - SOPORTES
-# Dependencias para Railway deployment
-
-# Python estándar - no requiere instalación adicional
-# Todas las librerías utilizadas están incluidas en Python 3.11:
-# - http.server
-# - socketserver  
-# - os
-# - threading
-# - time
-# - webbrowser
-# - json
-# - urllib
-
-# Para Railway, incluimos una dependencia mínima que siempre está disponible
-setuptools>=65.0.0 
+# Sistema SINES - Solo librerías estándar de Python
+# No requiere dependencias externas 
