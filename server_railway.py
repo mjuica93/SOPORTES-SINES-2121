@@ -7,7 +7,6 @@ import time
 import json
 import hashlib
 import secrets
-import markdown
 from datetime import datetime, timedelta
 from urllib.parse import parse_qs, urlparse
 
@@ -60,11 +59,7 @@ class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         path = parsed_path.path
         
         # Rutas públicas (no requieren autenticación)
-        public_routes = ['/login.html', '/api/status', '/health', '/favicon.ico', '/docs']
-        
-        # Permitir acceso a documentación sin autenticación
-        if path.startswith('/docs/') or path.endswith('.md'):
-            return self.handle_documentation(path)
+        public_routes = ['/login.html', '/api/status', '/health', '/favicon.ico']
         
         if path in public_routes:
             return self.handle_public_route(path)
@@ -89,109 +84,6 @@ class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         
         return super().do_GET()
 
-    def handle_documentation(self, path):
-        """Manejar archivos de documentación"""
-        try:
-            # Mapear rutas de documentación
-            doc_mapping = {
-                '/docs/': '/LANZAMIENTO_FINAL_v4.1.md',
-                '/docs/mejoras': '/MEJORAS_MODAL_COSTURAS.md',
-                '/docs/testing': '/TESTING_MODAL_MEJORADO_v4.1.md',
-                '/docs/railway': '/GUIA_DESPLIEGUE_RAILWAY_MODAL_v4.1.md',
-                '/docs/github': '/RESUMEN_MODAL_COSTURAS_GITHUB.md'
-            }
-            
-            # Si es una ruta de documentación mapeada
-            if path in doc_mapping:
-                file_path = doc_mapping[path]
-            elif path.endswith('.md'):
-                file_path = path
-            else:
-                file_path = '/LANZAMIENTO_FINAL_v4.1.md'  # Default
-            
-            # Leer archivo markdown
-            full_path = os.path.join(os.getcwd(), file_path.lstrip('/'))
-            
-            if os.path.exists(full_path):
-                with open(full_path, 'r', encoding='utf-8') as f:
-                    md_content = f.read()
-                
-                # Convertir a HTML
-                try:
-                    html_content = markdown.markdown(md_content, extensions=['tables', 'fenced_code'])
-                except:
-                    # Fallback sin markdown
-                    html_content = f"<pre>{md_content}</pre>"
-                
-                # Crear página HTML completa
-                full_html = f"""
-                <!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>SINES v4.1 - Documentación</title>
-                    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-                    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-                    <style>
-                        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }}
-                        .container {{ max-width: 1200px; margin: 20px auto; padding: 20px; }}
-                        .nav-docs {{ background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }}
-                        .nav-docs a {{ margin-right: 15px; text-decoration: none; }}
-                        pre {{ background: #f8f9fa; padding: 15px; border-radius: 5px; overflow-x: auto; }}
-                        code {{ background: #f8f9fa; padding: 2px 4px; border-radius: 3px; }}
-                        table {{ width: 100%; border-collapse: collapse; margin: 20px 0; }}
-                        th, td {{ border: 1px solid #ddd; padding: 12px; text-align: left; }}
-                        th {{ background-color: #f8f9fa; }}
-                        .back-btn {{ position: fixed; bottom: 20px; right: 20px; }}
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="nav-docs">
-                            <h5><i class="fas fa-book me-2"></i>Documentación SINES v4.1</h5>
-                            <a href="/docs/" class="btn btn-sm btn-outline-primary">📋 Lanzamiento</a>
-                            <a href="/docs/mejoras" class="btn btn-sm btn-outline-info">🔧 Mejoras</a>
-                            <a href="/docs/testing" class="btn btn-sm btn-outline-success">🧪 Testing</a>
-                            <a href="/docs/railway" class="btn btn-sm btn-outline-warning">🚀 Railway</a>
-                            <a href="/docs/github" class="btn btn-sm btn-outline-secondary">📦 GitHub</a>
-                        </div>
-                        <div class="content">
-                            {html_content}
-                        </div>
-                        <a href="/" class="btn btn-primary back-btn">
-                            <i class="fas fa-arrow-left me-2"></i>Volver al Sistema
-                        </a>
-                    </div>
-                </body>
-                </html>
-                """
-                
-                self.send_response(200)
-                self.send_header('Content-Type', 'text/html; charset=utf-8')
-                self.end_headers()
-                self.wfile.write(full_html.encode('utf-8'))
-                return
-            else:
-                # Archivo no encontrado
-                self.send_response(404)
-                self.send_header('Content-Type', 'text/html; charset=utf-8')
-                self.end_headers()
-                error_html = """
-                <html><body>
-                <h1>Documentación no encontrada</h1>
-                <p>El archivo solicitado no existe.</p>
-                <a href="/docs/">Volver a la documentación</a>
-                </body></html>
-                """
-                self.wfile.write(error_html.encode('utf-8'))
-                return
-                
-        except Exception as e:
-            print(f"Error sirviendo documentación: {e}")
-            self.send_response(500)
-            self.end_headers()
-
     def do_POST(self):
         if self.path == '/api/login':
             return self.handle_login()
@@ -205,11 +97,9 @@ class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         if path == '/login.html':
             return self.serve_login_page()
         elif path == '/api/status':
-            return self.send_json_response({'status': 'ok', 'system': 'SINES v4.1', 'modal': 'mejorado'})
+            return self.send_json_response({'status': 'ok', 'system': 'SINES v4.0'})
         elif path == '/health':
-            return self.send_json_response({'status': 'healthy', 'version': '4.1'})
-        elif path == '/docs':
-            return self.handle_documentation('/docs/')
+            return self.send_json_response({'status': 'healthy'})
         else:
             return super().do_GET()
 
@@ -266,7 +156,7 @@ class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>SINES v4.1 - Acceso Seguro</title>
+            <title>SINES - Acceso Seguro</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
             <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
             <style>
@@ -280,8 +170,8 @@ class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 <div class="login-card p-5" style="max-width: 400px; width: 100%;">
                     <div class="text-center mb-4">
                         <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
-                        <h2 class="fw-bold">SISTEMA SINES v4.1</h2>
-                        <p class="text-muted">Modal de Costuras Mejorado</p>
+                        <h2 class="fw-bold">SISTEMA SINES</h2>
+                        <p class="text-muted">Control de Costuras v4.0</p>
                     </div>
                     <form id="loginForm">
                         <div class="mb-3">
@@ -297,11 +187,7 @@ class SecureHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                         </button>
                     </form>
                     <div class="mt-3 text-center">
-                        <small class="text-muted">Modal responsivo implementado</small>
-                        <br>
-                        <a href="/docs/" class="btn btn-sm btn-outline-info mt-2">
-                            <i class="fas fa-book me-1"></i>Ver Documentación
-                        </a>
+                        <small class="text-muted">Sistema con control de costuras mejorado</small>
                     </div>
                 </div>
             </div>
@@ -475,13 +361,12 @@ def start_server():
         
         with socketserver.TCPServer(("", PORT), SecureHTTPRequestHandler) as httpd:
             print("=" * 60)
-            print("🏗️  SISTEMA SINES v4.1 - RAILWAY DEPLOYMENT")
+            print("🏗️  SISTEMA SINES v4.0 - RAILWAY DEPLOYMENT")
             print("=" * 60)
             print(f"🌐 Servidor iniciado en puerto {PORT}")
             print(f"📂 Sirviendo archivos desde: {os.getcwd()}")
-            print("✅ Sistema SINES v4.1 con modal mejorado!")
+            print("✅ Sistema SINES v4.0 con seguridad completa!")
             print("🔐 Autenticación obligatoria activada")
-            print("📋 Documentación pública disponible")
             print("🏭 Funcionalidades:")
             print("   ├─ 🔧 Soportes agrupados con variables de plantilla")
             print("   ├─ 📐 Isométricos y relaciones completas")
@@ -489,12 +374,10 @@ def start_server():
             print("   ├─ 🔗 Instalaciones y trazabilidad")
             print("   └─ 🛡️ Sistema de seguridad completo")
             print(f"🎯 Acceso local: http://localhost:{PORT}")
-            print("🌍 URLs Railway:")
-            print("   ├─ Sistema: https://tu-proyecto.railway.app/")
-            print("   ├─ Móvil: https://tu-proyecto.railway.app/mobile")
-            print("   ├─ Integrado: https://tu-proyecto.railway.app/sistema-integrado")
-            print("   ├─ Básico: https://tu-proyecto.railway.app/basico")
-            print("   └─ Docs: https://tu-proyecto.railway.app/docs/")
+            print("🌍 Acceso mundial: https://tu-proyecto.railway.app")
+            print("📱 Versión móvil: https://tu-proyecto.railway.app/mobile")
+            print("🔧 Sistema integrado: https://tu-proyecto.railway.app/sistema-integrado")
+            print("📋 Versión básica: https://tu-proyecto.railway.app/basico")
             print("🔐 Credenciales:")
             print("   ├─ admin / sines2024 (Administrador)")
             print("   ├─ supervisor / super2024 (Supervisor)")
@@ -523,6 +406,6 @@ def start_server():
         exit(1)
 
 if __name__ == "__main__":
-    print("=== SISTEMA SINES v4.1 - RAILWAY DEPLOYMENT ===")
-    print("🏭 Modal de Costuras Mejorado + Documentación Accesible")
+    print("=== SISTEMA SINES v4.0 - RAILWAY DEPLOYMENT ===")
+    print("🏭 Control de Costuras Mejorado + Sistema Integrado Completo")
     start_server() 

@@ -623,83 +623,6 @@
             border-top: 1px solid #dee2e6;
         }
 
-        /* Mejoras para el modal de costuras */
-        .modal-welding-manager {
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-welding-manager .modal-body {
-            max-height: calc(90vh - 180px);
-            overflow-y: auto;
-            padding: 1.5rem;
-        }
-
-        .modal-welding-manager .modal-content {
-            height: auto;
-            min-height: 70vh;
-        }
-
-        /* Responsive mejorado para el modal de costuras */
-        @media (max-width: 768px) {
-            .modal-xl {
-                max-width: 98%;
-                margin: 5px auto;
-            }
-            
-            .modal-welding-manager .modal-body {
-                max-height: calc(100vh - 150px);
-                padding: 1rem;
-            }
-            
-            .modal-welding-manager .modal-content {
-                min-height: 80vh;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .modal-welding-manager .modal-body {
-                max-height: calc(90vh - 180px);
-            }
-        }
-
-        /* Estilos adicionales para el modal de costuras */
-        .modal-welding-manager .table-responsive {
-            max-height: calc(90vh - 350px);
-            overflow-y: auto;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-        }
-
-        .modal-welding-manager .sticky-top {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .modal-welding-manager .table-sm td,
-        .modal-welding-manager .table-sm th {
-            padding: 0.5rem;
-            vertical-align: middle;
-        }
-
-        .modal-welding-manager .table tbody tr:hover {
-            background-color: rgba(0, 123, 255, 0.08);
-        }
-
-        /* Mejoras para dispositivos móviles */
-        @media (max-width: 768px) {
-            .modal-welding-manager .table-responsive {
-                max-height: calc(100vh - 300px);
-                font-size: 0.85rem;
-            }
-            
-            .modal-welding-manager .table-sm td,
-            .modal-welding-manager .table-sm th {
-                padding: 0.3rem;
-            }
-        }
-
         /* Estilos para interacción mejorada */
         .clickable-row {
             cursor: pointer;
@@ -2619,12 +2542,12 @@
                 return;
             }
             
-                        // Crear modal con tabla de costuras
+            // Crear modal con tabla de costuras
             const modal = document.createElement('div');
-            modal.className = 'modal fade show modal-welding-manager';
+            modal.className = 'modal fade show';
             modal.style.display = 'block';
             modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-
+            
             // Crear filas de la tabla
             const weldsRows = lineWelds.map((weld, index) => {
                 const weldData = weld.weld_data || {};
@@ -2718,7 +2641,7 @@
                             </h5>
                             <button type="button" class="btn-close btn-close-white" onclick="this.closest('.modal').remove()"></button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <h6><i class="fas fa-info-circle me-2"></i>Información General</h6>
@@ -2767,8 +2690,8 @@
                             </div>
                             
                             <div class="table-responsive">
-                                <table class="table table-striped table-hover table-sm">
-                                    <thead class="table-dark sticky-top">
+                                <table class="table table-striped table-hover">
+                                    <thead class="table-dark">
                                         <tr>
                                             <th width="5%">#</th>
                                             <th width="25%">Isométrico</th>
