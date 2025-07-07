@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Seguro SINES - Acceso Restringido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Estilos para el login */
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #2c5f2d;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .security-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #2c5f2d;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c5f2d;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2c5f2d;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .attempts-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .security-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .security-info h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .security-info ul {
+            text-align: left;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .security-info li {
+            margin-bottom: 5px;
+        }
+
+        /* Estilos para el sistema principal (oculto inicialmente) */
+        .main-system {
+            display: none;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .system-header {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .system-header h1 {
+            font-size: 1.8em;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .system-content {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .welcome-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .system-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2c5f2d;
+        }
+
+        .feature-card h3 {
+            color: #2c5f2d;
+            margin-bottom: 10px;
+        }
+
+        .access-btn {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .access-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+            
+            .system-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .system-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-header">
+            <div class="security-icon">🔐</div>
+            <h1>Sistema Seguro SINES</h1>
+            <p>Acceso Restringido - Autenticación Requerida</p>
+        </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">👤 Usuario:</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">🔑 Contraseña:</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                🔓 Iniciar Sesión
+            </button>
+        </form>
+
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+        <div id="attemptsWarning" class="attempts-warning"></div>
+
+        <div class="security-info">
+            <h4>🛡️ Información de Seguridad</h4>
+            <ul>
+                <li>Máximo 3 intentos de acceso fallidos</li>
+                <li>Bloqueo temporal después de intentos fallidos</li>
+                <li>Sesión con tiempo de expiración</li>
+                <li>Registro de accesos para auditoría</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sistema Principal (oculto inicialmente) -->
+    <div id="mainSystem" class="main-system">
+        <div class="system-header">
+            <h1>🏭 Sistema SINES - Acceso Autorizado</h1>
+            <div class="user-info">
+                <span id="currentUser">👤 Usuario</span>
+                <span id="sessionTime">⏰ Sesión activa</span>
+                <button class="logout-btn" onclick="logout()">🚪 Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <div class="system-content">
+            <div class="welcome-message">
+                <h2>🎉 ¡Bienvenido al Sistema SINES!</h2>
+                <p>Acceso autorizado concedido. Selecciona el módulo que deseas utilizar.</p>
+            </div>
+
+            <div class="system-features">
+                <div class="feature-card">
+                    <h3>📋 Sistema Completo</h3>
+                    <p>Acceso a todas las funcionalidades: Soportes, Isométricos, Relaciones e Instalaciones</p>
+                    <button class="access-btn" onclick="loadMainSystem()">🚀 Acceder al Sistema</button>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📐 Solo Isométricos</h3>
+                    <p>Acceso específico al módulo de gestión de isométricos</p>
+                    <button class="access-btn" onclick="openSecureLink('http://localhost:8000/index_isometricos.html')">📐 Ver Isométricos</button>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🔧 Gestión de Instalaciones</h3>
+                    <p>Módulo dedicado a la gestión y seguimiento de instalaciones</p>
+                    <button class="access-btn" onclick="openSecureLink('http://localhost:8000/index.html')">🔧 Gestionar Instalaciones</button>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📊 Reportes y Análisis</h3>
+                    <p>Generación de reportes y análisis de datos del sistema</p>
+                    <button class="access-btn" onclick="openSecureLink('http://localhost:8000/verificar_json.html')">📊 Ver Reportes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuración del sistema de seguridad
+        const SECURITY_CONFIG = {
+            maxAttempts: 3,
+            lockoutTime: 5 * 60 * 1000, // 5 minutos
+            sessionTimeout: 30 * 60 * 1000, // 30 minutos
+            users: {
+                'admin': {
+                    password: 'sines2024',
+                    role: 'administrator',
+                    name: 'Administrador'
+                },
+                'supervisor': {
+                    password: 'super2024',
+                    role: 'supervisor',
+                    name: 'Supervisor'
+                },
+                'operador': {
+                    password: 'op2024',
+                    role: 'operator',
+                    name: 'Operador'
+                },
+                'sines': {
+                    password: 'sines123',
+                    role: 'user',
+                    name: 'Usuario SINES'
+                }
+            }
+        };
+
+        // Variables de estado
+        let failedAttempts = 0;
+        let lockoutEndTime = null;
+        let currentSession = null;
+        let sessionTimer = null;
+
+        // Inicializar sistema
+        document.addEventListener('DOMContentLoaded', function() {
+            checkExistingSession();
+            setupEventListeners();
+            loadSecurityState();
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // Verificar si hay bloqueo activo
+            setInterval(checkLockout, 1000);
+            
+            // Limpiar mensajes al escribir
+            document.getElementById('username').addEventListener('input', clearMessages);
+            document.getElementById('password').addEventListener('input', clearMessages);
+        }
+
+        // Manejar inicio de sesión
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            if (isLockedOut()) {
+                showError('Cuenta bloqueada. Intente más tarde.');
+                return;
+            }
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showError('Por favor complete todos los campos.');
+                return;
+            }
+
+            // Simular delay de autenticación
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.disabled = true;
+            loginBtn.textContent = '🔄 Verificando...';
+
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                if (authenticateUser(username, password)) {
+                    handleSuccessfulLogin(username);
+                } else {
+                    handleFailedLogin();
+                }
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = '🔓 Iniciar Sesión';
+            }
+        }
+
+        // Autenticar usuario
+        function authenticateUser(username, password) {
+            const user = SECURITY_CONFIG.users[username.toLowerCase()];
+            return user && user.password === password;
+        }
+
+        // Manejar login exitoso
+        function handleSuccessfulLogin(username) {
+            const user = SECURITY_CONFIG.users[username.toLowerCase()];
+            
+            currentSession = {
+                username: username,
+                role: user.role,
+                name: user.name,
+                loginTime: new Date(),
+                lastActivity: new Date()
+            };
+
+            // Limpiar intentos fallidos
+            failedAttempts = 0;
+            lockoutEndTime = null;
+            
+            // Guardar sesión
+            saveSession();
+            
+            // Mostrar mensaje de éxito
+            showSuccess(`¡Bienvenido, ${user.name}!`);
+            
+            // Cambiar a sistema principal después de un breve delay
+            setTimeout(() => {
+                showMainSystem();
+                startSessionTimer();
+            }, 1500);
+            
+            // Registrar acceso
+            logAccess(username, 'LOGIN_SUCCESS');
+        }
+
+        // Manejar login fallido
+        function handleFailedLogin() {
+            failedAttempts++;
+            
+            if (failedAttempts >= SECURITY_CONFIG.maxAttempts) {
+                lockoutEndTime = new Date(Date.now() + SECURITY_CONFIG.lockoutTime);
+                showError(`Demasiados intentos fallidos. Cuenta bloqueada por ${SECURITY_CONFIG.lockoutTime / 60000} minutos.`);
+                saveSecurityState();
+            } else {
+                const remaining = SECURITY_CONFIG.maxAttempts - failedAttempts;
+                showError(`Credenciales incorrectas. ${remaining} intentos restantes.`);
+                
+                if (remaining === 1) {
+                    showWarning('⚠️ Último intento antes del bloqueo');
+                }
+            }
+            
+            // Limpiar campos
+            document.getElementById('password').value = '';
+            
+            // Registrar intento fallido
+            logAccess(document.getElementById('username').value, 'LOGIN_FAILED');
+        }
+
+        // Verificar si hay bloqueo activo
+        function isLockedOut() {
+            return lockoutEndTime && new Date() < lockoutEndTime;
+        }
+
+        // Verificar bloqueo periódicamente
+        function checkLockout() {
+            if (isLockedOut()) {
+                const remaining = Math.ceil((lockoutEndTime - new Date()) / 1000);
+                const minutes = Math.floor(remaining / 60);
+                const seconds = remaining % 60;
+                
+                document.getElementById('loginBtn').disabled = true;
+                document.getElementById('loginBtn').textContent = `🔒 Bloqueado (${minutes}:${seconds.toString().padStart(2, '0')})`;
+            } else if (lockoutEndTime) {
+                // Bloqueo expirado
+                lockoutEndTime = null;
+                failedAttempts = 0;
+                document.getElementById('loginBtn').disabled = false;
+                document.getElementById('loginBtn').textContent = '🔓 Iniciar Sesión';
+                clearMessages();
+                saveSecurityState();
+            }
+        }
+
+        // Mostrar sistema principal
+        function showMainSystem() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainSystem').style.display = 'block';
+            document.body.style.alignItems = 'flex-start';
+            document.body.style.justifyContent = 'center';
+            document.body.style.padding = '20px';
+            
+            // Actualizar información del usuario
+            document.getElementById('currentUser').textContent = `👤 ${currentSession.name}`;
+            updateSessionTime();
+        }
+
+        // Iniciar temporizador de sesión
+        function startSessionTimer() {
+            sessionTimer = setInterval(() => {
+                updateSessionTime();
+                
+                // Verificar si la sesión ha expirado
+                if (new Date() - currentSession.lastActivity > SECURITY_CONFIG.sessionTimeout) {
+                    showError('Sesión expirada por inactividad.');
+                    setTimeout(logout, 2000);
+                }
+            }, 1000);
+            
+            // Actualizar actividad con cualquier interacción
+            document.addEventListener('click', updateActivity);
+            document.addEventListener('keypress', updateActivity);
+        }
+
+        // Actualizar tiempo de sesión
+        function updateSessionTime() {
+            if (currentSession) {
+                const duration = new Date() - currentSession.loginTime;
+                const minutes = Math.floor(duration / 60000);
+                const seconds = Math.floor((duration % 60000) / 1000);
+                document.getElementById('sessionTime').textContent = `⏰ ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        // Actualizar actividad del usuario
+        function updateActivity() {
+            if (currentSession) {
+                currentSession.lastActivity = new Date();
+                saveSession();
+            }
+        }
+
+        // Cerrar sesión
+        function logout() {
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+            }
+            
+            // Registrar cierre de sesión
+            if (currentSession) {
+                logAccess(currentSession.username, 'LOGOUT');
+            }
+            
+            // Limpiar sesión
+            currentSession = null;
+            localStorage.removeItem('sines_session');
+            
+            // Volver a pantalla de login
+            document.getElementById('mainSystem').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'block';
+            document.body.style.alignItems = 'center';
+            document.body.style.justifyContent = 'center';
+            document.body.style.padding = '20px';
+            
+            // Limpiar formulario
+            document.getElementById('loginForm').reset();
+            clearMessages();
+            
+            showSuccess('Sesión cerrada correctamente.');
+        }
+
+        // Verificar sesión existente
+        function checkExistingSession() {
+            const savedSession = localStorage.getItem('sines_session');
+            if (savedSession) {
+                try {
+                    const session = JSON.parse(savedSession);
+                    const now = new Date();
+                    
+                    // Verificar si la sesión no ha expirado
+                    if (now - new Date(session.lastActivity) < SECURITY_CONFIG.sessionTimeout) {
+                        currentSession = {
+                            ...session,
+                            loginTime: new Date(session.loginTime),
+                            lastActivity: new Date(session.lastActivity)
+                        };
+                        showMainSystem();
+                        startSessionTimer();
+                    } else {
+                        localStorage.removeItem('sines_session');
+                    }
+                } catch (e) {
+                    localStorage.removeItem('sines_session');
+                }
+            }
+        }
+
+        // Guardar sesión
+        function saveSession() {
+            if (currentSession) {
+                localStorage.setItem('sines_session', JSON.stringify(currentSession));
+            }
+        }
+
+        // Cargar estado de seguridad
+        function loadSecurityState() {
+            const savedState = localStorage.getItem('sines_security');
+            if (savedState) {
+                try {
+                    const state = JSON.parse(savedState);
+                    failedAttempts = state.failedAttempts || 0;
+                    lockoutEndTime = state.lockoutEndTime ? new Date(state.lockoutEndTime) : null;
+                } catch (e) {
+                    // Ignorar errores de parsing
+                }
+            }
+        }
+
+        // Guardar estado de seguridad
+        function saveSecurityState() {
+            const state = {
+                failedAttempts: failedAttempts,
+                lockoutEndTime: lockoutEndTime
+            };
+            localStorage.setItem('sines_security', JSON.stringify(state));
+        }
+
+        // Registrar acceso
+        function logAccess(username, action, details = null) {
+            const logEntry = {
+                timestamp: new Date().toISOString(),
+                username: username,
+                action: action,
+                details: details,
+                ip: 'localhost',
+                userAgent: navigator.userAgent
+            };
+            
+            // Guardar en localStorage (en producción sería mejor enviar a servidor)
+            const logs = JSON.parse(localStorage.getItem('sines_access_logs') || '[]');
+            logs.push(logEntry);
+            
+            // Mantener solo los últimos 100 registros
+            if (logs.length > 100) {
+                logs.splice(0, logs.length - 100);
+            }
+            
+            localStorage.setItem('sines_access_logs', JSON.stringify(logs));
+            console.log('Access logged:', logEntry);
+        }
+
+        // Funciones de mensajes
+        function showError(message) {
+            clearMessages();
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            clearMessages();
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        function showWarning(message) {
+            const warningDiv = document.getElementById('attemptsWarning');
+            warningDiv.textContent = message;
+            warningDiv.style.display = 'block';
+        }
+
+        function clearMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('attemptsWarning').style.display = 'none';
+        }
+
+        // Prevenir inspección de código (básico)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+                showError('Función deshabilitada por seguridad.');
+            }
+        });
+
+        // Prevenir clic derecho
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showError('Menú contextual deshabilitado por seguridad.');
+        });
+
+        // Función para cargar el sistema principal integrado
+        function loadMainSystem() {
+            if (!currentSession) {
+                showError('Sesión no válida. Por favor, inicie sesión nuevamente.');
+                return;
+            }
+
+            // Crear iframe para el sistema principal
+            const systemContent = document.querySelector('.system-content');
+            systemContent.innerHTML = `
+                <div class="welcome-message">
+                    <h2>🎉 Sistema SINES Cargado</h2>
+                    <p>Acceso autorizado para: ${currentSession.name}</p>
+                    <button class="access-btn" onclick="showMainMenu()" style="margin-top: 10px;">🔙 Volver al Menú</button>
+                </div>
+                <iframe src="http://localhost:8000/index_isometricos_github.html" 
+                        style="width: 100%; height: 800px; border: none; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                </iframe>
+            `;
+        }
+
+        // Función para mostrar el menú principal
+        function showMainMenu() {
+            const systemContent = document.querySelector('.system-content');
+            systemContent.innerHTML = `
+                <div class="welcome-message">
+                    <h2>🎉 ¡Bienvenido al Sistema SINES!</h2>
+                    <p>Acceso autorizado concedido. Selecciona el módulo que deseas utilizar.</p>
+                </div>
+
+                <div class="system-features">
+                    <div class="feature-card">
+                        <h3>📋 Sistema Completo</h3>
+                        <p>Acceso a todas las funcionalidades: Soportes, Isométricos, Relaciones e Instalaciones</p>
+                        <button class="access-btn" onclick="loadMainSystem()">🚀 Acceder al Sistema</button>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>📐 Solo Isométricos</h3>
+                        <p>Acceso específico al módulo de gestión de isométricos</p>
+                        <button class="access-btn" onclick="openSecureLink('http://localhost:8000/index_isometricos.html')">📐 Ver Isométricos</button>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>🔧 Gestión de Instalaciones</h3>
+                        <p>Módulo dedicado a la gestión y seguimiento de instalaciones</p>
+                        <button class="access-btn" onclick="openSecureLink('http://localhost:8000/index.html')">🔧 Gestionar Instalaciones</button>
+                    </div>
+
+                    <div class="feature-card">
+                        <h3>📊 Reportes y Análisis</h3>
+                        <p>Generación de reportes y análisis de datos del sistema</p>
+                        <button class="access-btn" onclick="openSecureLink('http://localhost:8000/verificar_json.html')">📊 Ver Reportes</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Función para abrir enlaces seguros
+        function openSecureLink(url) {
+            if (!currentSession) {
+                showError('Sesión no válida. Por favor, inicie sesión nuevamente.');
+                return;
+            }
+
+            // Abrir en nueva ventana con información de sesión
+            const newWindow = window.open(url, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+            
+            if (newWindow) {
+                // Registrar acceso
+                logAccess(currentSession.username, 'EXTERNAL_ACCESS', url);
+                showSuccess(`Abriendo ${url} en nueva ventana...`);
+            } else {
+                showError('No se pudo abrir la ventana. Verifique que no esté bloqueada por el navegador.');
+            }
+        }
+    </script>
+</body>
+</html> 

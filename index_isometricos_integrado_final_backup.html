@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Integrado de Soportes e Isométricos SINES</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            text-align: center;
+            background: #e9ecef;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #495057;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background: #fff;
+            color: #2c5f2d;
+            border-bottom: 3px solid #2c5f2d;
+        }
+
+        .tab:hover {
+            background: #fff;
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.1em;
+        }
+
+        .filter-group input, .filter-group select {
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-group input:focus, .filter-group select:focus {
+            outline: none;
+            border-color: #2c5f2d;
+        }
+
+        .search-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .clear-btn {
+            background: #dc3545;
+        }
+
+        .export-btn {
+            background: #28a745;
+        }
+
+        .installation-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination-btn {
+            background: #2c5f2d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: #1a3a1b;
+            transform: translateY(-2px);
+        }
+
+        .pagination-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pagination-info {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            min-height: 400px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #2c5f2d;
+        }
+
+        .result-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .result-card h3 {
+            color: #2c5f2d;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .result-card .info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .result-card .info div {
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .result-card .info div strong {
+            color: #2c5f2d;
+        }
+
+        .installation-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+        }
+
+        .welding-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #856404;
+        }
+
+        .status-planned {
+            background: #17a2b8;
+            color: #0c5460;
+        }
+
+        .status-in_progress {
+            background: #fd7e14;
+            color: #974406;
+        }
+
+        .status-installed {
+            background: #28a745;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #28a745;
+            color: #155724;
+        }
+
+        .status-failed {
+            background: #dc3545;
+            color: #721c24;
+        }
+
+        .overdue-indicator {
+            background: #dc3545;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .installation-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .installation-section h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .installation-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .installation-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .install-btn {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .install-btn:hover {
+            background: #138496;
+            transform: translateY(-1px);
+        }
+
+        .isometric-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e8f5e8;
+            border-radius: 10px;
+        }
+
+        .isometric-section h4 {
+            color: #2c5f2d;
+            margin-bottom: 10px;
+        }
+
+        .isometric-files {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .isometric-file {
+            background: #2c5f2d;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        .isometric-file:hover {
+            background: #1a3a1b;
+        }
+
+        .prefab-file {
+            background: #ff6b35 !important;
+            border: 2px solid #ff4500 !important;
+            font-weight: bold;
+        }
+
+        .prefab-file:hover {
+            background: #e55a2b !important;
+        }
+
+        .prefab-indicator {
+            background: #ff6b35;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            font-size: 1.2em;
+            grid-column: 1 / -1;
+        }
+
+        .initial-message {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .initial-message h3 {
+            color: #2c5f2d;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .initial-message p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: #2c5f2d;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-primary {
+            background: #2c5f2d;
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #1a3a1b;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .modal-btn-secondary:hover {
+            background: #545b62;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .results {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-card .info {
+                grid-template-columns: 1fr;
+            }
+            
+            .pagination {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-actions, .installation-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                min-width: unset;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sistema Integrado SINES - Versión Mejorada</h1>
+            <p>Gestión Completa: Soportes Agrupados con Variables de Plantilla, Isométricos, Relaciones e Instalaciones - Versión 4.0</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('soportes')">📋 Soportes Mejorados</button>
+            <button class="tab" onclick="switchTab('isometricos')">📐 Isométricos</button>
+            <button class="tab" onclick="switchTab('relaciones')">🔗 Relaciones</button>
+            <button class="tab" onclick="switchTab('costuras')">⚡ Costuras</button>
+            <button class="tab" onclick="switchTab('instalaciones')">🔧 Instalaciones</button>
+        </div>
+
+        <!-- TAB SOPORTES -->
+        <div id="soportes" class="tab-content active">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalSupports">0</h3>
+                    <p>Total Soportes</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalTypes">0</h3>
+                    <p>Tipos Diferentes</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="withPDFs">0</h3>
+                    <p>Con PDFs</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="searchResults">0</h3>
+                    <p>Resultados</p>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="supportSearch">🔍 Buscar Soporte:</label>
+                    <input type="text" id="supportSearch" placeholder="Buscar por número o tipo de soporte...">
+                </div>
+                <div class="filter-group">
+                    <label for="typeFilter">📂 Filtrar por Tipo:</label>
+                    <select id="typeFilter">
+                        <option value="">Todos los tipos</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="lineFilter">🔧 Filtrar por Línea:</label>
+                    <select id="lineFilter">
+                        <option value="">Todas las líneas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="search-actions">
+                <button class="search-btn" onclick="performSearch('soportes')">🔍 Buscar Soportes</button>
+                <button class="search-btn clear-btn" onclick="clearSearch('soportes')">🗑️ Limpiar</button>
+                <button class="search-btn" id="toggleGroupBtn" onclick="toggleGroupView()">📊 Vista Agrupada</button>
+            </div>
+
+            <div class="pagination" id="supportPagination" style="display: none;">
+                <button class="pagination-btn" onclick="changePage('soportes', 'prev')">⬅️ Anterior</button>
+                <div class="pagination-info" id="supportPageInfo"></div>
+                <button class="pagination-btn" onclick="changePage('soportes', 'next')">Siguiente ➡️</button>
+            </div>
+
+            <div id="supportResults" class="results"></div>
+        </div>
+
+        <!-- TAB ISOMÉTRICOS -->
+        <div id="isometricos" class="tab-content">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalLines">0</h3>
+                    <p>Total Líneas</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalSheets">0</h3>
+                    <p>Total Hojas</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalIsometricFiles">0</h3>
+                    <p>Archivos PDF</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalPrefabricatedFiles">0</h3>
+                    <p>Prefabricados</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="isometricSearchResults">0</h3>
+                    <p>Resultados</p>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="isometricSearch">🔍 Buscar Isométrico:</label>
+                    <input type="text" id="isometricSearch" placeholder="Buscar por línea, fluido o archivo...">
+                </div>
+                <div class="filter-group">
+                    <label for="fluidFilter">🌊 Filtrar por Fluido:</label>
+                    <select id="fluidFilter">
+                        <option value="">Todos los fluidos</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="typeIsometricFilter">📋 Filtrar por Tipo:</label>
+                    <select id="typeIsometricFilter">
+                        <option value="">Todos los tipos</option>
+                        <option value="LB">LB</option>
+                        <option value="SB">SB</option>
+                    </select>
+                </div>
+                </div>
+
+            <div class="search-actions">
+                <button class="search-btn" onclick="performSearch('isometricos')">🔍 Buscar Isométricos</button>
+                <button class="search-btn clear-btn" onclick="clearSearch('isometricos')">🗑️ Limpiar</button>
+            </div>
+
+            <div class="pagination" id="isometricPagination" style="display: none;">
+                <button class="pagination-btn" onclick="changePage('isometricos', 'prev')">⬅️ Anterior</button>
+                <div class="pagination-info" id="isometricPageInfo"></div>
+                <button class="pagination-btn" onclick="changePage('isometricos', 'next')">Siguiente ➡️</button>
+            </div>
+
+            <div id="isometricResults" class="results"></div>
+        </div>
+
+        <!-- TAB RELACIONES -->
+        <div id="relaciones" class="tab-content">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalRelations">0</h3>
+                    <p>Total Relaciones</p>
+                    </div>
+                <div class="stat-card">
+                    <h3 id="linesWithSupports">0</h3>
+                    <p>Líneas con Soportes</p>
+                    </div>
+                <div class="stat-card">
+                    <h3 id="supportsWithIsometrics">0</h3>
+                    <p>Soportes con Isométricos</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="relationSearchResults">0</h3>
+                    <p>Resultados</p>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="relationSearch">🔍 Buscar Relación:</label>
+                    <input type="text" id="relationSearch" placeholder="Buscar por soporte, línea o fluido...">
+                </div>
+                <div class="filter-group">
+                    <label for="supportTypeFilter">⚙️ Filtrar por Tipo de Soporte:</label>
+                    <select id="supportTypeFilter">
+                        <option value="">Todos los tipos</option>
+                        </select>
+                    </div>
+                <div class="filter-group">
+                    <label for="relationFluidFilter">🌊 Filtrar por Fluido:</label>
+                    <select id="relationFluidFilter">
+                        <option value="">Todos los fluidos</option>
+                    </select>
+                    </div>
+                </div>
+
+            <div class="search-actions">
+                <button class="search-btn" onclick="performSearch('relaciones')">🔍 Buscar Relaciones</button>
+                <button class="search-btn clear-btn" onclick="clearSearch('relaciones')">🗑️ Limpiar</button>
+            </div>
+
+            <div class="pagination" id="relationPagination" style="display: none;">
+                <button class="pagination-btn" onclick="changePage('relaciones', 'prev')">⬅️ Anterior</button>
+                <div class="pagination-info" id="relationPageInfo"></div>
+                <button class="pagination-btn" onclick="changePage('relaciones', 'next')">Siguiente ➡️</button>
+            </div>
+
+            <div id="relationResults" class="results"></div>
+        </div>
+
+        <!-- TAB COSTURAS -->
+        <div id="costuras" class="tab-content">
+            <!-- Contenedor para el sistema de costuras mejorado -->
+            <div id="weldingContainer">
+                <!-- El contenido se generará dinámicamente por welding_system_manager.js -->
+                <div class="loading-message" style="text-align: center; padding: 3rem; color: #64748b;">
+                    <h3>🔧 Cargando Sistema de Costuras Mejorado...</h3>
+                    <p>Agrupando costuras por isométrico y cargando datos técnicos...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB INSTALACIONES -->
+        <div id="instalaciones" class="tab-content">
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="totalInstallations">0</h3>
+                    <p>Total Instalaciones</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="pendingInstallations">0</h3>
+                    <p>Pendientes</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="completedInstallations">0</h3>
+                    <p>Completadas</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="installationSearchResults">0</h3>
+                    <p>Resultados</p>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="installationSearch">🔍 Buscar Instalación:</label>
+                    <input type="text" id="installationSearch" placeholder="Buscar por soporte, tipo o responsable...">
+                </div>
+                <div class="filter-group">
+                    <label for="statusFilter">📊 Filtrar por Estado:</label>
+                    <select id="statusFilter">
+                        <option value="">Todos los estados</option>
+                        <option value="pending">Pendiente</option>
+                        <option value="planned">Planificado</option>
+                        <option value="in_progress">En Progreso</option>
+                        <option value="installed">Instalado</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="dateFilter">📅 Filtrar por Fecha:</label>
+                    <input type="date" id="dateFilter">
+            </div>
+        </div>
+
+            <div class="installation-actions">
+                <button class="search-btn" onclick="performSearch('instalaciones')">🔍 Buscar Instalaciones</button>
+                <button class="search-btn clear-btn" onclick="clearSearch('instalaciones')">🗑️ Limpiar</button>
+                <button class="search-btn export-btn" onclick="exportInstallations()">📊 Exportar</button>
+                    </div>
+
+            <div class="pagination" id="installationPagination" style="display: none;">
+                <button class="pagination-btn" onclick="changePage('instalaciones', 'prev')">⬅️ Anterior</button>
+                <div class="pagination-info" id="installationPageInfo"></div>
+                <button class="pagination-btn" onclick="changePage('instalaciones', 'next')">Siguiente ➡️</button>
+                    </div>
+
+            <div id="installationResults" class="results"></div>
+        </div>
+    </div>
+
+    <!-- Modal para Edición de Instalación -->
+    <div id="editInstallationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Instalación</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="filter-group">
+                    <label for="modalSupportInfo">Información del Soporte:</label>
+                    <input type="text" id="modalSupportInfo" readonly>
+                </div>
+                <div class="filter-group">
+                    <label for="modalInstallationStatus">Estado:</label>
+                    <select id="modalInstallationStatus" onchange="toggleDateFields()">
+                        <option value="pending">Pendiente</option>
+                        <option value="planned">Planificado</option>
+                        <option value="in_progress">En Progreso</option>
+                        <option value="installed">Instalado</option>
+                        </select>
+                    </div>
+                <div class="filter-group">
+                    <label for="modalPlannedDate">Fecha Planificada:</label>
+                    <input type="date" id="modalPlannedDate">
+                    </div>
+                <div class="filter-group">
+                    <label for="modalActualDate">Fecha Real:</label>
+                    <input type="date" id="modalActualDate">
+                    </div>
+                <div class="filter-group">
+                    <label for="modalInstalledBy">Instalado Por:</label>
+                    <input type="text" id="modalInstalledBy" placeholder="Nombre del responsable">
+                    </div>
+                <div class="filter-group">
+                    <label for="modalInstallationNotes">Notas:</label>
+                    <textarea id="modalInstallationNotes" rows="3" placeholder="Notas adicionales sobre la instalación" style="width: 100%; padding: 12px; border: 2px solid #dee2e6; border-radius: 10px; resize: vertical;"></textarea>
+                    </div>
+                    </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="modal-btn modal-btn-primary" onclick="saveInstallation()">Guardar</button>
+                </div>
+                </div>
+            </div>
+
+    <div id="loading" class="loading" style="display: none;">
+        <p>⏳ Cargando datos...</p>
+            </div>
+
+    <script src="installation_manager.js"></script>
+    <script>
+        // Variables globales
+        let allSupports = [];
+        let supportMapping = {};
+        let isometricData = {};
+        let supportIsometricRelations = [];
+        let prefabricatedMapping = {};
+        let filteredSupports = [];
+        let filteredIsometrics = [];
+        let filteredRelations = [];
+        let filteredInstallations = [];
+        let allWeldingRecords = [];
+        let filteredWeldingRecords = [];
+        let currentTab = 'soportes';
+        
+        // Variables para el sistema mejorado
+        let templateVariables = {};
+        let supportDimensions = {};
+        let groupedSupports = {};
+        let showGrouped = false;
+
+        // Configuración de paginación
+        const ITEMS_PER_PAGE = 12;
+        let currentPage = {
+            soportes: 1,
+            isometricos: 1,
+            relaciones: 1,
+            costuras: 1,
+            instalaciones: 1
+        };
+
+        // Estados de búsqueda
+        let searchPerformed = {
+            soportes: false,
+            isometricos: false,
+            relaciones: false,
+            costuras: false,
+            instalaciones: false
+        };
+
+        // Variable para el soporte en edición
+        let currentEditingSupport = null;
+
+        // Cargar datos al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllData();
+            setupEventListeners();
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Listeners para Enter en los campos de búsqueda
+            document.getElementById('supportSearch').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch('soportes');
+            });
+            document.getElementById('isometricSearch').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch('isometricos');
+            });
+            document.getElementById('relationSearch').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch('relaciones');
+            });
+            document.getElementById('installationSearch').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch('instalaciones');
+            });
+            document.getElementById('weldingSearch').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch('costuras');
+            });
+
+            // Listener para cerrar modal con Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            // Listener para cerrar modal haciendo clic fuera
+            window.addEventListener('click', function(e) {
+                const modal = document.getElementById('editInstallationModal');
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        // Cargar todos los datos
+        async function loadAllData() {
+            try {
+                showLoading(true);
+                
+                // Cargar datos de soportes
+                const supportsResponse = await fetch('support_data_enhanced.json');
+                allSupports = await supportsResponse.json();
+                
+                // Cargar mapeo de PDFs de soportes
+                const mappingResponse = await fetch('support_pdf_mapping.json');
+                supportMapping = await mappingResponse.json();
+                
+                // Cargar datos de isométricos
+                const isometricResponse = await fetch('isometric_data_with_prefabricated.json');
+                isometricData = await isometricResponse.json();
+                
+                // Cargar relaciones soportes-isométricos
+                const relationResponse = await fetch('support_isometric_relation.json');
+                supportIsometricRelations = await relationResponse.json();
+                
+                // Cargar mapeo de isométricos prefabricados
+                try {
+                    const prefabResponse = await fetch('prefabricated_isometric_mapping_github.json');
+                    const prefabData = await prefabResponse.json();
+                    prefabricatedMapping = prefabData.correspondences || {};
+                    console.log(`📋 Cargadas ${Object.keys(prefabricatedMapping).length} correspondencias de isométricos prefabricados`);
+                } catch (error) {
+                    console.warn('No se encontró mapeo de isométricos prefabricados:', error);
+                    prefabricatedMapping = {};
+                }
+                
+                // Cargar datos de variables de plantilla
+                try {
+                    const templateResponse = await fetch('template_variables_mapping.json');
+                    templateVariables = await templateResponse.json();
+                    console.log(`📐 Cargadas ${Object.keys(templateVariables).length} variables de plantilla`);
+                } catch (error) {
+                    console.warn('No se encontró mapeo de variables de plantilla:', error);
+                    templateVariables = {};
+                }
+                
+                // Cargar datos de dimensiones de soportes
+                try {
+                    const dimensionsResponse = await fetch('support_dimensions_data.json');
+                    const dimensionsArray = await dimensionsResponse.json();
+                    
+                    // Convertir array a objeto indexado por support_number y support_type
+                    supportDimensions = {};
+                    dimensionsArray.forEach(item => {
+                        const key = `${item.support_number}-${item.support_type}`;
+                        supportDimensions[key] = item.dimensions;
+                    });
+                    
+                    console.log(`📏 Cargadas dimensiones para ${dimensionsArray.length} registros de soportes`);
+                } catch (error) {
+                    console.warn('No se encontraron datos de dimensiones:', error);
+                    supportDimensions = {};
+                }
+                
+                // Cargar datos de costuras
+                try {
+                    const weldingResponse = await fetch('welding_status_data.json');
+                    const weldingData = await weldingResponse.json();
+                    allWeldingRecords = weldingData.welding_records || [];
+                    console.log(`⚡ Cargadas ${allWeldingRecords.length} costuras`);
+                } catch (error) {
+                    console.warn('No se encontraron datos de costuras:', error);
+                    allWeldingRecords = [];
+                }
+                
+                // Inicializar el sistema de costuras mejorado
+                try {
+                    if (typeof initWeldingSystem === 'function') {
+                        await initWeldingSystem();
+                        console.log('✅ Sistema de costuras mejorado inicializado');
+                    }
+                } catch (error) {
+                    console.warn('Error inicializando sistema de costuras mejorado:', error);
+                }
+                
+                // Inicializar el gestor de instalaciones
+                window.installationManager = new InstallationManager();
+                
+                // Inicializar la aplicación
+                initializeApp();
+                
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+                showError('Error al cargar los datos. Verifica que los archivos JSON estén disponibles.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Inicializar la aplicación
+        function initializeApp() {
+            populateFilters();
+            updateStats();
+            showInitialMessage();
+        }
+
+        // Mostrar mensaje inicial
+        function showInitialMessage() {
+            const containers = ['supportResults', 'isometricResults', 'relationResults', 'weldingResults', 'installationResults'];
+            const messages = [
+                '📋 Utiliza los filtros y haz clic en "Buscar Soportes" para ver los resultados',
+                '📐 Utiliza los filtros y haz clic en "Buscar Isométricos" para ver los resultados',
+                '🔗 Utiliza los filtros y haz clic en "Buscar Relaciones" para ver los resultados',
+                '⚡ Utiliza los filtros y haz clic en "Buscar Costuras" para ver los resultados',
+                '🔧 Utiliza los filtros y haz clic en "Buscar Instalaciones" para ver los resultados'
+            ];
+
+            containers.forEach((containerId, index) => {
+                const container = document.getElementById(containerId);
+                container.innerHTML = `
+                    <div class="initial-message">
+                        <h3>¡Bienvenido al Sistema SINES Integrado!</h3>
+                        <p>${messages[index]}</p>
+                        <p>🚀 Rendimiento optimizado: Mostramos ${ITEMS_PER_PAGE} resultados por página</p>
+                        <p>📊 Trazabilidad completa: Soportes ↔ Isométricos ↔ Instalaciones</p>
+        </div>
+                `;
+            });
+        }
+
+        // Poblar filtros
+        function populateFilters() {
+            // Filtros de soportes
+            const supportTypes = [...new Set(allSupports.map(s => s.support_type))].sort();
+            const supportLines = [...new Set(allSupports.map(s => s.fluid_piping).filter(l => l))].sort();
+            
+            populateSelect('typeFilter', supportTypes);
+            populateSelect('lineFilter', supportLines);
+            
+            // Filtros de isométricos
+            const fluids = [...new Set(Object.values(isometricData).map(i => i.fluid).filter(f => f))].sort();
+            populateSelect('fluidFilter', fluids);
+            
+            // Filtros de relaciones
+            populateSelect('supportTypeFilter', supportTypes);
+            populateSelect('relationFluidFilter', fluids);
+        }
+
+        // Poblar select
+        function populateSelect(selectId, options) {
+            const select = document.getElementById(selectId);
+            const firstOption = select.firstElementChild;
+            select.innerHTML = '';
+            select.appendChild(firstOption);
+            
+            options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                select.appendChild(optionElement);
+            });
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            // Estadísticas de soportes
+            const totalSupports = allSupports.length;
+            const totalTypes = new Set(allSupports.map(s => s.support_type)).size;
+            const withPDFs = allSupports.filter(s => supportMapping[s.support_type] && supportMapping[s.support_type].length > 0).length;
+            
+            document.getElementById('totalSupports').textContent = totalSupports.toLocaleString();
+            document.getElementById('totalTypes').textContent = totalTypes.toLocaleString();
+            document.getElementById('withPDFs').textContent = withPDFs.toLocaleString();
+            
+            // Estadísticas de isométricos
+            const totalLines = Object.keys(isometricData).length;
+            const totalSheets = Object.values(isometricData).reduce((acc, line) => acc + line.sheets.length, 0);
+            const totalIsometricFiles = totalSheets;
+            
+            // Contar isométricos prefabricados
+            const totalPrefabricatedFiles = Object.keys(prefabricatedMapping).length;
+            
+            document.getElementById('totalLines').textContent = totalLines.toLocaleString();
+            document.getElementById('totalSheets').textContent = totalSheets.toLocaleString();
+            document.getElementById('totalIsometricFiles').textContent = totalIsometricFiles.toLocaleString();
+            document.getElementById('totalPrefabricatedFiles').textContent = totalPrefabricatedFiles.toLocaleString();
+            
+            // Estadísticas de relaciones
+            const totalRelations = supportIsometricRelations.length;
+            const linesWithSupports = new Set(supportIsometricRelations.map(r => r.line_code)).size;
+            const supportsWithIsometrics = new Set(supportIsometricRelations.map(r => r.support_number)).size;
+            
+            document.getElementById('totalRelations').textContent = totalRelations.toLocaleString();
+            document.getElementById('linesWithSupports').textContent = linesWithSupports.toLocaleString();
+            document.getElementById('supportsWithIsometrics').textContent = supportsWithIsometrics.toLocaleString();
+            
+            // Estadísticas de costuras
+            const totalWelds = allWeldingRecords.length;
+            let completedWelds = 0;
+            let pendingWelds = 0;
+            
+            allWeldingRecords.forEach(weld => {
+                const status = weld.data.status?.toLowerCase() || '';
+                if (status.includes('complete') || status.includes('ok')) {
+                    completedWelds++;
+                } else {
+                    pendingWelds++;
+                }
+            });
+            
+            document.getElementById('totalWelds').textContent = totalWelds.toLocaleString();
+            document.getElementById('completedWelds').textContent = completedWelds.toLocaleString();
+            document.getElementById('pendingWelds').textContent = pendingWelds.toLocaleString();
+            
+            // Estadísticas de instalaciones
+            if (window.installationManager) {
+                const installationStats = window.installationManager.getStats();
+                document.getElementById('totalInstallations').textContent = allSupports.length.toLocaleString();
+                document.getElementById('pendingInstallations').textContent = installationStats.pending.toLocaleString();
+                document.getElementById('completedInstallations').textContent = installationStats.installed.toLocaleString();
+            }
+        }
+
+        // Cambiar tab
+        function switchTab(tabName) {
+            // Actualizar botones
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            
+            // Actualizar contenido
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            
+            currentTab = tabName;
+            
+            // Mostrar mensaje inicial si no se ha realizado búsqueda
+            if (!searchPerformed[tabName]) {
+                showInitialMessage();
+            }
+        }
+
+        // Realizar búsqueda
+        function performSearch(tabType) {
+            currentPage[tabType] = 1; // Resetear a la primera página
+            searchPerformed[tabType] = true;
+            
+            switch(tabType) {
+                case 'soportes':
+                    filterSupports();
+                    break;
+                case 'isometricos':
+                    filterIsometrics();
+                    break;
+                case 'relaciones':
+                    filterRelations();
+                    break;
+                case 'costuras':
+                    filterWelding();
+                    break;
+                case 'instalaciones':
+                    filterInstallations();
+                    break;
+            }
+        }
+
+        // Limpiar búsqueda
+        function clearSearch(tabType) {
+            // Limpiar filtros
+            switch(tabType) {
+                case 'soportes':
+                    document.getElementById('supportSearch').value = '';
+                    document.getElementById('typeFilter').value = '';
+                    document.getElementById('lineFilter').value = '';
+                    break;
+                case 'isometricos':
+                    document.getElementById('isometricSearch').value = '';
+                    document.getElementById('fluidFilter').value = '';
+                    document.getElementById('typeIsometricFilter').value = '';
+                    break;
+                case 'relaciones':
+                    document.getElementById('relationSearch').value = '';
+                    document.getElementById('supportTypeFilter').value = '';
+                    document.getElementById('relationFluidFilter').value = '';
+                    break;
+                case 'costuras':
+                    document.getElementById('weldingSearch').value = '';
+                    document.getElementById('weldStatusFilter').value = '';
+                    document.getElementById('weldDateFilter').value = '';
+                    break;
+                case 'instalaciones':
+                    document.getElementById('installationSearch').value = '';
+                    document.getElementById('statusFilter').value = '';
+                    document.getElementById('dateFilter').value = '';
+                    break;
+            }
+            
+            // Ocultar paginación y mostrar mensaje inicial
+            if (tabType === 'soportes') {
+                document.getElementById('supportPagination').style.display = 'none';
+            } else if (tabType === 'costuras') {
+                document.getElementById('weldingPagination').style.display = 'none';
+            } else {
+                document.getElementById(`${tabType.slice(0, -1)}Pagination`).style.display = 'none';
+            }
+            
+            searchPerformed[tabType] = false;
+            currentPage[tabType] = 1;
+            
+            // Actualizar resultados
+            updateSearchResults(tabType, 0);
+            showInitialMessage();
+        }
+
+        // Cambiar página
+        function changePage(tabType, direction) {
+            const totalResults = getTotalResults(tabType);
+            const totalPages = Math.ceil(totalResults / ITEMS_PER_PAGE);
+            
+            if (direction === 'prev' && currentPage[tabType] > 1) {
+                currentPage[tabType]--;
+            } else if (direction === 'next' && currentPage[tabType] < totalPages) {
+                currentPage[tabType]++;
+            }
+            
+            displayResults(tabType);
+            updatePagination(tabType);
+        }
+
+        // Obtener total de resultados
+        function getTotalResults(tabType) {
+            switch(tabType) {
+                case 'soportes':
+                    return filteredSupports.length;
+                case 'isometricos':
+                    return filteredIsometrics.length;
+                case 'relaciones':
+                    return filteredRelations.length;
+                case 'costuras':
+                    return filteredWeldingRecords.length;
+                case 'instalaciones':
+                    return filteredInstallations.length;
+                default:
+                    return 0;
+            }
+        }
+
+        // Filtrar soportes
+        function filterSupports() {
+            const searchTerm = document.getElementById('supportSearch').value.toLowerCase();
+            const typeFilter = document.getElementById('typeFilter').value;
+            const lineFilter = document.getElementById('lineFilter').value;
+            
+            filteredSupports = allSupports.filter(support => {
+                const matchesSearch = !searchTerm || 
+                    support.support_number.toLowerCase().includes(searchTerm) ||
+                    support.support_type.toLowerCase().includes(searchTerm) ||
+                    support.fluid_piping.toLowerCase().includes(searchTerm);
+                
+                const matchesType = !typeFilter || support.support_type === typeFilter;
+                const matchesLine = !lineFilter || support.fluid_piping === lineFilter;
+                
+                return matchesSearch && matchesType && matchesLine;
+            });
+            
+            updateSearchResults('soportes', filteredSupports.length);
+            displayResults('soportes');
+            updatePagination('soportes');
+        }
+
+        // Filtrar isométricos
+        function filterIsometrics() {
+            const searchTerm = document.getElementById('isometricSearch').value.toLowerCase();
+            const fluidFilter = document.getElementById('fluidFilter').value;
+            const typeFilter = document.getElementById('typeIsometricFilter').value;
+            
+            filteredIsometrics = Object.values(isometricData).filter(line => {
+                const matchesSearch = !searchTerm || 
+                    line.line_code.toLowerCase().includes(searchTerm) ||
+                    line.fluid.toLowerCase().includes(searchTerm) ||
+                    line.sheets.some(sheet => sheet.filename.toLowerCase().includes(searchTerm));
+                
+                const matchesFluid = !fluidFilter || line.fluid === fluidFilter;
+                const matchesType = !typeFilter || line.sheets.some(sheet => sheet.type === typeFilter);
+                
+                return matchesSearch && matchesFluid && matchesType;
+            });
+            
+            updateSearchResults('isometricos', filteredIsometrics.length);
+            displayResults('isometricos');
+            updatePagination('isometricos');
+        }
+
+        // Filtrar relaciones
+        function filterRelations() {
+            const searchTerm = document.getElementById('relationSearch').value.toLowerCase();
+            const supportTypeFilter = document.getElementById('supportTypeFilter').value;
+            const fluidFilter = document.getElementById('relationFluidFilter').value;
+            
+            filteredRelations = supportIsometricRelations.filter(relation => {
+                const matchesSearch = !searchTerm || 
+                    relation.support_number.toLowerCase().includes(searchTerm) ||
+                    relation.support_type.toLowerCase().includes(searchTerm) ||
+                    relation.line_code.toLowerCase().includes(searchTerm) ||
+                    relation.fluid.toLowerCase().includes(searchTerm);
+                
+                const matchesType = !supportTypeFilter || relation.support_type === supportTypeFilter;
+                const matchesFluid = !fluidFilter || relation.fluid === fluidFilter;
+                
+                return matchesSearch && matchesType && matchesFluid;
+            });
+            
+            updateSearchResults('relaciones', filteredRelations.length);
+            displayResults('relaciones');
+            updatePagination('relaciones');
+        }
+
+        // Filtrar costuras
+        function filterWelding() {
+            // El sistema de costuras mejorado maneja su propia lógica de filtrado
+            console.log('🔍 Búsqueda de costuras delegada al sistema mejorado');
+            
+            // Si el sistema mejorado está disponible, usarlo
+            if (window.weldingManager && typeof window.weldingManager.applyFilters === 'function') {
+                window.weldingManager.applyFilters();
+            } else {
+                console.log('⚠️ Sistema de costuras mejorado no disponible aún');
+                // Intentar inicializar si no está disponible
+                if (typeof initWeldingSystem === 'function') {
+                    initWeldingSystem().then(() => {
+                        if (window.weldingManager && typeof window.weldingManager.applyFilters === 'function') {
+                            window.weldingManager.applyFilters();
+                        }
+                    });
+                }
+            }
+        }
+
+        // Filtrar instalaciones
+        function filterInstallations() {
+            const searchTerm = document.getElementById('installationSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            
+            filteredInstallations = window.installationManager.filterInstallations(searchTerm, statusFilter, dateFilter);
+            
+            updateSearchResults('instalaciones', filteredInstallations.length);
+            displayResults('instalaciones');
+            updatePagination('instalaciones');
+        }
+
+        // Actualizar contador de resultados
+        function updateSearchResults(tabType, count) {
+            const elementId = tabType === 'soportes' ? 'searchResults' : 
+                             tabType === 'isometricos' ? 'isometricSearchResults' :
+                             tabType === 'relaciones' ? 'relationSearchResults' : 
+                             tabType === 'costuras' ? 'weldingSearchResults' : 'installationSearchResults';
+            document.getElementById(elementId).textContent = count.toLocaleString();
+        }
+
+        // Mostrar resultados paginados
+        function displayResults(tabType) {
+            const page = currentPage[tabType];
+            const startIndex = (page - 1) * ITEMS_PER_PAGE;
+            const endIndex = startIndex + ITEMS_PER_PAGE;
+            
+            switch(tabType) {
+                case 'soportes':
+                    displaySupports(startIndex, endIndex);
+                    break;
+                case 'isometricos':
+                    displayIsometrics(startIndex, endIndex);
+                    break;
+                case 'relaciones':
+                    displayRelations(startIndex, endIndex);
+                    break;
+                case 'costuras':
+                    displayWelding(startIndex, endIndex);
+                    break;
+                case 'instalaciones':
+                    displayInstallations(startIndex, endIndex);
+                    break;
+            }
+        }
+
+        // Mostrar soportes paginados
+        function displaySupports(startIndex, endIndex) {
+            const container = document.getElementById('supportResults');
+            const supports = filteredSupports.slice(startIndex, endIndex);
+            
+            if (supports.length === 0) {
+                container.innerHTML = '<div class="no-results">No se encontraron soportes con los filtros aplicados</div>';
+                return;
+            }
+            
+            if (showGrouped) {
+                container.innerHTML = displayGroupedSupports(supports);
+            } else {
+                container.innerHTML = supports.map(support => createSupportCard(support)).join('');
+            }
+        }
+
+        // Mostrar soportes agrupados
+        function displayGroupedSupports(supports) {
+            const grouped = {};
+            
+            supports.forEach(support => {
+                const groupKey = support.support_number;
+                if (!grouped[groupKey]) {
+                    grouped[groupKey] = [];
+                }
+                grouped[groupKey].push(support);
+            });
+            
+            return Object.entries(grouped).map(([groupKey, groupSupports]) => {
+                return createGroupedSupportCard(groupKey, groupSupports);
+            }).join('');
+        }
+
+        // Crear tarjeta de soporte agrupado
+        function createGroupedSupportCard(groupKey, groupSupports) {
+            const firstSupport = groupSupports[0];
+            const count = groupSupports.length;
+            
+            return `
+                <div class="result-card">
+                    <h3>🔧 Soporte ${groupKey} 
+                        <span style="background: #007bff; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 10px;">
+                            ${count} elemento${count > 1 ? 's' : ''}
+                        </span>
+                    </h3>
+                    <div class="info">
+                        <div><strong>Tipo:</strong> ${firstSupport.support_type}</div>
+                        <div><strong>Línea:</strong> ${firstSupport.fluid_piping}</div>
+                        <div><strong>Clase:</strong> ${firstSupport.material_class}</div>
+                        <div><strong>Total Cantidad:</strong> ${groupSupports.reduce((sum, s) => sum + parseInt(s.quantity || 0), 0)}</div>
+                    </div>
+                    
+                    <div class="group-toggle" onclick="toggleGroup('${groupKey}')" style="cursor: pointer; padding: 10px; background: #f8f9fa; border-radius: 8px; margin: 10px 0; text-align: center;">
+                        <strong>👁️ Ver Detalles (${count} elementos)</strong>
+                    </div>
+                    
+                    <div id="group-${groupKey}" style="display: none;">
+                        ${groupSupports.map(support => createSupportCard(support)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Alternar grupo
+        function toggleGroup(groupKey) {
+            const groupDiv = document.getElementById(`group-${groupKey}`);
+            const isHidden = groupDiv.style.display === 'none';
+            groupDiv.style.display = isHidden ? 'block' : 'none';
+        }
+
+        // Crear sección de variables de plantilla
+        function createTemplateVariablesSection(dimensionData) {
+            if (!dimensionData || Object.keys(dimensionData).length === 0) {
+                return '';
+            }
+            
+            const variables = [];
+            
+            // Mapeo de títulos simplificados
+            const simpleTitles = {
+                'A': 'Altura',
+                'B': 'Ancho', 
+                'C': 'Profundidad',
+                'D': 'Diámetro',
+                'E': 'Espesor',
+                'R': 'Radio',
+                'X': 'Posición X',
+                'Y': 'Posición Y',
+                'EL': 'Elevación',
+                'N.': 'Número',
+                'SH.': 'Hoja',
+                'TEMP': 'Temperatura'
+            };
+            
+            // Procesar cada variable de dimensión
+            Object.entries(dimensionData).forEach(([key, data]) => {
+                if (data && data.value) {
+                    variables.push({
+                        name: key,
+                        title: simpleTitles[key] || key,
+                        code: data.reference_code || '',
+                        value: data.value,
+                        unit: data.unit || ''
+                    });
+                }
+            });
+            
+            if (variables.length === 0) {
+                return '';
+            }
+            
+            return `
+                <div class="template-variables-section" style="margin-top: 15px; padding: 15px; background: #fff3cd; border-radius: 10px; border-left: 4px solid #ffc107;">
+                    <h4 style="color: #856404; margin-bottom: 10px;">📐 Dimensiones Técnicas</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px;">
+                        ${variables.map(variable => `
+                            <div style="background: white; padding: 8px; border-radius: 6px; text-align: center; border: 1px solid #ffeaa7;">
+                                <div style="font-weight: bold; color: #856404; font-size: 0.85em; line-height: 1.2;">${variable.title}</div>
+                                ${variable.code ? `<div style="font-size: 0.75em; color: #666; margin: 2px 0;">${variable.code}</div>` : ''}
+                                <div style="font-size: 1.1em; color: #333; font-weight: bold; margin-top: 4px;">${variable.value}${variable.unit}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Mostrar isométricos paginados
+        function displayIsometrics(startIndex, endIndex) {
+            const container = document.getElementById('isometricResults');
+            const isometrics = filteredIsometrics.slice(startIndex, endIndex);
+            
+            if (isometrics.length === 0) {
+                container.innerHTML = '<div class="no-results">No se encontraron isométricos con los filtros aplicados</div>';
+                return;
+            }
+            
+            container.innerHTML = isometrics.map(isometric => createIsometricCard(isometric)).join('');
+        }
+
+        // Mostrar relaciones paginadas
+        function displayRelations(startIndex, endIndex) {
+            const container = document.getElementById('relationResults');
+            const relations = filteredRelations.slice(startIndex, endIndex);
+            
+            if (relations.length === 0) {
+                container.innerHTML = '<div class="no-results">No se encontraron relaciones con los filtros aplicados</div>';
+                return;
+            }
+            
+            // Agrupar por soporte
+            const groupedRelations = {};
+            relations.forEach(relation => {
+                const key = `${relation.support_number}-${relation.support_type}`;
+                if (!groupedRelations[key]) {
+                    groupedRelations[key] = [];
+                }
+                groupedRelations[key].push(relation);
+            });
+            
+            container.innerHTML = Object.entries(groupedRelations)
+                .map(([key, relationsGroup]) => createRelationCard(key, relationsGroup))
+                .join('');
+        }
+
+        // Mostrar costuras paginadas
+        function displayWelding(startIndex, endIndex) {
+            // El sistema de costuras mejorado maneja su propia visualización
+            // No necesitamos hacer nada aquí ya que welding_system_manager.js se encarga
+            console.log('📊 Sistema de costuras mejorado activo - visualización delegada');
+        }
+
+        // Mostrar instalaciones paginadas
+        function displayInstallations(startIndex, endIndex) {
+            const container = document.getElementById('installationResults');
+            const installations = filteredInstallations.slice(startIndex, endIndex);
+            
+            if (installations.length === 0) {
+                container.innerHTML = '<div class="no-results">No se encontraron instalaciones con los filtros aplicados</div>';
+                return;
+            }
+            
+            container.innerHTML = installations.map(installation => createInstallationCard(installation)).join('');
+        }
+
+        // Actualizar paginación
+        function updatePagination(tabType) {
+            const totalResults = getTotalResults(tabType);
+            const totalPages = Math.ceil(totalResults / ITEMS_PER_PAGE);
+            const currentPageNum = currentPage[tabType];
+            
+            // Determinar IDs según el tipo de tab
+            let paginationId, pageInfoId;
+            switch(tabType) {
+                case 'soportes':
+                    paginationId = 'supportPagination';
+                    pageInfoId = 'supportPageInfo';
+                    break;
+                case 'isometricos':
+                    paginationId = 'isometricPagination';
+                    pageInfoId = 'isometricPageInfo';
+                    break;
+                case 'relaciones':
+                    paginationId = 'relationPagination';
+                    pageInfoId = 'relationPageInfo';
+                    break;
+                case 'instalaciones':
+                    paginationId = 'installationPagination';
+                    pageInfoId = 'installationPageInfo';
+                    break;
+            }
+            
+            const pagination = document.getElementById(paginationId);
+            const pageInfo = document.getElementById(pageInfoId);
+            
+            if (totalPages > 1) {
+                pagination.style.display = 'flex';
+                pageInfo.textContent = `Página ${currentPageNum} de ${totalPages} (${totalResults} resultados)`;
+                
+                // Actualizar botones
+                const prevBtn = pagination.querySelector('.pagination-btn');
+                const nextBtn = pagination.querySelector('.pagination-btn:last-child');
+                
+                prevBtn.disabled = currentPageNum === 1;
+                nextBtn.disabled = currentPageNum === totalPages;
+            } else {
+                pagination.style.display = 'none';
+            }
+        }
+
+        // Alternar vista agrupada
+        function toggleGroupView() {
+            showGrouped = !showGrouped;
+            const btn = document.getElementById('toggleGroupBtn');
+            btn.textContent = showGrouped ? '📋 Vista Individual' : '📊 Vista Agrupada';
+            
+            if (searchPerformed['soportes']) {
+                displayResults('soportes');
+            }
+        }
+
+        // Crear tarjeta de soporte con información de instalación
+        function createSupportCard(support) {
+            const pdfs = supportMapping[support.support_type] || [];
+            const pdfLinks = pdfs.map(pdf => 
+                `<a href="ESTANDARES DE SOPORTES/${pdf}" target="_blank" class="isometric-file">${pdf}</a>`
+            ).join('');
+            
+            // Buscar isométricos relacionados
+            const relatedIsometrics = supportIsometricRelations.filter(r => 
+                r.support_number === support.support_number && r.support_type === support.support_type
+            );
+            
+            // Obtener información de instalación
+            const installationInfo = window.installationManager ? 
+                window.installationManager.getInstallationInfo(support) : 
+                { status: 'pending', planned_date: null, actual_date: null, notes: '', installed_by: '' };
+            
+            // Obtener variables de plantilla
+            const dimensionKey = `${support.support_number}-${support.support_type}`;
+            const dimensionData = supportDimensions[dimensionKey] || {};
+            const templateSection = createTemplateVariablesSection(dimensionData);
+            
+            const isometricSection = relatedIsometrics.length > 0 ? `
+                <div class="isometric-section">
+                    <h4>📐 Isométricos Relacionados:</h4>
+                    <div class="isometric-files">
+                        ${relatedIsometrics[0].isometric_files.map(file => 
+                            `<a href="ISOMETRICOS/${file}" target="_blank" class="isometric-file">${file.split('_')[0]}</a>`
+                        ).join('')}
+    </div>
+                    <div style="margin-top: 10px;">
+                        <strong>Línea:</strong> ${relatedIsometrics[0].line_code} | 
+                        <strong>Fluido:</strong> ${relatedIsometrics[0].fluid} | 
+                        <strong>Hoja ISO:</strong> ${relatedIsometrics[0].iso_sheet}
+                    </div>
+                </div>
+            ` : '';
+            
+            const installationSection = createInstallationSection(support, installationInfo);
+            
+            return `
+                <div class="result-card">
+                    <h3>🔧 Soporte ${support.support_number}${createInstallationStatusBadge(installationInfo)}</h3>
+                    <div class="info">
+                        <div><strong>Tipo:</strong> ${support.support_type}</div>
+                        <div><strong>Línea:</strong> ${support.fluid_piping}</div>
+                        <div><strong>Posición:</strong> ${support.position_number}</div>
+                        <div><strong>Cantidad:</strong> ${support.quantity}</div>
+                        <div><strong>Clase:</strong> ${support.material_class}</div>
+                        <div><strong>Dimensiones:</strong> ${support.size_dimensions}</div>
+            </div>
+                    ${templateSection}
+                    ${pdfLinks ? `
+                        <div class="isometric-section">
+                            <h4>📋 PDFs de Estándares:</h4>
+                            <div class="isometric-files">${pdfLinks}</div>
+                        </div>
+                    ` : ''}
+                    ${isometricSection}
+                    ${installationSection}
+                </div>
+            `;
+        }
+
+        // Crear badge de estado de instalación
+        function createInstallationStatusBadge(installationInfo) {
+            if (!window.installationManager) return '';
+            
+            const statusText = getStatusText(installationInfo.status);
+            const statusIcon = getStatusIcon(installationInfo.status);
+            
+            let overdueIndicator = '';
+            if (isOverdue(installationInfo.planned_date, installationInfo.status)) {
+                overdueIndicator = '<span class="overdue-indicator">ATRASADO</span>';
+            }
+            
+            return `
+                <span class="installation-status status-${installationInfo.status}">
+                    ${statusIcon} ${statusText}
+                </span>
+                ${overdueIndicator}
+            `;
+        }
+
+        // Crear tarjeta de costura
+        function createWeldingCard(weld) {
+            const data = weld.data || {};
+            
+            // Determinar estado de la costura
+            let status = 'pending';
+            let statusIcon = '⏳';
+            let statusText = 'Pendiente';
+            
+            if (data.status) {
+                const statusLower = data.status.toLowerCase();
+                if (statusLower.includes('complete') || statusLower.includes('ok')) {
+                    status = 'completed';
+                    statusIcon = '✅';
+                    statusText = 'Completada';
+                } else if (statusLower.includes('progress') || statusLower.includes('working')) {
+                    status = 'in_progress';
+                    statusIcon = '🔄';
+                    statusText = 'En Progreso';
+                } else if (statusLower.includes('fail') || statusLower.includes('reject')) {
+                    status = 'failed';
+                    statusIcon = '❌';
+                    statusText = 'Fallida';
+                }
+            }
+            
+            // Formatear fecha si existe
+            const formatDate = (dateStr) => {
+                if (!dateStr) return 'No definida';
+                try {
+                    const date = new Date(dateStr);
+                    return date.toLocaleDateString();
+                } catch (e) {
+                    return dateStr;
+                }
+            };
+            
+            return `
+                <div class="result-card">
+                    <h3>⚡ Costura ${weld.id}
+                        <span class="welding-status status-${status}">
+                            ${statusIcon} ${statusText}
+                        </span>
+                    </h3>
+                    <div class="info">
+                        <div><strong>Fila Excel:</strong> ${weld.row_number}</div>
+                        ${data.SUBCONTRACTOR ? `<div><strong>Línea/Unidad:</strong> ${data.SUBCONTRACTOR}</div>` : ''}
+                        ${data.CONTRACTOR ? `<div><strong>Servicio:</strong> ${data.CONTRACTOR}</div>` : ''}
+                        ${data.date ? `<div><strong>Fecha:</strong> ${formatDate(data.date)}</div>` : ''}
+                        ${data['Date:'] && data['Date:'] !== data.date ? `<div><strong>Fecha Envío:</strong> ${formatDate(data['Date:'])}</div>` : ''}
+                    </div>
+                    
+                    ${Object.keys(data).length > 0 ? `
+                        <div class="welding-details" style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                            <h4 style="margin-bottom: 10px; color: #495057;">📋 Información Técnica</h4>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                                ${Object.entries(data)
+                                    .filter(([key, value]) => key !== 'status' && key !== 'date' && key !== 'Date:' && key !== 'SUBCONTRACTOR' && key !== 'CONTRACTOR')
+                                    .map(([key, value]) => `
+                                        <div style="background: white; padding: 8px; border-radius: 6px; border-left: 3px solid #007bff;">
+                                            <div style="font-size: 0.85em; color: #666; margin-bottom: 4px;">${key}</div>
+                                            <div style="font-weight: bold; color: #333; word-break: break-word;">${value}</div>
+                                        </div>
+                                    `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="welding-actions" style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button class="search-btn" onclick="viewWeldingDetails('${weld.id}')" style="flex: 1;">
+                            👁️ Ver Detalles
+                        </button>
+                        <button class="search-btn" onclick="editWeldingStatus('${weld.id}')" style="flex: 1;">
+                            ✏️ Editar Estado
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Crear sección de instalación para soportes
+        function createInstallationSection(support, installationInfo) {
+            const plannedDate = installationInfo.planned_date ? 
+                new Date(installationInfo.planned_date).toLocaleDateString() : 'No definida';
+            const actualDate = installationInfo.actual_date ? 
+                new Date(installationInfo.actual_date).toLocaleDateString() : 'No instalado';
+            
+            return `
+                <div class="installation-section">
+                    <h4>🔧 Estado de Instalación</h4>
+                    <div class="installation-details">
+                        <div><strong>Estado:</strong> ${getStatusText(installationInfo.status)}</div>
+                        <div><strong>Planificado:</strong> ${plannedDate}</div>
+                        <div><strong>Instalado:</strong> ${actualDate}</div>
+                        <div><strong>Responsable:</strong> ${installationInfo.installed_by || 'No asignado'}</div>
+                    </div>
+                    ${installationInfo.notes ? `<div><strong>Notas:</strong> ${installationInfo.notes}</div>` : ''}
+                    <div class="installation-controls">
+                        <button class="install-btn" onclick="editInstallation('${support.support_number}', '${support.support_type}', '${support.position_number || '1'}')">
+                            ✏️ Editar
+                    </button>
+                        <button class="install-btn" onclick="quickInstall('${support.support_number}', '${support.support_type}', '${support.position_number || '1'}')">
+                            ✅ Marcar Instalado
+                    </button>
+                </div>
+                </div>
+            `;
+        }
+
+        // Crear tarjeta de instalación
+        function createInstallationCard(installation) {
+            const support = allSupports.find(s => 
+                s.support_number === installation.support_number && 
+                s.support_type === installation.support_type
+            );
+            
+            const plannedDate = installation.planned_date ? 
+                new Date(installation.planned_date).toLocaleDateString() : 'No definida';
+            const actualDate = installation.actual_date ? 
+                new Date(installation.actual_date).toLocaleDateString() : 'No instalado';
+            
+            return `
+                <div class="result-card">
+                    <h3>🔧 ${installation.support_number} - ${installation.support_type}${createInstallationStatusBadge(installation)}</h3>
+                    <div class="info">
+                        <div><strong>Estado:</strong> ${getStatusText(installation.status)}</div>
+                        <div><strong>Planificado:</strong> ${plannedDate}</div>
+                        <div><strong>Instalado:</strong> ${actualDate}</div>
+                        <div><strong>Responsable:</strong> ${installation.installed_by || 'No asignado'}</div>
+                        <div><strong>Línea:</strong> ${support ? support.fluid_piping : 'N/A'}</div>
+                        <div><strong>Posición:</strong> ${installation.position_number || 'N/A'}</div>
+                    </div>
+                    ${installation.notes ? `
+                        <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px;">
+                            <strong>Notas:</strong> ${installation.notes}
+                </div>
+                    ` : ''}
+                    <div class="installation-controls">
+                        <button class="install-btn" onclick="editInstallation('${installation.support_number}', '${installation.support_type}', '${installation.position_number || '1'}')">
+                            ✏️ Editar
+                        </button>
+                        ${installation.status !== 'installed' ? `
+                            <button class="install-btn" onclick="quickInstall('${installation.support_number}', '${installation.support_type}', '${installation.position_number || '1'}')">
+                                ✅ Marcar Instalado
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Editar instalación
+        function editInstallation(supportNumber, supportType, positionNumber) {
+            if (!window.installationManager) return;
+            
+            const support = allSupports.find(s => 
+                s.support_number === supportNumber && 
+                s.support_type === supportType && 
+                (s.position_number || '1') === positionNumber
+            );
+            
+            if (!support) {
+                alert('Soporte no encontrado');
+                return;
+            }
+            
+            currentEditingSupport = support;
+            const installationInfo = window.installationManager.getInstallationInfo(support);
+            
+            // Llenar el formulario
+            document.getElementById('modalSupportInfo').value = `${support.support_number} - ${support.support_type} (Pos. ${support.position_number || '1'})`;
+            document.getElementById('modalInstallationStatus').value = installationInfo.status;
+            document.getElementById('modalPlannedDate').value = installationInfo.planned_date ? 
+                formatDateForInput(installationInfo.planned_date) : '';
+            document.getElementById('modalActualDate').value = installationInfo.actual_date ? 
+                formatDateForInput(installationInfo.actual_date) : '';
+            document.getElementById('modalInstalledBy').value = installationInfo.installed_by || '';
+            document.getElementById('modalInstallationNotes').value = installationInfo.notes || '';
+            
+            // Mostrar/ocultar campos según el estado
+            toggleDateFields();
+            
+            // Mostrar modal
+            document.getElementById('editInstallationModal').style.display = 'block';
+        }
+
+        // Instalación rápida
+        function quickInstall(supportNumber, supportType, positionNumber) {
+            if (!window.installationManager) return;
+            
+            const support = allSupports.find(s => 
+                s.support_number === supportNumber && 
+                s.support_type === supportType && 
+                (s.position_number || '1') === positionNumber
+            );
+            
+            if (!support) {
+                alert('Soporte no encontrado');
+                return;
+            }
+            
+            const responsable = prompt('Ingrese el nombre del responsable de la instalación:');
+            if (responsable !== null) {
+                window.installationManager.markAsInstalled(support, responsable, 'Instalación rápida');
+                
+                // Refrescar la vista actual
+                if (currentTab === 'soportes' && searchPerformed.soportes) {
+                    performSearch('soportes');
+                } else if (currentTab === 'instalaciones' && searchPerformed.instalaciones) {
+                    performSearch('instalaciones');
+                }
+                
+                updateStats();
+                alert('✅ Soporte marcado como instalado');
+            }
+        }
+
+        // Guardar instalación desde el modal
+        function saveInstallation() {
+            if (!currentEditingSupport || !window.installationManager) return;
+            
+            const status = document.getElementById('modalInstallationStatus').value;
+            const plannedDate = document.getElementById('modalPlannedDate').value;
+            const actualDate = document.getElementById('modalActualDate').value;
+            const installedBy = document.getElementById('modalInstalledBy').value;
+            const notes = document.getElementById('modalInstallationNotes').value;
+            
+            const updateData = {
+                status: status,
+                planned_date: plannedDate ? new Date(plannedDate).toISOString() : null,
+                actual_date: actualDate ? new Date(actualDate).toISOString() : null,
+                installed_by: installedBy,
+                notes: notes
+            };
+            
+            window.installationManager.updateInstallation(currentEditingSupport, updateData);
+            
+            // Cerrar modal
+            closeModal();
+            
+            // Refrescar la vista actual
+            if (currentTab === 'soportes' && searchPerformed.soportes) {
+                performSearch('soportes');
+            } else if (currentTab === 'instalaciones' && searchPerformed.instalaciones) {
+                performSearch('instalaciones');
+            }
+            
+            updateStats();
+            alert('✅ Información de instalación guardada');
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            document.getElementById('editInstallationModal').style.display = 'none';
+            currentEditingSupport = null;
+        }
+
+        // Alternar campos de fecha según el estado
+        function toggleDateFields() {
+            const status = document.getElementById('modalInstallationStatus').value;
+            const plannedDateGroup = document.getElementById('modalPlannedDate').parentElement;
+            const actualDateGroup = document.getElementById('modalActualDate').parentElement;
+            const installedByGroup = document.getElementById('modalInstalledBy').parentElement;
+            
+            // Mostrar fecha planificada para estados 'planned' e 'in_progress'
+            plannedDateGroup.style.display = ['planned', 'in_progress'].includes(status) ? 'block' : 'none';
+            
+            // Mostrar fecha real e instalado por para estado 'installed'
+            actualDateGroup.style.display = status === 'installed' ? 'block' : 'none';
+            installedByGroup.style.display = status === 'installed' ? 'block' : 'none';
+        }
+
+        // Exportar instalaciones
+        function exportInstallations() {
+            if (!window.installationManager) return;
+            
+            const data = window.installationManager.exportData();
+            const csv = convertToCSV(data);
+            downloadCSV(csv, 'instalaciones_soportes.csv');
+        }
+
+        // Utilidades
+        function getStatusText(status) {
+            const statusTexts = {
+                'pending': 'Pendiente',
+                'planned': 'Planificado',
+                'in_progress': 'En Progreso',
+                'installed': 'Instalado'
+            };
+            return statusTexts[status] || status;
+        }
+
+        function getStatusIcon(status) {
+            const statusIcons = {
+                'pending': '⏳',
+                'planned': '📅',
+                'in_progress': '🔄',
+                'installed': '✅'
+            };
+            return statusIcons[status] || '❓';
+        }
+
+        function isOverdue(plannedDate, status) {
+            if (!plannedDate || status === 'installed') return false;
+            const planned = new Date(plannedDate);
+            const today = new Date();
+            return planned < today;
+        }
+
+        function formatDateForInput(dateString) {
+            const date = new Date(dateString);
+            return date.toISOString().split('T')[0];
+        }
+
+        function convertToCSV(data) {
+            if (!data || data.length === 0) return '';
+            
+            const headers = Object.keys(data[0]);
+            const csvContent = [
+                headers.join(','),
+                ...data.map(row => headers.map(header => {
+                    const value = row[header];
+                    return typeof value === 'string' ? `"${value.replace(/"/g, '""')}"` : value;
+                }).join(','))
+            ].join('\n');
+            
+            return csvContent;
+        }
+
+        function downloadCSV(csv, filename) {
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Crear tarjeta de isométrico
+        function createIsometricCard(isometric) {
+            const sheetLinks = isometric.sheets.map(sheet => 
+                `<a href="ISOMETRICOS/${sheet.filename}" target="_blank" class="isometric-file">
+                    Hoja ${sheet.sheet_number} (${sheet.revision})
+                </a>`
+            ).join('');
+            
+            // Buscar versiones prefabricadas disponibles
+            const prefabricatedSheets = [];
+            isometric.sheets.forEach(sheet => {
+                if (prefabricatedMapping[sheet.filename]) {
+                    prefabricatedSheets.push({
+                        ...sheet,
+                        prefab_path: prefabricatedMapping[sheet.filename].prefab_path,
+                        prefab_file: prefabricatedMapping[sheet.filename].prefab_file
+                    });
+                }
+            });
+            
+            const prefabLinks = prefabricatedSheets.map(sheet => 
+                `<a href="${sheet.prefab_path}" target="_blank" class="isometric-file prefab-file">
+                    🏭 Prefab ${sheet.sheet_number} (${sheet.revision})
+                </a>`
+            ).join('');
+            
+            const hasPrefab = prefabricatedSheets.length > 0;
+            const prefabIndicator = hasPrefab ? ' <span class="prefab-indicator">🏭</span>' : '';
+            
+            return `
+                <div class="result-card">
+                    <h3>📐 Línea ${isometric.line_code}${prefabIndicator}</h3>
+                    <div class="info">
+                        <div><strong>Fluido:</strong> ${isometric.fluid}</div>
+                        <div><strong>Total Hojas:</strong> ${isometric.sheets.length}</div>
+                        <div><strong>Tipos:</strong> ${[...new Set(isometric.sheets.map(s => s.type))].join(', ')}</div>
+                        <div><strong>Revisiones:</strong> ${[...new Set(isometric.sheets.map(s => s.revision))].join(', ')}</div>
+                        ${hasPrefab ? `<div><strong>Prefabricadas:</strong> ${prefabricatedSheets.length}</div>` : ''}
+                    </div>
+                    <div class="isometric-section">
+                        <h4>📋 Hojas del Isométrico:</h4>
+                        <div class="isometric-files">${sheetLinks}</div>
+                    </div>
+                    ${hasPrefab ? `
+                    <div class="isometric-section">
+                        <h4>🏭 Versiones Prefabricadas:</h4>
+                        <div class="isometric-files">${prefabLinks}</div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // Crear tarjeta de relación
+        function createRelationCard(key, relations) {
+            const firstRelation = relations[0];
+            const isometricFiles = firstRelation.isometric_files.map(file => 
+                `<a href="ISOMETRICOS/${file}" target="_blank" class="isometric-file">
+                    ${file.split('_')[0]}
+                </a>`
+            ).join('');
+            
+            return `
+                <div class="result-card">
+                    <h3>🔗 Soporte ${firstRelation.support_number} - ${firstRelation.support_type}</h3>
+                    <div class="info">
+                        <div><strong>Línea:</strong> ${firstRelation.line_code}</div>
+                        <div><strong>Fluido:</strong> ${firstRelation.fluid}</div>
+                        <div><strong>Hoja ISO:</strong> ${firstRelation.iso_sheet}</div>
+                        <div><strong>Archivos:</strong> ${firstRelation.isometric_files.length}</div>
+        </div>
+                    <div class="isometric-section">
+                        <h4>📐 Isométricos Relacionados:</h4>
+                        <div class="isometric-files">${isometricFiles}</div>
+    </div>
+                </div>
+            `;
+        }
+
+        // Mostrar loading
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        // Mostrar error
+        function showError(message) {
+            const container = document.querySelector('.container');
+            container.innerHTML += `<div class="error">${message}</div>`;
+        }
+
+        // Funciones para manejar costuras
+        function viewWeldingDetails(weldId) {
+            const weld = allWeldingRecords.find(w => w.id === weldId);
+            if (!weld) {
+                alert('Costura no encontrada');
+                return;
+            }
+            
+            const data = weld.data || {};
+            const details = Object.entries(data)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('\n');
+            
+            alert(`Detalles de ${weldId}:\n\nFila Excel: ${weld.row_number}\n\n${details}`);
+        }
+
+        function editWeldingStatus(weldId) {
+            const weld = allWeldingRecords.find(w => w.id === weldId);
+            if (!weld) {
+                alert('Costura no encontrada');
+                return;
+            }
+            
+            const newStatus = prompt('Nuevo estado de la costura:', weld.data.status || '');
+            if (newStatus !== null) {
+                weld.data.status = newStatus;
+                
+                // Actualizar la visualización
+                if (currentTab === 'costuras' && searchPerformed.costuras) {
+                    performSearch('costuras');
+                }
+                updateStats();
+                alert('✅ Estado de costura actualizado');
+            }
+        }
+
+        async function updateWeldingData() {
+            try {
+                showLoading(true);
+                
+                // Solicitar actualización al servidor
+                const response = await fetch('/api/update_welding_data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Recargar datos de costuras
+                    const weldingResponse = await fetch('welding_status_data.json');
+                    const weldingData = await weldingResponse.json();
+                    allWeldingRecords = weldingData.welding_records || [];
+                    
+                    // Actualizar estadísticas
+                    updateStats();
+                    
+                    // Refrescar vista si estamos en la pestaña de costuras
+                    if (currentTab === 'costuras' && searchPerformed.costuras) {
+                        performSearch('costuras');
+                    }
+                    
+                    alert(`✅ Datos actualizados desde Excel\n📊 Total costuras: ${allWeldingRecords.length}`);
+                } else {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+            } catch (error) {
+                console.error('Error actualizando datos de costuras:', error);
+                alert('❌ Error al actualizar datos desde Excel. Verifica que el archivo TEMPLATE.xlsx esté disponible.');
+            } finally {
+                showLoading(false);
+            }
+        }
+    </script>
+
+    <!-- Estilos del Sistema de Costuras Mejorado -->
+    <link rel="stylesheet" href="welding_system_styles.css">
+
+    <!-- Scripts del Sistema de Costuras Mejorado -->
+    <script src="welding_system_manager.js"></script>
+</body>
+</html> 

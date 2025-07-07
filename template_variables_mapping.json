@@ -1,0 +1,90 @@
+{
+  "A": {
+    "column": 19,
+    "title": "A",
+    "reference_code": "(4a)",
+    "description": "Dimensión principal A - Generalmente altura o longitud principal del soporte",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "B": {
+    "column": 20,
+    "title": "B",
+    "reference_code": "(4b)",
+    "description": "Dimensión principal B - Generalmente ancho o segunda dimensión principal",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "C": {
+    "column": 22,
+    "title": "C",
+    "reference_code": "(4c)",
+    "description": "Dimensión C - Tercera dimensión principal o profundidad",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "D": {
+    "column": 23,
+    "title": "D",
+    "reference_code": "(4d)",
+    "description": "Dimensión D - Cuarta dimensión o diámetro específico",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "E": {
+    "column": 24,
+    "title": "E",
+    "reference_code": "",
+    "description": "Dimensión E - Quinta dimensión o espesor específico",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "R": {
+    "column": 26,
+    "title": "R",
+    "reference_code": "",
+    "description": "Radio o distancia radial - Usado en soportes circulares o curvos",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "X": {
+    "column": 27,
+    "title": "X",
+    "reference_code": "(NB)",
+    "description": "Coordenada X - Posición horizontal en el sistema de coordenadas",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "Y": {
+    "column": 28,
+    "title": "Y",
+    "reference_code": "(NB)",
+    "description": "Coordenada Y - Posición vertical en el sistema de coordenadas",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "EL": {
+    "column": 29,
+    "title": "EL",
+    "reference_code": "",
+    "description": "Elevación - Altura o cota del soporte respecto al nivel de referencia",
+    "unit": "mm",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "N.": {
+    "column": 33,
+    "title": "N.",
+    "reference_code": "(7a)",
+    "description": "Número de referencia - Identificador numérico específico",
+    "unit": "",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  },
+  "SH.": {
+    "column": 37,
+    "title": "SH.",
+    "reference_code": "",
+    "description": "Número de hoja - Referencia al plano o drawing donde aparece",
+    "unit": "",
+    "source_file": "4274-XH-LP-21210002-IS02_Native.xlsm"
+  }
+}

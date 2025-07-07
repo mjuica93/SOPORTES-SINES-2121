@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Integrado SINES - Versión Mejorada con Variables de Plantilla</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .tab {
+            flex: 1;
+            min-width: 200px;
+            padding: 20px;
+            text-align: center;
+            background: #e9ecef;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #495057;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background: #fff;
+            color: #2c5f2d;
+            border-bottom: 3px solid #2c5f2d;
+        }
+
+        .tab:hover {
+            background: #fff;
+            transform: translateY(-2px);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.1em;
+        }
+
+        .filter-group input, .filter-group select {
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-group input:focus, .filter-group select:focus {
+            outline: none;
+            border-color: #2c5f2d;
+        }
+
+        .search-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos para agrupación de soportes */
+        .support-group-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .support-group-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .support-group-header {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .support-group-title {
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+
+        .element-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .support-group-summary {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .support-group-body {
+            padding: 0;
+        }
+
+        .support-element {
+            border-bottom: 1px solid #eee;
+            padding: 20px;
+        }
+
+        .support-element:last-child {
+            border-bottom: none;
+        }
+
+        /* Estilos para variables de plantilla */
+        .template-variables-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 5px solid #2c5f2d;
+        }
+
+        .template-variables-title {
+            color: #2c5f2d;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .template-variable {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .template-variable:last-child {
+            border-bottom: none;
+        }
+
+        .template-variable-name {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .template-variable-label {
+            font-weight: 600;
+            color: #2c5f2d;
+            font-size: 0.95em;
+        }
+
+        .template-variable-description {
+            font-size: 0.8em;
+            color: #6c757d;
+            margin-top: 2px;
+        }
+
+        .template-variable-value {
+            font-weight: 600;
+            color: #495057;
+            text-align: right;
+        }
+
+        .template-variable-code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            color: #6c757d;
+            margin-left: 10px;
+        }
+
+        /* Estilos para dimensiones mejoradas */
+        .dimensions-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .dimensions-title {
+            color: #495057;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dimension-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .dimension-item:last-child {
+            border-bottom: none;
+        }
+
+        .dimension-label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .dimension-value {
+            font-weight: 600;
+            color: #2c5f2d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                min-width: auto;
+            }
+            
+            .filters {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-actions {
+                flex-direction: column;
+            }
+            
+            .support-group-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        /* Loading y estados */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: #6c757d;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        /* Estilos para PDFs */
+        .pdf-section {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .pdf-link {
+            display: inline-block;
+            background: #2c5f2d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .pdf-link:hover {
+            background: #1e4220;
+        }
+
+        /* Estilos para información técnica */
+        .info-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .info-section h6 {
+            color: #2c5f2d;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #6c757d;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #495057;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ Sistema Integrado SINES</h1>
+            <p>Versión Mejorada con Variables de Plantilla - Soportes, Isométricos y Dimensiones Técnicas</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('soportes')">🔧 Soportes Agrupados</button>
+            <button class="tab" onclick="showTab('isometricos')">📐 Isométricos</button>
+            <button class="tab" onclick="showTab('relaciones')">🔗 Relaciones</button>
+            <button class="tab" onclick="showTab('prefabricados')">⚡ Prefabricados</button>
+        </div>
+
+        <!-- Tab de Soportes -->
+        <div id="soportes" class="tab-content active">
+            <div class="stats" id="supportStats">
+                <!-- Se llenarán dinámicamente -->
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="searchInput">🔍 Buscar Soporte</label>
+                    <input type="text" id="searchInput" placeholder="Número, tipo, fluido, notas..." onkeyup="searchSupports()">
+                </div>
+                <div class="filter-group">
+                    <label for="filterType">🏷️ Filtrar por Tipo</label>
+                    <select id="filterType" onchange="searchSupports()">
+                        <option value="">Todos los tipos</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterDimensions">📏 Solo con Variables de Plantilla</label>
+                    <select id="filterDimensions" onchange="searchSupports()">
+                        <option value="">Todos</option>
+                        <option value="with_dimensions">Solo con dimensiones</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="search-actions">
+                <button class="search-btn" onclick="searchSupports()">🔍 Buscar</button>
+                <button class="search-btn" onclick="displayAllSupports()">📋 Mostrar Todos</button>
+                <button class="search-btn" onclick="exportResults()">📊 Exportar</button>
+            </div>
+
+            <div id="loading" class="loading" style="display: none;">
+                <p>⏳ Cargando datos...</p>
+            </div>
+
+            <div id="noResults" class="no-results" style="display: none;">
+                <h3>🔍 Sin Resultados</h3>
+                <p>No se encontraron soportes que coincidan con los criterios de búsqueda.</p>
+            </div>
+
+            <div id="resultsContainer">
+                <!-- Los resultados se cargarán aquí -->
+            </div>
+        </div>
+
+        <!-- Tab de Isométricos -->
+        <div id="isometricos" class="tab-content">
+            <div class="stats" id="isometricStats">
+                <!-- Se llenarán dinámicamente -->
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="searchIsometric">🔍 Buscar Isométrico</label>
+                    <input type="text" id="searchIsometric" placeholder="Línea, hoja, fluido..." onkeyup="searchIsometrics()">
+                </div>
+                <div class="filter-group">
+                    <label for="filterFluid">🌊 Filtrar por Fluido</label>
+                    <select id="filterFluid" onchange="searchIsometrics()">
+                        <option value="">Todos los fluidos</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="search-actions">
+                <button class="search-btn" onclick="searchIsometrics()">🔍 Buscar</button>
+                <button class="search-btn" onclick="displayAllIsometrics()">📋 Mostrar Todos</button>
+            </div>
+
+            <div id="isometricResults">
+                <!-- Los resultados de isométricos se cargarán aquí -->
+            </div>
+        </div>
+
+        <!-- Tab de Relaciones -->
+        <div id="relaciones" class="tab-content">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="searchRelation">🔍 Buscar Relación</label>
+                    <input type="text" id="searchRelation" placeholder="Soporte o isométrico..." onkeyup="searchRelations()">
+                </div>
+            </div>
+
+            <div id="relationResults">
+                <!-- Los resultados de relaciones se cargarán aquí -->
+            </div>
+        </div>
+
+        <!-- Tab de Prefabricados -->
+        <div id="prefabricados" class="tab-content">
+            <div class="stats" id="prefabStats">
+                <!-- Se llenarán dinámicamente -->
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="searchPrefab">🔍 Buscar Prefabricado</label>
+                    <input type="text" id="searchPrefab" placeholder="Línea, código..." onkeyup="searchPrefabricated()">
+                </div>
+            </div>
+
+            <div id="prefabResults">
+                <!-- Los resultados de prefabricados se cargarán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let allSupports = [];
+        let allIsometrics = [];
+        let supportIsometricRelations = [];
+        let prefabricatedIsometrics = [];
+        let supportMapping = {};
+        let templateVariables = {};
+        let supportDimensions = {};
+
+        // Variables para agrupación
+        let groupedSupports = {};
+        let filteredSupports = {};
+
+        // Cargar datos al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+        });
+
+        // Cargar todos los datos
+        async function loadData() {
+            try {
+                showLoading(true);
+                
+                // Cargar datos de soportes
+                const supportsResponse = await fetch('support_data_enhanced.json');
+                allSupports = await supportsResponse.json();
+                
+                // Cargar mapeo de PDFs
+                const mappingResponse = await fetch('support_pdf_mapping.json');
+                supportMapping = await mappingResponse.json();
+                
+                // Cargar variables de plantilla
+                const templateResponse = await fetch('template_variables_mapping.json');
+                templateVariables = await templateResponse.json();
+                
+                // Cargar dimensiones de soporte
+                const dimensionsResponse = await fetch('support_dimensions_data.json');
+                const dimensionsData = await dimensionsResponse.json();
+                
+                // Crear mapeo de dimensiones por soporte
+                dimensionsData.forEach(item => {
+                    const key = `${item.support_number}_${item.support_type}`;
+                    supportDimensions[key] = item.dimensions;
+                });
+                
+                // Cargar datos de isométricos
+                try {
+                    const isometricsResponse = await fetch('isometric_data_with_prefabricated.json');
+                    allIsometrics = await isometricsResponse.json();
+                } catch (e) {
+                    console.warn('No se pudieron cargar datos de isométricos:', e);
+                    allIsometrics = [];
+                }
+                
+                // Cargar relaciones soporte-isométrico
+                try {
+                    const relationsResponse = await fetch('support_isometric_relation.json');
+                    supportIsometricRelations = await relationsResponse.json();
+                } catch (e) {
+                    console.warn('No se pudieron cargar relaciones:', e);
+                    supportIsometricRelations = [];
+                }
+                
+                // Cargar isométricos prefabricados
+                try {
+                    const prefabResponse = await fetch('prefabricated_isometric_mapping_github.json');
+                    prefabricatedIsometrics = await prefabResponse.json();
+                } catch (e) {
+                    console.warn('No se pudieron cargar prefabricados:', e);
+                    prefabricatedIsometrics = [];
+                }
+                
+                // Agrupar soportes por número
+                groupSupportsByNumber();
+                
+                // Inicializar la aplicación
+                initializeApp();
+                
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+                showError('Error al cargar los datos. Verifica que los archivos JSON estén disponibles.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Agrupar soportes por número
+        function groupSupportsByNumber() {
+            groupedSupports = {};
+            
+            allSupports.forEach(support => {
+                const supportNumber = support.support_number;
+                if (!groupedSupports[supportNumber]) {
+                    groupedSupports[supportNumber] = [];
+                }
+                groupedSupports[supportNumber].push(support);
+            });
+            
+            console.log(`Agrupados ${Object.keys(groupedSupports).length} números de soporte únicos`);
+        }
+
+        // Inicializar la aplicación
+        function initializeApp() {
+            updateSupportStats();
+            populateTypeFilter();
+            displayAllSupports();
+            updateIsometricStats();
+            populateFluidFilter();
+        }
+
+        // Actualizar estadísticas de soportes
+        function updateSupportStats() {
+            const totalGroups = Object.keys(groupedSupports).length;
+            const totalSupports = allSupports.length;
+            const supportTypes = new Set(allSupports.map(s => s.support_type)).size;
+            const withDimensions = Object.keys(supportDimensions).length;
+            
+            document.getElementById('supportStats').innerHTML = `
+                <div class="stat-card">
+                    <h3>${totalGroups}</h3>
+                    <p>Grupos de Soportes</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${totalSupports}</h3>
+                    <p>Total Elementos</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${supportTypes}</h3>
+                    <p>Tipos Diferentes</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${withDimensions}</h3>
+                    <p>Con Dimensiones</p>
+                </div>
+            `;
+        }
+
+        // Poblar filtro de tipos
+        function populateTypeFilter() {
+            const typeSelect = document.getElementById('filterType');
+            const types = [...new Set(allSupports.map(s => s.support_type))].sort();
+            
+            typeSelect.innerHTML = '<option value="">Todos los tipos</option>';
+            types.forEach(type => {
+                typeSelect.innerHTML += `<option value="${type}">${type}</option>`;
+            });
+        }
+
+        // Buscar soportes
+        function searchSupports() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const filterType = document.getElementById('filterType').value;
+            const filterDimensions = document.getElementById('filterDimensions').value;
+            
+            if (!searchTerm && !filterType && !filterDimensions) {
+                displayAllSupports();
+                return;
+            }
+            
+            // Filtrar grupos de soportes
+            filteredSupports = {};
+            
+            Object.entries(groupedSupports).forEach(([supportNumber, supports]) => {
+                const matchesSearch = !searchTerm || 
+                    supportNumber.toLowerCase().includes(searchTerm) ||
+                    supports.some(support => 
+                        support.support_type.toLowerCase().includes(searchTerm) ||
+                        (support.fluid_piping && support.fluid_piping.toLowerCase().includes(searchTerm)) ||
+                        (support.notes && support.notes.toLowerCase().includes(searchTerm)) ||
+                        (support.object_parameters && support.object_parameters.toLowerCase().includes(searchTerm))
+                    );
+                
+                const matchesType = !filterType || supports.some(support => support.support_type === filterType);
+                
+                const matchesDimensions = !filterDimensions || 
+                    (filterDimensions === 'with_dimensions' && 
+                     supports.some(support => {
+                         const key = `${support.support_number}_${support.support_type}`;
+                         return supportDimensions[key];
+                     }));
+                
+                if (matchesSearch && matchesType && matchesDimensions) {
+                    // Si hay filtro de tipo, solo incluir soportes de ese tipo
+                    if (filterType) {
+                        filteredSupports[supportNumber] = supports.filter(support => support.support_type === filterType);
+                    } else {
+                        filteredSupports[supportNumber] = supports;
+                    }
+                }
+            });
+            
+            displaySupports(filteredSupports);
+            updateSupportStats();
+        }
+
+        // Mostrar todos los soportes
+        function displayAllSupports() {
+            filteredSupports = groupedSupports;
+            displaySupports(groupedSupports);
+            updateSupportStats();
+        }
+
+        // Mostrar soportes agrupados
+        function displaySupports(supportGroups) {
+            const container = document.getElementById('resultsContainer');
+            
+            const groupEntries = Object.entries(supportGroups);
+            
+            if (groupEntries.length === 0) {
+                showNoResults();
+                return;
+            }
+            
+            hideNoResults();
+            
+            // Limitar a los primeros 25 grupos para rendimiento
+            const displayGroups = groupEntries.slice(0, 25);
+            
+            container.innerHTML = displayGroups.map(([supportNumber, supports]) => 
+                createSupportGroupCard(supportNumber, supports)
+            ).join('');
+            
+            if (groupEntries.length > 25) {
+                container.innerHTML += `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        Mostrando 25 de ${groupEntries.length} grupos de soportes. Refina tu búsqueda para ver más resultados.
+                    </div>
+                `;
+            }
+        }
+
+        // Crear tarjeta de grupo de soportes
+        function createSupportGroupCard(supportNumber, supports) {
+            const mainSupport = supports[0];
+            const hasMultiple = supports.length > 1;
+            
+            return `
+                <div class="support-group-card">
+                    <div class="support-group-header" onclick="toggleSupportGroup('${supportNumber}')">
+                        <div>
+                            <div class="support-group-title">
+                                <i class="fas fa-layer-group"></i> 
+                                Soporte ${supportNumber}
+                                ${hasMultiple ? `<span class="element-count">(${supports.length} elementos)</span>` : ''}
+                            </div>
+                            <div class="support-group-summary">
+                                ${supports.map(s => s.support_type).join(', ')}
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-down toggle-icon" id="toggle-${supportNumber}"></i>
+                    </div>
+                    
+                    <div class="support-group-body" id="group-${supportNumber}" style="display: ${hasMultiple ? 'none' : 'block'};">
+                        ${supports.map((support, index) => createSupportElement(support, index, supports.length)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Crear elemento individual de soporte
+        function createSupportElement(support, index, totalElements) {
+            const supportKey = `${support.support_number}_${support.support_type}`;
+            const dimensions = supportDimensions[supportKey] || {};
+            const hasDimensions = Object.keys(dimensions).length > 0;
+            
+            // Buscar PDFs disponibles
+            const pdfs = supportMapping[support.support_type] || [];
+            const hasPDFs = pdfs.length > 0;
+            
+            return `
+                <div class="support-element">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h4 style="color: #2c5f2d; margin: 0;">
+                            ${totalElements > 1 ? `Elemento ${index + 1}: ` : ''}${support.support_type}
+                        </h4>
+                        <span style="background: #e9ecef; padding: 5px 10px; border-radius: 15px; font-size: 0.9em;">
+                            ${support.support_number}
+                        </span>
+                    </div>
+                    
+                    <!-- Información básica -->
+                    <div class="info-section">
+                        <h6><i class="fas fa-info-circle"></i> Información Básica</h6>
+                        <div class="info-grid">
+                            ${createInfoItem('Número de Soporte', support.support_number)}
+                            ${createInfoItem('Tipo de Soporte', support.support_type)}
+                            ${createInfoItem('Número de Posición', support.position_number)}
+                            ${createInfoItem('Código de Commodity', support.commodity_code)}
+                            ${createInfoItem('Dimensiones de Tamaño', support.size_dimensions)}
+                            ${createInfoItem('Cantidad', support.quantity)}
+                        </div>
+                    </div>
+                    
+                    <!-- Variables de Plantilla -->
+                    ${hasDimensions ? createTemplateVariablesSection(dimensions) : ''}
+                    
+                    <!-- Información técnica -->
+                    <div class="info-section">
+                        <h6><i class="fas fa-cogs"></i> Información Técnica</h6>
+                        <div class="info-grid">
+                            ${createInfoItem('Clase de Material', support.material_class)}
+                            ${createInfoItem('Clase Material Tubería', support.piping_material_class)}
+                            ${createInfoItem('Parámetros del Objeto', support.object_parameters)}
+                            ${createInfoItem('Opción de Restricción', support.restraint_option)}
+                            ${createInfoItem('Opción de Soporte', support.support_option)}
+                            ${createInfoItem('Opción de Junta', support.joint_option)}
+                            ${createInfoItem('Opción de Orientación', support.orientation_option)}
+                        </div>
+                    </div>
+                    
+                    <!-- Información de proyecto -->
+                    <div class="info-section">
+                        <h6><i class="fas fa-project-diagram"></i> Información de Proyecto</h6>
+                        <div class="info-grid">
+                            ${createInfoItem('Fluido y Tubería', support.fluid_piping)}
+                            ${createInfoItem('Hoja ISO', support.iso_sheet)}
+                            ${createInfoItem('Temperatura', support.temperature)}
+                            ${createInfoItem('Archivo Fuente', support.file_source)}
+                        </div>
+                    </div>
+                    
+                    <!-- Notas -->
+                    ${support.notes ? `
+                        <div class="info-section">
+                            <h6><i class="fas fa-sticky-note"></i> Notas y Referencias</h6>
+                            <div style="color: #495057; line-height: 1.5;">${support.notes}</div>
+                        </div>
+                    ` : ''}
+                    
+                    <!-- PDFs -->
+                    ${hasPDFs ? `
+                        <div class="pdf-section">
+                            <h6><i class="fas fa-file-pdf"></i> Estándares de Soporte Disponibles</h6>
+                            ${pdfs.map(pdf => `
+                                <a href="ESTANDARES DE SOPORTES/${pdf}" target="_blank" class="pdf-link">
+                                    <i class="fas fa-download"></i> ${pdf}
+                                </a>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            No se encontraron PDFs de estándares para este tipo de soporte (${support.support_type})
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        // Crear sección de variables de plantilla
+        function createTemplateVariablesSection(dimensions) {
+            const variables = Object.entries(dimensions).map(([varName, varData]) => {
+                const template = templateVariables[varName] || {};
+                const referenceCode = template.reference_code || '';
+                
+                return `
+                    <div class="template-variable">
+                        <div class="template-variable-name">
+                            <div class="template-variable-label">
+                                ${varName}: ${varData.title || template.description || `Variable ${varName}`}
+                                ${referenceCode ? `<span class="template-variable-code">${referenceCode}</span>` : ''}
+                            </div>
+                            <div class="template-variable-description">
+                                ${varData.title || template.description || `Variable ${varName} de la plantilla`}
+                            </div>
+                        </div>
+                        <div class="template-variable-value">
+                            ${varData.value}${varData.unit || template.unit || ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            return `
+                <div class="template-variables-section">
+                    <div class="template-variables-title">
+                        <i class="fas fa-ruler-combined"></i>
+                        Variables de Plantilla (T22-T23)
+                    </div>
+                    ${variables}
+                </div>
+            `;
+        }
+
+        // Crear item de información
+        function createInfoItem(label, value) {
+            if (!value || value === '' || value === 'nan') return '';
+            
+            return `
+                <div class="info-item">
+                    <div class="info-label">${label}</div>
+                    <div class="info-value">${value}</div>
+                </div>
+            `;
+        }
+
+        // Toggle grupo de soportes
+        function toggleSupportGroup(supportNumber) {
+            const body = document.getElementById(`group-${supportNumber}`);
+            const icon = document.getElementById(`toggle-${supportNumber}`);
+            
+            if (body.style.display === 'none') {
+                body.style.display = 'block';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                body.style.display = 'none';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        // Funciones para tabs
+        function showTab(tabName) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar tab seleccionado
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Funciones de utilidad
+        function showLoading(show) {
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('resultsContainer');
+            
+            if (show) {
+                loading.style.display = 'block';
+                results.style.display = 'none';
+            } else {
+                loading.style.display = 'none';
+                results.style.display = 'block';
+            }
+        }
+
+        function showNoResults() {
+            document.getElementById('noResults').style.display = 'block';
+            document.getElementById('resultsContainer').innerHTML = '';
+        }
+
+        function hideNoResults() {
+            document.getElementById('noResults').style.display = 'none';
+        }
+
+        function showError(message) {
+            document.getElementById('resultsContainer').innerHTML = `
+                <div class="alert alert-warning">
+                    <h4>⚠️ Error</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // Funciones para isométricos (implementar según sea necesario)
+        function updateIsometricStats() {
+            document.getElementById('isometricStats').innerHTML = `
+                <div class="stat-card">
+                    <h3>${allIsometrics.length}</h3>
+                    <p>Isométricos</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${supportIsometricRelations.length}</h3>
+                    <p>Relaciones</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${prefabricatedIsometrics.length}</h3>
+                    <p>Prefabricados</p>
+                </div>
+            `;
+        }
+
+        function populateFluidFilter() {
+            // Implementar según datos disponibles
+        }
+
+        function searchIsometrics() {
+            // Implementar búsqueda de isométricos
+        }
+
+        function displayAllIsometrics() {
+            // Implementar visualización de isométricos
+        }
+
+        function searchRelations() {
+            // Implementar búsqueda de relaciones
+        }
+
+        function searchPrefabricated() {
+            // Implementar búsqueda de prefabricados
+        }
+
+        function exportResults() {
+            // Implementar exportación de resultados
+            alert('Función de exportación en desarrollo');
+        }
+    </script>
+
+    <!-- Font Awesome para iconos -->
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+</body>
+</html> 

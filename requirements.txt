@@ -1,2 +1,6 @@
-# Sistema SINES - Solo librerías estándar de Python
-# No requiere dependencias externas 
+# SISTEMA SINES - SOPORTES
+# Esta aplicación usa solo librerías estándar de Python
+# No requiere dependencias externas
+
+# Si Railway requiere un archivo no vacío, mantenemos estas líneas comentadas
+# python>=3.11 

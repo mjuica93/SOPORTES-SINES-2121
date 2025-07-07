@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Sistema Seguro SINES - Híbrido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .main-container {
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+            margin-top: 10px;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.info {
+            background: #cce7ff;
+            color: #004085;
+            border: 1px solid #b3d7ff;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .dashboard-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+        }
+
+        .user-info span {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+
+
+        .version-info {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Pantalla de Login -->
+        <div id="loginScreen" class="login-container">
+            <div class="header">
+                <h1>🔒 Sistema Seguro SINES</h1>
+                <p>Versión Híbrida - Compatible con Ventanas Múltiples</p>
+            </div>
+
+            <div id="message" class="message"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">👤 Usuario:</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">🔑 Contraseña:</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" id="loginBtn" class="btn">🔓 Iniciar Sesión</button>
+            </form>
+
+            <div class="version-info">
+                <strong>🔧 Servidor Híbrido:</strong> Puerto 8003<br>
+                <strong>🍪 Autenticación:</strong> Cookies + Tokens<br>
+                <strong>🪟 Ventanas:</strong> Todo se abre en ventanas separadas<br>
+                <strong>🚀 Sistema Principal:</strong> Puerto 8000 requerido
+            </div>
+        </div>
+
+        <!-- Sistema Principal -->
+        <div id="mainSystem" class="main-container" style="display: none;">
+            <div class="user-info">
+                <span id="currentUser">👤 Usuario</span>
+                <button onclick="logout()" class="logout-btn">🚪 Cerrar Sesión</button>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboardView" class="tab-content active">
+                <div class="dashboard">
+                    <div class="dashboard-card">
+                        <h3>🔧 Sistema Principal</h3>
+                        <p>Accede al sistema completo de soportes e isométricos en una ventana separada con todas las funcionalidades.</p>
+                        <button onclick="loadMainSystem()" class="btn">🚀 Abrir en Nueva Ventana</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>⚙️ Panel de Configuración</h3>
+                        <p>Gestiona usuarios, configuración del sistema y herramientas de administración.</p>
+                        <button onclick="openConfigPanel()" class="btn btn-secondary">🔧 Abrir Panel</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>📊 Estadísticas</h3>
+                        <p>Visualiza estadísticas y métricas del sistema de soportes en una ventana separada.</p>
+                        <button onclick="openSystemWindow('http://localhost:8000/verificar_json.html', 'Estadísticas SINES')" class="btn">📈 Ver Estadísticas</button>
+                    </div>
+
+                    <div class="dashboard-card">
+                        <h3>📋 Verificación</h3>
+                        <p>Herramientas de verificación y validación de datos del sistema en ventana separada.</p>
+                        <button onclick="openSystemWindow('http://localhost:8000/index_enhanced.html', 'Verificación SINES')" class="btn">🔍 Verificar Datos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sessionToken = null;
+        let currentSession = null;
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            checkExistingSession();
+            
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                login();
+            });
+        });
+
+        async function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!username || !password) {
+                showMessage('Por favor, complete todos los campos', 'error');
+                return;
+            }
+
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.disabled = true;
+            loginBtn.textContent = '🔄 Verificando...';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    sessionToken = data.session_id;
+                    currentSession = data.user;
+                    
+                    // Guardar token y info del usuario
+                    localStorage.setItem('sines_session_token', sessionToken);
+                    localStorage.setItem('sines_current_user', JSON.stringify(currentSession));
+                    
+                    showMessage('¡Login exitoso!', 'success');
+                    
+                    setTimeout(() => {
+                        showMainSystem();
+                    }, 1000);
+                    
+                } else {
+                    showMessage(data.message || 'Error de autenticación', 'error');
+                }
+
+            } catch (error) {
+                console.error('Error en login:', error);
+                showMessage('Error de conexión con el servidor', 'error');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = '🔓 Iniciar Sesión';
+            }
+        }
+
+        function checkExistingSession() {
+            // Verificar si hay una sesión válida
+            fetch('/api/validate_session', {
+                method: 'POST',
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Restaurar sesión
+                    currentSession = data.user;
+                    sessionToken = localStorage.getItem('sines_session_token');
+                    showMainSystem();
+                } else {
+                    // Limpiar datos antiguos
+                    clearSession();
+                }
+            })
+            .catch(() => {
+                clearSession();
+            });
+        }
+
+        function showMainSystem() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainSystem').style.display = 'block';
+            document.body.style.alignItems = 'flex-start';
+            document.body.style.justifyContent = 'center';
+            document.body.style.padding = '20px';
+            
+            // Actualizar información del usuario
+            document.getElementById('currentUser').textContent = `👤 ${currentSession.name}`;
+        }
+
+
+
+        function loadMainSystem() {
+            openSystemWindow('http://localhost:8000/index_isometricos_github.html', 'Sistema Principal SINES');
+        }
+
+        function openSystemWindow(url, windowName) {
+            if (!currentSession) {
+                showMessage('Sesión no válida', 'error');
+                return;
+            }
+
+            // Verificar si el servidor del puerto 8000 está activo
+            fetch('http://localhost:8000/support_data_enhanced.json')
+                .then(response => {
+                    if (response.ok) {
+                        // Abrir en nueva ventana con configuración optimizada
+                        const systemWindow = window.open(
+                            url, 
+                            windowName.replace(/\s+/g, '_'), // Nombre sin espacios para la ventana
+                            'width=1400,height=900,scrollbars=yes,resizable=yes,menubar=yes,toolbar=yes,location=yes,status=yes'
+                        );
+                        
+                        if (systemWindow) {
+                            showMessage(`🚀 ${windowName} abierto en nueva ventana`, 'success');
+                            
+                            // Opcional: Enfocar la nueva ventana
+                            systemWindow.focus();
+                        } else {
+                            showMessage('No se pudo abrir la ventana. Verifique el bloqueador de ventanas emergentes.', 'error');
+                        }
+                    } else {
+                        showMessage('El servidor principal (puerto 8000) no está activo. Inicia server.py primero.', 'error');
+                    }
+                })
+                .catch(error => {
+                    showMessage('No se puede conectar al servidor principal. Asegúrate de que server.py esté ejecutándose en puerto 8000.', 'error');
+                    console.error('Error:', error);
+                });
+        }
+
+
+
+
+
+        function openConfigPanel() {
+            if (!currentSession) {
+                showMessage('Sesión no válida', 'error');
+                return;
+            }
+
+            // Verificar permisos de administrador
+            if (currentSession.username !== 'admin' && currentSession.username !== 'supervisor') {
+                showMessage('❌ Acceso denegado. Solo administradores y supervisores pueden acceder a la configuración.', 'error');
+                return;
+            }
+
+            // Crear URL con token para la nueva ventana
+            const token = localStorage.getItem('sines_session_token');
+            let configUrl = 'http://localhost:8003/config_panel.html';
+            
+            if (token) {
+                configUrl += `?token=${token}`;
+            }
+            
+            const configWindow = window.open(configUrl, '_blank', 'width=1400,height=900,scrollbars=yes,resizable=yes');
+            
+            if (configWindow) {
+                showMessage('🔧 Abriendo panel de configuración...', 'info');
+            } else {
+                showMessage('No se pudo abrir el panel de configuración. Verifique el bloqueador de ventanas emergentes.', 'error');
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch('/api/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionToken}`
+                    },
+                    credentials: 'include'
+                });
+            } catch (error) {
+                console.error('Error en logout:', error);
+            }
+            
+            clearSession();
+            showMessage('Sesión cerrada correctamente', 'success');
+            
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }
+
+        function clearSession() {
+            sessionToken = null;
+            currentSession = null;
+            localStorage.removeItem('sines_session_token');
+            localStorage.removeItem('sines_current_user');
+        }
+
+        function showMessage(text, type = 'info') {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            
+            // Auto-ocultar después de 5 segundos
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function clearMessage() {
+            document.getElementById('message').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,77 @@
+## Reglas para trabajar en Cursor con proyectos técnicos o de IA
+
+### 1. Estructura de carpetas
+```
+/project-root
+├── src/          # Código fuente principal
+├── data/         # Datos de entrada/salida
+├── docs/         # Manuales y documentación técnica
+├── models/       # Modelos entrenados o redes neuronales
+├── notebooks/    # Pruebas y experimentos en Jupyter
+├── scripts/      # Scripts auxiliares o de instalación
+├── tests/        # Casos de prueba automatizados
+├── outputs/      # Resultados procesados (PDF, CSV, imágenes)
+```
+
+### 2. Nombres de archivo
+- Usa nombres descriptivos: `detectar_costuras.py`, `ocr_pdf_v1.py`
+- Evita espacios, usa guiones bajos `_`
+- Versiona si hace falta: `nombre_v01.py`
+
+### 3. Estándares de código Python
+- Sigue PEP8 (estilo oficial de Python)
+- Docstrings en todas las funciones:
+```python
+    def calcular_area(radio):
+        """
+        Calcula el área de un círculo.
+        radio (float): radio del círculo
+        return (float): área del círculo
+        """
+```
+
+### 4. Control de versiones (Git)
+- Commits claros: `"Agregado módulo OCR para PDFs"`
+- Crea ramas por función: `feature/red_neuronal`
+- Siempre haz pull antes de trabajar
+
+### 5. Uso de IA en Cursor
+- Comentarios inteligentes:
+```python
+# Cursor: haz esta función más eficiente
+```
+- Usa `Ctrl+I` (Windows) o `Cmd+I` (Mac) para pedir explicaciones
+- Resume un archivo: `// Cursor: resume este archivo`
+
+### 6. Documentación
+- README.md con:
+  - Descripción del proyecto
+  - Cómo instalar dependencias
+  - Cómo ejecutar el código
+  - Ejemplo de uso
+- `.env.example` para variables sensibles
+
+### 7. Automatización de tareas
+- Usa Makefile o tasks.json
+```makefile
+run:
+	python src/main.py
+
+clean:
+	rm -rf outputs/*
+```
+
+### 8. Prompts y plantillas IA
+- Carpeta `/prompts/` con ejemplos de prompts reutilizables:
+  - `ocr_costuras.md`
+  - `mejorar_red_neuronal.md`
+
+### 9. Pruebas
+- Usa `pytest` o `unittest`
+- No usar rutas absolutas, solo relativas
+
+### 10. Control de calidad
+- Usa `black`, `flake8` o `pylint` antes de subir
+- Documenta cambios en `CHANGELOG.md`
+
+

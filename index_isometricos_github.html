@@ -971,24 +971,24 @@
                 showLoading(true);
                 
                 // Cargar datos de soportes
-                const supportsResponse = await fetch('https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/\1');
+                const supportsResponse = await fetch('support_data_enhanced.json');
                 allSupports = await supportsResponse.json();
                 
                 // Cargar mapeo de PDFs de soportes
-                const mappingResponse = await fetch('https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/\1');
+                const mappingResponse = await fetch('support_pdf_mapping.json');
                 supportMapping = await mappingResponse.json();
                 
                 // Cargar datos de isométricos
-                const isometricResponse = await fetch('https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/\1');
+                const isometricResponse = await fetch('isometric_data_with_prefabricated.json');
                 isometricData = await isometricResponse.json();
                 
                 // Cargar relaciones soportes-isométricos
-                const relationResponse = await fetch('https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/\1');
+                const relationResponse = await fetch('support_isometric_relation.json');
                 supportIsometricRelations = await relationResponse.json();
                 
                 // Cargar mapeo de isométricos prefabricados
                 try {
-                    const prefabResponse = await fetch('https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/prefabricated_isometric_mapping_github.json');
+                    const prefabResponse = await fetch('prefabricated_isometric_mapping_github.json');
                     const prefabData = await prefabResponse.json();
                     prefabricatedMapping = prefabData.correspondences || {};
                     console.log(`📋 Cargadas ${Object.keys(prefabricatedMapping).length} correspondencias de isométricos prefabricados`);
@@ -1450,7 +1450,7 @@
         function createSupportCard(support) {
             const pdfs = supportMapping[support.support_type] || [];
             const pdfLinks = pdfs.map(pdf => 
-                `<a href="https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/ESTANDARES%20DE%20SOPORTES/${\1}" target="_blank" class="isometric-file">${pdf}</a>`
+                `<a href="ESTANDARES DE SOPORTES/${pdf}" target="_blank" class="isometric-file">${pdf}</a>`
             ).join('');
             
             // Buscar isométricos relacionados
@@ -1468,7 +1468,7 @@
                     <h4>📐 Isométricos Relacionados:</h4>
                     <div class="isometric-files">
                         ${relatedIsometrics[0].isometric_files.map(file => 
-                            `<a href="https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/ISOMETRICOS/${\1}" target="_blank" class="isometric-file">${file.split('_')[0]}</a>`
+                            `<a href="ISOMETRICOS/${file}" target="_blank" class="isometric-file">${file.split('_')[0]}</a>`
                         ).join('')}
     </div>
                     <div style="margin-top: 10px;">
@@ -1788,7 +1788,7 @@
         // Crear tarjeta de isométrico
         function createIsometricCard(isometric) {
             const sheetLinks = isometric.sheets.map(sheet => 
-                `<a href="https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/ISOMETRICOS/${\1}" target="_blank" class="isometric-file">
+                `<a href="ISOMETRICOS/${sheet.filename}" target="_blank" class="isometric-file">
                     Hoja ${sheet.sheet_number} (${sheet.revision})
                 </a>`
             ).join('');
@@ -1842,7 +1842,7 @@
         function createRelationCard(key, relations) {
             const firstRelation = relations[0];
             const isometricFiles = firstRelation.isometric_files.map(file => 
-                `<a href="https://raw.githubusercontent.com/mjuica93/SOPORTES-SINES-2121/main/ISOMETRICOS/${\1}" target="_blank" class="isometric-file">
+                `<a href="ISOMETRICOS/${file}" target="_blank" class="isometric-file">
                     ${file.split('_')[0]}
                 </a>`
             ).join('');

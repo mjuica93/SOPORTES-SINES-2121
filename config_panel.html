@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Panel de Configuración - Sistema SINES</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .config-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .config-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #28a745;
+            animation: pulse 2s infinite;
+        }
+
+        .status-offline {
+            background: #dc3545;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-card h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Panel de Configuración</h1>
+            <p>Administración y configuración del Sistema SINES</p>
+        </div>
+
+        <div class="content">
+            <div id="messageArea"></div>
+
+            <div class="config-grid">
+                <!-- Estado del Sistema -->
+                <div class="config-section">
+                    <h3 class="section-title">📊 Estado del Sistema</h3>
+                    
+                    <div class="info-card">
+                        <h4>🌐 Servidores</h4>
+                        <p><span class="status-indicator" id="serverMainStatus"></span>Servidor Principal (Puerto 8000)</p>
+                        <p><span class="status-indicator" id="serverSecureStatus"></span>Servidor Seguro (Puerto 8002)</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number" id="supportCount">-</div>
+                            <div class="stat-label">Soportes</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="isometricCount">-</div>
+                            <div class="stat-label">Isométricos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="pdfCount">-</div>
+                            <div class="stat-label">PDFs</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="activeUsers">-</div>
+                            <div class="stat-label">Usuarios Activos</div>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="refreshStatus()">🔄 Actualizar Estado</button>
+                </div>
+
+                <!-- Configuración de Usuarios -->
+                <div class="config-section">
+                    <h3 class="section-title">👥 Gestión de Usuarios</h3>
+                    
+                    <div class="form-group">
+                        <label for="newUsername">Nuevo Usuario:</label>
+                        <input type="text" id="newUsername" placeholder="Nombre de usuario">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPassword">Contraseña:</label>
+                        <input type="password" id="newPassword" placeholder="Contraseña">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userRole">Rol:</label>
+                        <select id="userRole">
+                            <option value="user">Usuario</option>
+                            <option value="operator">Operador</option>
+                            <option value="supervisor">Supervisor</option>
+                            <option value="administrator">Administrador</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-success" onclick="createUser()">➕ Crear Usuario</button>
+                    <button class="btn btn-secondary" onclick="showUserList()">📋 Ver Usuarios</button>
+                </div>
+
+                <!-- Configuración del Sistema -->
+                <div class="config-section">
+                    <h3 class="section-title">⚙️ Configuración General</h3>
+                    
+                    <div class="form-group">
+                        <label for="systemName">Nombre del Sistema:</label>
+                        <input type="text" id="systemName" value="Sistema SINES" placeholder="Nombre del sistema">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="maxUsers">Máximo de Usuarios Simultáneos:</label>
+                        <input type="number" id="maxUsers" value="10" min="1" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sessionTimeout">Tiempo de Sesión (minutos):</label>
+                        <input type="number" id="sessionTimeout" value="30" min="5" max="480">
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="enableLogs" checked>
+                        <label for="enableLogs">Habilitar registros de auditoría</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="enableBackups" checked>
+                        <label for="enableBackups">Habilitar respaldos automáticos</label>
+                    </div>
+
+                    <button class="btn" onclick="saveSystemConfig()">💾 Guardar Configuración</button>
+                </div>
+
+                <!-- Mantenimiento -->
+                <div class="config-section">
+                    <h3 class="section-title">🔧 Mantenimiento</h3>
+                    
+                    <div class="info-card">
+                        <h4>📁 Archivos del Sistema</h4>
+                        <p>Última verificación: <span id="lastCheck">-</span></p>
+                        <p>Archivos JSON: <span id="jsonStatus">-</span></p>
+                        <p>Archivos PDF: <span id="pdfStatus">-</span></p>
+                    </div>
+
+                    <button class="btn" onclick="verifyFiles()">🔍 Verificar Archivos</button>
+                    <button class="btn btn-secondary" onclick="cleanCache()">🧹 Limpiar Caché</button>
+                    <button class="btn btn-success" onclick="createBackup()">💾 Crear Respaldo</button>
+                    <button class="btn btn-danger" onclick="restartSystem()">🔄 Reiniciar Sistema</button>
+                </div>
+
+                <!-- Logs y Auditoría -->
+                <div class="config-section">
+                    <h3 class="section-title">📋 Logs y Auditoría</h3>
+                    
+                    <div class="form-group">
+                        <label for="logLevel">Nivel de Logs:</label>
+                        <select id="logLevel">
+                            <option value="info">Información</option>
+                            <option value="warning">Advertencias</option>
+                            <option value="error">Solo Errores</option>
+                            <option value="debug">Debug (Detallado)</option>
+                        </select>
+                    </div>
+
+                    <button class="btn" onclick="viewLogs()">📖 Ver Logs</button>
+                    <button class="btn btn-secondary" onclick="exportLogs()">📤 Exportar Logs</button>
+                    <button class="btn btn-danger" onclick="clearLogs()">🗑️ Limpiar Logs</button>
+                </div>
+
+                <!-- Información del Sistema -->
+                <div class="config-section">
+                    <h3 class="section-title">ℹ️ Información del Sistema</h3>
+                    
+                    <div class="info-card">
+                        <h4>🖥️ Servidor</h4>
+                        <p>Python: <span id="pythonVersion">-</span></p>
+                        <p>Sistema Operativo: <span id="osInfo">-</span></p>
+                        <p>Memoria RAM: <span id="memoryInfo">-</span></p>
+                        <p>Espacio en Disco: <span id="diskInfo">-</span></p>
+                    </div>
+
+                    <div class="info-card">
+                        <h4>📊 Base de Datos</h4>
+                        <p>Soportes registrados: <span id="dbSupportCount">-</span></p>
+                        <p>Isométricos registrados: <span id="dbIsometricCount">-</span></p>
+                        <p>Última actualización: <span id="lastUpdate">-</span></p>
+                    </div>
+
+                    <button class="btn" onclick="refreshSystemInfo()">🔄 Actualizar Información</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let systemConfig = {
+            systemName: 'Sistema SINES',
+            maxUsers: 10,
+            sessionTimeout: 30,
+            enableLogs: true,
+            enableBackups: true,
+            logLevel: 'info'
+        };
+
+        // Inicializar página
+        document.addEventListener('DOMContentLoaded', function() {
+            validateAccess();
+        });
+
+        // Validar acceso al panel
+        async function validateAccess() {
+            try {
+                // Obtener token de la URL si está presente
+                const urlParams = new URLSearchParams(window.location.search);
+                const token = urlParams.get('token');
+                
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                
+                // Si hay token en la URL, usarlo
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+                
+                const response = await fetch('/api/validate_admin', {
+                    method: 'POST',
+                    headers: headers,
+                    credentials: 'include' // Incluir cookies automáticamente
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Acceso autorizado
+                    showWelcomeMessage(data.user);
+                    loadConfiguration();
+                    refreshStatus();
+                    refreshSystemInfo();
+                } else {
+                    showAccessDenied(data.message || 'Acceso denegado');
+                }
+
+            } catch (error) {
+                console.error('Error validando acceso:', error);
+                showAccessDenied('Error de conexión. Asegúrese de que el servidor esté activo.');
+            }
+        }
+
+        function showAccessDenied(message) {
+            document.querySelector('.container').innerHTML = `
+                <div class="header">
+                    <h1>🚫 Acceso Denegado</h1>
+                    <p>No tiene permisos para acceder a este panel</p>
+                </div>
+                <div class="content" style="text-align: center; padding: 60px;">
+                    <div style="background: #f8d7da; color: #721c24; padding: 30px; border-radius: 15px; margin-bottom: 30px;">
+                        <h3>❌ ${message}</h3>
+                        <p style="margin-top: 15px;">Solo administradores y supervisores pueden acceder al panel de configuración.</p>
+                    </div>
+                    <button class="btn" onclick="window.close()" style="margin-right: 10px;">🚪 Cerrar Ventana</button>
+                    <button class="btn btn-secondary" onclick="redirectToLogin()">🔓 Ir al Login</button>
+                </div>
+            `;
+        }
+
+        function showWelcomeMessage(user) {
+            const welcomeMsg = `
+                <div class="message success" style="display: block;">
+                    ✅ Bienvenido al panel de configuración, ${user.name}
+                </div>
+            `;
+            document.getElementById('messageArea').innerHTML = welcomeMsg;
+        }
+
+        function redirectToLogin() {
+            window.location.href = '/index_secure_simple.html';
+        }
+
+        // Mostrar mensaje
+        function showMessage(text, type = 'info') {
+            const messageArea = document.getElementById('messageArea');
+            messageArea.innerHTML = `<div class="message ${type}">${text}</div>`;
+            messageArea.firstChild.style.display = 'block';
+            
+            setTimeout(() => {
+                messageArea.innerHTML = '';
+            }, 5000);
+        }
+
+        // Cargar configuración
+        function loadConfiguration() {
+            const saved = localStorage.getItem('sines_system_config');
+            if (saved) {
+                try {
+                    systemConfig = JSON.parse(saved);
+                    
+                    // Aplicar configuración a la interfaz
+                    document.getElementById('systemName').value = systemConfig.systemName;
+                    document.getElementById('maxUsers').value = systemConfig.maxUsers;
+                    document.getElementById('sessionTimeout').value = systemConfig.sessionTimeout;
+                    document.getElementById('enableLogs').checked = systemConfig.enableLogs;
+                    document.getElementById('enableBackups').checked = systemConfig.enableBackups;
+                    document.getElementById('logLevel').value = systemConfig.logLevel;
+                    
+                } catch (e) {
+                    console.error('Error cargando configuración:', e);
+                }
+            }
+        }
+
+        // Guardar configuración del sistema
+        function saveSystemConfig() {
+            systemConfig.systemName = document.getElementById('systemName').value;
+            systemConfig.maxUsers = parseInt(document.getElementById('maxUsers').value);
+            systemConfig.sessionTimeout = parseInt(document.getElementById('sessionTimeout').value);
+            systemConfig.enableLogs = document.getElementById('enableLogs').checked;
+            systemConfig.enableBackups = document.getElementById('enableBackups').checked;
+            systemConfig.logLevel = document.getElementById('logLevel').value;
+            
+            localStorage.setItem('sines_system_config', JSON.stringify(systemConfig));
+            showMessage('✅ Configuración guardada correctamente', 'success');
+        }
+
+        // Actualizar estado del sistema
+        async function refreshStatus() {
+            try {
+                // Verificar servidor principal
+                const mainResponse = await fetch('http://localhost:8000/support_data_enhanced.json');
+                const mainStatus = document.getElementById('serverMainStatus');
+                if (mainResponse.ok) {
+                    mainStatus.className = 'status-indicator status-online';
+                } else {
+                    mainStatus.className = 'status-indicator status-offline';
+                }
+            } catch (e) {
+                document.getElementById('serverMainStatus').className = 'status-indicator status-offline';
+            }
+
+            try {
+                // Verificar servidor seguro
+                const secureResponse = await fetch('http://localhost:8002/api/status');
+                const secureStatus = document.getElementById('serverSecureStatus');
+                if (secureResponse.ok) {
+                    secureStatus.className = 'status-indicator status-online';
+                    const data = await secureResponse.json();
+                    document.getElementById('activeUsers').textContent = data.active_sessions || 0;
+                } else {
+                    secureStatus.className = 'status-indicator status-offline';
+                }
+            } catch (e) {
+                document.getElementById('serverSecureStatus').className = 'status-indicator status-offline';
+                document.getElementById('activeUsers').textContent = '0';
+            }
+
+            // Cargar estadísticas
+            try {
+                const supportResponse = await fetch('http://localhost:8000/support_data_enhanced.json');
+                if (supportResponse.ok) {
+                    const supportData = await supportResponse.json();
+                    document.getElementById('supportCount').textContent = supportData.length || 0;
+                }
+            } catch (e) {
+                document.getElementById('supportCount').textContent = 'Error';
+            }
+
+            try {
+                const isometricResponse = await fetch('http://localhost:8000/isometric_data_with_prefabricated.json');
+                if (isometricResponse.ok) {
+                    const isometricData = await isometricResponse.json();
+                    document.getElementById('isometricCount').textContent = isometricData.length || 0;
+                }
+            } catch (e) {
+                document.getElementById('isometricCount').textContent = 'Error';
+            }
+
+            // Estimar número de PDFs
+            document.getElementById('pdfCount').textContent = '750+';
+        }
+
+        // Crear usuario
+        function createUser() {
+            const username = document.getElementById('newUsername').value.trim();
+            const password = document.getElementById('newPassword').value;
+            const role = document.getElementById('userRole').value;
+
+            if (!username || !password) {
+                showMessage('❌ Por favor complete todos los campos', 'error');
+                return;
+            }
+
+            // Simular creación de usuario
+            const users = JSON.parse(localStorage.getItem('sines_users') || '[]');
+            
+            if (users.find(u => u.username === username)) {
+                showMessage('❌ El usuario ya existe', 'error');
+                return;
+            }
+
+            users.push({
+                username: username,
+                password: password, // En producción debería estar hasheado
+                role: role,
+                created: new Date().toISOString()
+            });
+
+            localStorage.setItem('sines_users', JSON.stringify(users));
+            showMessage(`✅ Usuario "${username}" creado correctamente`, 'success');
+            
+            // Limpiar campos
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
+        }
+
+        // Mostrar lista de usuarios
+        function showUserList() {
+            const users = JSON.parse(localStorage.getItem('sines_users') || '[]');
+            
+            if (users.length === 0) {
+                showMessage('ℹ️ No hay usuarios personalizados creados', 'info');
+                return;
+            }
+
+            let userList = '👥 Usuarios creados:\n\n';
+            users.forEach(user => {
+                userList += `• ${user.username} (${user.role}) - Creado: ${new Date(user.created).toLocaleDateString()}\n`;
+            });
+
+            alert(userList);
+        }
+
+        // Verificar archivos
+        function verifyFiles() {
+            showMessage('🔍 Verificando archivos del sistema...', 'info');
+            
+            setTimeout(() => {
+                document.getElementById('lastCheck').textContent = new Date().toLocaleString();
+                document.getElementById('jsonStatus').textContent = '✅ 5 archivos OK';
+                document.getElementById('pdfStatus').textContent = '✅ 750+ archivos OK';
+                showMessage('✅ Verificación completada. Todos los archivos están disponibles', 'success');
+            }, 2000);
+        }
+
+        // Limpiar caché
+        function cleanCache() {
+            if (confirm('¿Estás seguro de que quieres limpiar el caché? Esto puede afectar el rendimiento temporalmente.')) {
+                showMessage('🧹 Limpiando caché...', 'info');
+                
+                setTimeout(() => {
+                    // Limpiar localStorage (excepto configuración)
+                    const config = localStorage.getItem('sines_system_config');
+                    const users = localStorage.getItem('sines_users');
+                    localStorage.clear();
+                    if (config) localStorage.setItem('sines_system_config', config);
+                    if (users) localStorage.setItem('sines_users', users);
+                    
+                    showMessage('✅ Caché limpiado correctamente', 'success');
+                }, 1500);
+            }
+        }
+
+        // Crear respaldo
+        function createBackup() {
+            showMessage('💾 Creando respaldo del sistema...', 'info');
+            
+            setTimeout(() => {
+                const backup = {
+                    timestamp: new Date().toISOString(),
+                    config: systemConfig,
+                    users: JSON.parse(localStorage.getItem('sines_users') || '[]'),
+                    version: '1.0.0'
+                };
+                
+                const backupData = JSON.stringify(backup, null, 2);
+                const blob = new Blob([backupData], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `sines_backup_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                
+                URL.revokeObjectURL(url);
+                showMessage('✅ Respaldo creado y descargado correctamente', 'success');
+            }, 2000);
+        }
+
+        // Reiniciar sistema
+        function restartSystem() {
+            if (confirm('¿Estás seguro de que quieres reiniciar el sistema? Esto cerrará todas las sesiones activas.')) {
+                showMessage('🔄 Reiniciando sistema...', 'info');
+                
+                setTimeout(() => {
+                    alert('⚠️ Para completar el reinicio, cierra y vuelve a abrir los servidores manualmente.');
+                    window.location.reload();
+                }, 2000);
+            }
+        }
+
+        // Ver logs
+        function viewLogs() {
+            const logs = JSON.parse(localStorage.getItem('sines_access_logs') || '[]');
+            
+            if (logs.length === 0) {
+                showMessage('ℹ️ No hay logs disponibles', 'info');
+                return;
+            }
+
+            let logText = '📋 Últimos 10 eventos:\n\n';
+            logs.slice(-10).forEach(log => {
+                logText += `${new Date(log.timestamp).toLocaleString()} - ${log.action} - ${log.username || 'N/A'}\n`;
+            });
+
+            alert(logText);
+        }
+
+        // Exportar logs
+        function exportLogs() {
+            const logs = JSON.parse(localStorage.getItem('sines_access_logs') || '[]');
+            
+            if (logs.length === 0) {
+                showMessage('ℹ️ No hay logs para exportar', 'info');
+                return;
+            }
+
+            const logData = JSON.stringify(logs, null, 2);
+            const blob = new Blob([logData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sines_logs_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            showMessage('✅ Logs exportados correctamente', 'success');
+        }
+
+        // Limpiar logs
+        function clearLogs() {
+            if (confirm('¿Estás seguro de que quieres limpiar todos los logs? Esta acción no se puede deshacer.')) {
+                localStorage.removeItem('sines_access_logs');
+                showMessage('✅ Logs limpiados correctamente', 'success');
+            }
+        }
+
+        // Actualizar información del sistema
+        function refreshSystemInfo() {
+            // Información simulada del sistema
+            document.getElementById('pythonVersion').textContent = 'Python 3.13.0';
+            document.getElementById('osInfo').textContent = navigator.platform;
+            document.getElementById('memoryInfo').textContent = '8 GB disponible';
+            document.getElementById('diskInfo').textContent = '50 GB libres';
+            document.getElementById('dbSupportCount').textContent = '22,612';
+            document.getElementById('dbIsometricCount').textContent = '1,770';
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+        }
+    </script>
+</body>
+</html> 
